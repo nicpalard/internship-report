@@ -1,41 +1,31 @@
-\chapter{Présentation du projet}
+\chapter{Introduction}
 
-Intro\footnotemark\\
-%note en bas de page
+Ce rapport retracera les missions réalisées durant mon stage de Master 2 Informatique pour l'Image et le Son à l'Université de Bordeaux 1 effectué entre Avril et Septembre 2018 (6 mois) dans la société RealityTech. Ce rapport ne couvrira cependant que les 5 premiers mois du stage car la date de rendu de ce dernier précède la date de fin du stage.
 
-\section{RealityTech}
-RealityTech est une jeune startup de réalité augmentée spatiale. Issue de l'Inria de Bordeaux, l'institut national de la recherche en information et en automatique, cette dernière est la continuité d'un projet de recherche mené par Jérémy Laviole, ex ingénieur de recherche à l'Inria. Ce projet de recherche s'appelait PapARt, Paper Augmented Reality ToolKit et proposait un ensemble de module permettant de créer des expériences de réalité augmentée dans une feuille de papier. Aujourd'hui, le projet a évolué et propose maintenant des expériences de projections interactives.
+Le stage a donc été effectué chez RealityTech une jeune start-up de réalité augmentée spatiale. Issue de l'Inria de Bordeaux, l'institut national de la recherche en information et en automatique, cette dernière est la continuité d'un projet de recherche mené par Jérémy Laviole, ex ingénieur de recherche à l'Inria. PapARt\footnote{https://project.inria.fr/papart/fr/}. Paper Augmented Reality ToolKit est un kit de développement (SDK) permettant de créer des expériences de réalité augmentée sous forme d'applications de projection interactive dans des feuilles de papier. Les travaux actuellement effectués a RealityTech visent à améliorer et étendre ce système de projection. Le but est de pouvoir créer, via ce que propose la société, des expériences collaboratives où les objets physiques se mêlent parfaitement au monde numérique que ce soit en créant des interactions avec ceux ci, ou en leur rajoutant du contexte.
+
+Actuellement, RealityTech se développe dans un incubateur de start-up appelé \texttt{La Banquiz}\footnote{http://labanquiz.com} situé 4 rue Eugène et Marc Dulout, a Pessac Centre. L'objectif de La Banquiz est de promouvoir des start-up Open Source\footnote{https://fr.wikipedia.org/wiki/Open\_source} et innovantes en leur apportant des formations, du coaching individuel et collectif, de l'aide pour la recherche de financement et tout ce qui gravite autour de l'accompagnement de jeunes entreprises.
+
+A ce jour RealityTech ne travail qu'avec des laboratoire de recherche (comme ...) et cherche a étendre son secteur d'activité. Les systèmes proposés par la société fournissent les résultats espérés et la dynamique de celle ci s'oriente donc vers une commercialisation du produit. %Parler du fort besoin d'innovation logiciel (plateform haute performance, haut de gamme moyen de gamme bas de game. Expliquer le besoin de démo, de prototype, le salon qu'on a effecuté etc...
 % Biblio : PapARt, Inria, Reality Tech, Realité Augmentée Spatiale
 
-\section{Contexte}
-% Expliquer le cadre de travail, incubateur, beaucoup de réunion, de démarchage, besoin d'applications de démonstration, besoin de prototype pour avoir des fonds etc ..
+\section{Cadre et contexte}
+\label{sec:contexte}
+RealityTech fait actuellement partie de La Banquizz, un incubateur de startup situé a Pessac Centre.
+% Expliquer le cadre de travail, incubateur, beaucoup de réunion, de démarchage, besoin d'applications de démonstration, besoin de prototype pour avoir des fonds etc autonomie très importante ..
+% Parler du contexte  en terme de logiciel : volonté d'évolué et de partir vers une nouvelle base moins contraignante que celle présente actuellement + volonté d'ouverture au grand public (ce qui a fait que j'ai du dev unity) + modularité
+% Peut être parler plus en détail de PapARt (calibration camera projecteur, expliqué qu'on travail avec des caméra, a l'échelle dans le monde réel (beaucoup de problèmes de calibration etc ...)
 
 \begin{center}
 Problématique du sujet
 \end{center}
 
-\section{Hypothèse de solution}
 
-%Quoi :
-Bla\\
+\section{Objectifs}
+Le déroulement du stage a été fortement guidé par les besoins de la société.
+\paragraph{Applications de démonstration}Le premier gros objectif du stage était le développement d'applications de démonstration en utilisant le produit de l'entreprise. Le but était de comprendre l'essence, le fonctionnement global du produit et ce qu'il était possible/impossible de réaliser avec celui ci. Cet objectif m'a permis d'acquérir à la fois une vision globale de l'architecture logiciel et du fonctionnement interne du kit de développement, et de l'architecture matérielle nécessaire a l'utilisation du kit. En développant ces applications de démonstration, j'ai acquis une vision globale du projet qui m'a permis d'avoir une certaine autonomie assez rapidement
 
-Voici une liste :
-\begin{itemize}
-\item item 1;
-\item item 2;
-\item item 3;
-\item item 4.
-\end{itemize}
+\paragraph{Plateforme haute performance} Le deuxième objectif était de réaliser une preuve de concept haute performance du produit. En effet, comme je l'ai expliqué dans la partie sur le contexte (voir ~\ref{sec:contexte}), l'entreprise se lançait dans le développement d'une nouvelle plateforme haute performance.
+% TODO pas fini
 
-Bla\\
-
-%Comment :
-Bla
-
-Bla\footnotemark\\
-
-%Detail :
-Bla(cf. ref. \cite{cite6}).
-%citation référencé dans le document "bibliographie.bib" inclus à la fin du document
-
-\footnotetext{Note bas de page "bla"}
+\paragraph{Kit de développement} Le dernière objectif était le développement d'un nouveau kit de développement pour Unity3D.  % TODO expliciter

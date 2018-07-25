@@ -8,7 +8,6 @@
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage[colorinlistoftodos]{todonotes}
 \usepackage{url}
 %pour les informations sur un document compilé en PDF et les liens externes / internes
 \usepackage{hyperref}
@@ -24,15 +23,12 @@
 \usepackage{abstract}
 %police et mise en page (marges) du document
 \usepackage[T1]{fontenc}
-\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry}
 %Pour les galerie d'images
 \usepackage{subfig}
+\usepackage{titlesec}
 
 %====================== INFORMATION ET REGLES ======================
-
-%rajouter les numérotation pour les \paragraphe et \subparagraphe
-\setcounter{secnumdepth}{4}
-\setcounter{tocdepth}{4}
 
 \hypersetup{							% Information sur le document
 pdfauthor = {PALARD Nicolas}
@@ -70,6 +66,10 @@ pdfstartview={FitH}}					% ajuste la page à la largueur de l'écran
 %espacement entre les lignes d'un tableau
 \renewcommand{\arraystretch}{1.5}
 
+%removing Chapter name and number
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries}{}{0pt}{\Huge}
+
 %====================== INCLUSION DES PARTIES ======================
 
 ~
@@ -79,6 +79,8 @@ pdfstartview={FitH}}					% ajuste la page à la largueur de l'écran
 \newpage
 
 \input{./presentation.tex}
+
+\input{./notions.tex}
 
 \input{./existant.tex}
  
