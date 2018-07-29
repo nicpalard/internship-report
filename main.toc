@@ -8,61 +8,62 @@
 \contentsline {chapter}{\numberline {2}Notions}{3}{chapter.2}
 \contentsline {paragraph}{R\IeC {\'e}alit\IeC {\'e} virtuelle}{3}{chapter.2}
 \contentsline {paragraph}{R\IeC {\'e}alit\IeC {\'e} augment\IeC {\'e}e}{3}{chapter.2}
-\contentsline {paragraph}{R\IeC {\'e}alit\IeC {\'e} mixte}{3}{chapter.2}
-\contentsline {paragraph}{R\IeC {\'e}alit\IeC {\'e} augment\IeC {\'e}e spatiale}{3}{figure.caption.2}
-\contentsline {paragraph}{Interfaces tangible}{3}{figure.caption.2}
-\contentsline {paragraph}{Programmation graphique haute performance}{3}{figure.caption.2}
-\contentsline {chapter}{\numberline {3}\IeC {\'E}tat de l'art}{4}{chapter.3}
-\contentsline {section}{\numberline {3.1}PapARt}{4}{section.3.1}
-\contentsline {section}{\numberline {3.2}Syst\IeC {\`e}me de r\IeC {\'e}alit\IeC {\'e} augment\IeC {\'e}e spatiale}{4}{section.3.2}
-\contentsline {section}{\numberline {3.3}Bilan}{4}{section.3.3}
-\contentsline {chapter}{\numberline {4}Analyse des besoins}{5}{chapter.4}
-\contentsline {section}{\numberline {4.1}Besoins fonctionnels}{5}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Sous-partie 1}{5}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Sous-partie 2}{5}{subsection.4.1.2}
-\contentsline {section}{\numberline {4.2}Besoins non-fonctionnels}{6}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Sous-partie 1}{6}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Sous-partie 2}{6}{subsection.4.2.2}
-\contentsline {section}{\numberline {4.3}D\IeC {\'e}veloppement}{7}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}T\IeC {\^a}ches}{7}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Tests}{7}{subsection.4.3.2}
-\contentsline {chapter}{\numberline {5}Autre partie}{8}{chapter.5}
-\contentsline {section}{\numberline {5.1}Partie 1}{8}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Sous-partie 1}{8}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Sous-partie 2}{9}{subsection.5.1.2}
-\contentsline {subsubsection}{Sous-sous-partie 1}{9}{figure.caption.7}
-\contentsline {subsubsection}{Sous-sous-partie 2}{10}{figure.caption.7}
-\contentsline {paragraph}{Paragraphe 1 (agissant comme titre niveau 5)}{10}{figure.caption.7}
-\contentsline {paragraph}{Paragraphe 2}{10}{figure.caption.8}
-\contentsline {subparagraph}{Sous-paragraphe 1}{10}{figure.caption.8}
-\contentsline {subparagraph}{Sous-paragraphe 2}{11}{figure.caption.9}
-\contentsline {subparagraph}{Sous-paragraphe 3}{11}{figure.caption.9}
-\contentsline {subsubsection}{Sous-sous-partie 3}{11}{figure.caption.9}
-\contentsline {section}{\numberline {5.2}Partie 2}{11}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Sous-partie 1}{11}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Sous-partie 2}{11}{subsection.5.2.2}
-\contentsline {subsection}{\numberline {5.2.3}Sous-partie 3}{11}{subsection.5.2.3}
-\contentsline {chapter}{\numberline {6}R\IeC {\'e}sultats}{12}{chapter.6}
-\contentsline {section}{\numberline {6.1}Partie 1}{12}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Sous-partie 1}{12}{subsection.6.1.1}
-\contentsline {subsection}{\numberline {6.1.2}Sous-partie 2}{12}{subsection.6.1.2}
-\contentsline {subsection}{\numberline {6.1.3}Sous-partie 3}{12}{subsection.6.1.3}
-\contentsline {section}{\numberline {6.2}Partie 2}{12}{section.6.2}
-\contentsline {chapter}{\numberline {7}Bilan}{14}{chapter.7}
-\contentsline {part}{Annexes}{17}{part*.11}
-\contentsline {chapter}{Annexe 1}{17}{chapter*.12}
-\contentsline {section}{\numberline {1}Partie 1}{17}{section.7.1}
-\contentsline {subsection}{\numberline {1.1}Sous-partie 1}{17}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {1.2}Sous-partie 2}{17}{subsection.7.1.2}
-\contentsline {subsection}{\numberline {1.3}Sous-partie 3}{17}{subsection.7.1.3}
-\contentsline {section}{\numberline {2}Partie 2}{17}{section.7.2}
-\contentsline {subsection}{\numberline {2.1}Sous-partie 1}{17}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {2.2}Sous-partie 2}{17}{subsection.7.2.2}
-\contentsline {subsection}{\numberline {2.3}Sous-partie 3}{17}{subsection.7.2.3}
-\contentsline {chapter}{Annexe 2}{18}{chapter*.13}
-\contentsline {section}{Pr\IeC {\'e}requis}{18}{section*.14}
-\contentsline {section}{\numberline {1}Partie 1}{18}{section.7.1}
-\contentsline {subsection}{\numberline {1.1}Sous-parie 1}{18}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {1.2}Sous-parie 2}{18}{subsection.7.1.2}
-\contentsline {section}{\numberline {2}Partie 2}{18}{section.7.2}
-\contentsline {section}{\numberline {3}Partie 3}{19}{section.7.3}
+\contentsline {paragraph}{R\IeC {\'e}alit\IeC {\'e} mixte}{3}{figure.caption.2}
+\contentsline {paragraph}{R\IeC {\'e}alit\IeC {\'e} augment\IeC {\'e}e vue au travers}{3}{figure.caption.4}
+\contentsline {paragraph}{R\IeC {\'e}alit\IeC {\'e} augment\IeC {\'e}e spatiale}{4}{figure.caption.5}
+\contentsline {paragraph}{Interface tangible}{4}{figure.caption.6}
+\contentsline {paragraph}{Programmation graphique haute performance}{5}{figure.caption.7}
+\contentsline {chapter}{\numberline {3}\IeC {\'E}tat de l'art}{6}{chapter.3}
+\contentsline {section}{\numberline {3.1}PapARt}{6}{section.3.1}
+\contentsline {section}{\numberline {3.2}Syst\IeC {\`e}me de r\IeC {\'e}alit\IeC {\'e} augment\IeC {\'e}e spatiale}{6}{section.3.2}
+\contentsline {section}{\numberline {3.3}Bilan}{6}{section.3.3}
+\contentsline {chapter}{\numberline {4}Analyse des besoins}{7}{chapter.4}
+\contentsline {section}{\numberline {4.1}Besoins fonctionnels}{7}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Sous-partie 1}{7}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Sous-partie 2}{7}{subsection.4.1.2}
+\contentsline {section}{\numberline {4.2}Besoins non-fonctionnels}{8}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Sous-partie 1}{8}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Sous-partie 2}{8}{subsection.4.2.2}
+\contentsline {section}{\numberline {4.3}D\IeC {\'e}veloppement}{9}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}T\IeC {\^a}ches}{9}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Tests}{9}{subsection.4.3.2}
+\contentsline {chapter}{\numberline {5}Autre partie}{10}{chapter.5}
+\contentsline {section}{\numberline {5.1}Partie 1}{10}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Sous-partie 1}{10}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Sous-partie 2}{11}{subsection.5.1.2}
+\contentsline {subsubsection}{Sous-sous-partie 1}{11}{figure.caption.12}
+\contentsline {subsubsection}{Sous-sous-partie 2}{12}{figure.caption.12}
+\contentsline {paragraph}{Paragraphe 1 (agissant comme titre niveau 5)}{12}{figure.caption.12}
+\contentsline {paragraph}{Paragraphe 2}{12}{figure.caption.13}
+\contentsline {subparagraph}{Sous-paragraphe 1}{12}{figure.caption.13}
+\contentsline {subparagraph}{Sous-paragraphe 2}{13}{figure.caption.14}
+\contentsline {subparagraph}{Sous-paragraphe 3}{13}{figure.caption.14}
+\contentsline {subsubsection}{Sous-sous-partie 3}{13}{figure.caption.14}
+\contentsline {section}{\numberline {5.2}Partie 2}{13}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Sous-partie 1}{13}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Sous-partie 2}{13}{subsection.5.2.2}
+\contentsline {subsection}{\numberline {5.2.3}Sous-partie 3}{13}{subsection.5.2.3}
+\contentsline {chapter}{\numberline {6}R\IeC {\'e}sultats}{14}{chapter.6}
+\contentsline {section}{\numberline {6.1}Partie 1}{14}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Sous-partie 1}{14}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Sous-partie 2}{14}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}Sous-partie 3}{14}{subsection.6.1.3}
+\contentsline {section}{\numberline {6.2}Partie 2}{14}{section.6.2}
+\contentsline {chapter}{\numberline {7}Bilan}{16}{chapter.7}
+\contentsline {part}{Annexes}{19}{part*.16}
+\contentsline {chapter}{Annexe 1}{19}{chapter*.17}
+\contentsline {section}{\numberline {1}Partie 1}{19}{section.7.1}
+\contentsline {subsection}{\numberline {1.1}Sous-partie 1}{19}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {1.2}Sous-partie 2}{19}{subsection.7.1.2}
+\contentsline {subsection}{\numberline {1.3}Sous-partie 3}{19}{subsection.7.1.3}
+\contentsline {section}{\numberline {2}Partie 2}{19}{section.7.2}
+\contentsline {subsection}{\numberline {2.1}Sous-partie 1}{19}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {2.2}Sous-partie 2}{19}{subsection.7.2.2}
+\contentsline {subsection}{\numberline {2.3}Sous-partie 3}{19}{subsection.7.2.3}
+\contentsline {chapter}{Annexe 2}{20}{chapter*.18}
+\contentsline {section}{Pr\IeC {\'e}requis}{20}{section*.19}
+\contentsline {section}{\numberline {1}Partie 1}{20}{section.7.1}
+\contentsline {subsection}{\numberline {1.1}Sous-parie 1}{20}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {1.2}Sous-parie 2}{20}{subsection.7.1.2}
+\contentsline {section}{\numberline {2}Partie 2}{20}{section.7.2}
+\contentsline {section}{\numberline {3}Partie 3}{21}{section.7.3}

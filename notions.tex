@@ -5,14 +5,21 @@
 Le domaine d'activité qui entoure ce stage est très riche en termes de notions et de vocabulaire. Afin de mieux comprendre de quoi il va être question tout au long de ce rapport, il est nécessaire d'en définir les notions de base.
 
 \paragraph{Réalité virtuelle}
-La réalité virtuelle plus communément appelé \emph{Virtual Reality (VR)} désigne l'ensemble des environnements purement numériques (voir Figure ~\ref{fig;realityspectrum}), qu'ils soient réalistes ou non, dans lesquels aucune interaction avec l'environnement réel n'est possible et inversement. Cette réalité se base très généralement sur un casque \emph{Head Mounted Display (HMD)} dont l'utilisateur doit se munir afin d'être immergé dans un monde numérique avec lequel il peut interagir. Dans la réalité virtuelle, l'immersion est une notion importe lorsqu'il s'agit de la différenciée d'un simple programme informatique.
+La réalité virtuelle plus communément appelé \emph{Virtual Reality (VR)} désigne l'ensemble des environnements purement numériques (fig~\ref{fig;realityspectrum}), qu'ils soient réalistes ou non, dans lesquels aucune interaction avec l'environnement réel n'est possible et inversement. Cette réalité se base très généralement sur un casque \emph{Head Mounted Display (HMD)} dont l'utilisateur doit se munir afin d'être immergé dans un monde numérique avec lequel il peut interagir. Dans la réalité virtuelle, l'immersion est une notion importe lorsqu'il s'agit de la différenciée d'un simple programme informatique.
 
 \paragraph{Réalité augmentée}
-La réalité augmentée plus communément appelé \emph{Augmented Reality (AR)} quant a elle est un sous domaine de la réalité virtuelle. En effet, l'idée de la réalité augmentée est de venir superposer a l'environnement réel des éléments virtuels. Ces éléments vont alors venir "augmenter" ce monde en apportant le plus souvent des compléments d'informations. C'est un sous domaine de la réalité virtuelle car l'utilisateur n'est pas immergé dans un environnement complètement numérique, seulement certains objets numériques viennent être ajouté en contexte à la vision réelle. Par abus de langage le terme de réalité augmentée est souvent utilisé pour parler de réalité mixte dont la notion est détaillé ci dessous.
-Ce type de réalité ne se base pas uniquement sur des \emph{HMD} mais peut être aussi apprécié a l'aide d'un téléphone par exemple.
+La réalité augmentée plus communément appelé \emph{Augmented Reality (AR)} quant a elle est un sous domaine de la réalité virtuelle. L'idée de la réalité augmentée est de venir superposer à l'environnement réel des éléments virtuels. Ces éléments vont alors venir "augmenter" notre monde en apportant le plus souvent des compléments d'informations. Elle est donc qualifié de sous domaine de la réalité virtuelle car l'utilisateur n'est plus immergé dans un environnement complètement numérique mais du contenu virtuel est ajouté en contexte à la vision réelle. Par abus de langage le terme de réalité augmentée est souvent utilisé pour parler de réalité mixte dont la notion est détaillé ci dessous.
+Il faut noter que ce type de réalité ne se base pas uniquement sur des \emph{HMD} mais peut être aussi apprécié à l'aide d'un téléphone par exemple (fig~\ref{fig:AR}).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.55\textwidth]{images/AR}
+\caption{Réalité augmentée vu au travers d'un téléphone - \textit{source: https://www.engadget.com}}
+\label{fig:AR}
+\end{figure}
 
 \paragraph{Réalité mixte}
-La réalité mixte, ou hybride, plus communément appelé \emph{Mixed Reality (MR)}, ou \emph{Crossed Reality (XR)}, est la fusion parfaite de l'environnement numérique et de l'environnement physique (voir Figure ~\ref{fig:realityspectrum}). Dans ce "nouvel" environnement, les objets physiques et numériques coexistent et peuvent interagir entre eux, par exemple une table peut devenir une plateforme pour un personnage virtuel voir Figure ~\ref{fig:youngconker}.
+La réalité mixte, ou hybride, plus communément appelé \emph{Mixed Reality (MR)}, ou \emph{Crossed Reality (XR)}, est la fusion parfaite de l'environnement numérique et de l'environnement physique (fig~\ref{fig:realityspectrum}). Dans ce "nouvel" environnement, les objets physiques et numériques coexistent et peuvent interagir entre eux, par exemple une table peut devenir une plateforme pour un personnage virtuel (fig~\ref{fig:youngconker}).
 
 \begin{figure}[h]
 \centering
@@ -28,10 +35,11 @@ La réalité mixte, ou hybride, plus communément appelé \emph{Mixed Reality (M
 \label{fig:youngconker}
 \end{figure}
 
-\paragraph{Realité augmentée vue au travers}
-La réalité augmentée vue au travers, plus communément appelé \emph{See Through Augmented Reality (STAR)} est une technique de visualisation de la réalité augmentée ou les éléments numériques sont visualisés au travers d'un écran voir Figure ~\ref{fig:STAR}
+\paragraph{Réalité augmentée vue au travers}
+% Trouver qui l'a inventé et quand
+La réalité augmentée vue au travers, plus communément appelé \emph{See Through Augmented Reality (STAR)} est une technique de visualisation de la réalité augmentée ou les éléments numériques sont vu au travers d'un écran (fig~\ref{sub:STARGO}) ou d'un \emph{HMD} (fig~\ref{sub:STARHolo}). C'est le type de visualisation le plus  utilisé actuellement. L'un des défauts majeur de ce type de visualisation est que la plus part du temps, chaque utilisateur a besoin de son propre écran ou casque pour pouvoir en profiter pleinement ce qui limite grandement les expériences collaboratives. Aussi les principaux défauts liés aux écrans s'appliquent aussi, a savoir fatigue visuel etc.  
 
-\begin{figure}[]
+\begin{figure}[h]
     \centering
 	\subfloat[Pokémon GO - Vue au travers téléphone]{
       \includegraphics[width=0.45\textwidth]{images/pokemongo}
@@ -47,7 +55,32 @@ La réalité augmentée vue au travers, plus communément appelé \emph{See Thro
 
 
 \paragraph{Réalité augmentée spatiale}
-La réalité augmentée spatiale, plus communément appelé \emph{Spatial Augmented Reality (SAR)} 
-\paragraph{Interfaces tangible}
+% Trouver qui l'a inventé et quand
+La réalité augmentée spatiale, plus communément appelé \emph{Spatial Augmented Reality (SAR)} est une technique de visualisation qui se base sur un dispositif de projection. Les éléments virtuels qui viennent "augmenter" le monde réel sont projetés dans l'espace (fig~\ref{fig:SAR}), d'où le terme spatiale. L'avantage de cette technologie est qu'elle est naturellement collaborative car les projections sont visibles sans l'aide d'aucun dispositif. Un autre atout de cette technologie est la visualisation directement sur les objets physiques manipulable ce qui permet de développer facilement des interfaces tangibles.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{images/SARMappingCar2}
+\caption{Présentation d'une voiture en utilisant de la réalité augmentée spatiale - source \textit{Google Image}}
+\label{fig:SAR}
+\end{figure}
+
+\paragraph{Interface tangible}
+Une interface utilisateur tangible ou \emph{Tangible User Interface (TUI)} est une interface utilisateur via laquelle des objets physiques, ou encore le toucher, permettent de manipuler des données numériques (fig~\ref{sub:TUI}). Les interfaces tangibles remplacent très souvent les interfaces utilisateur graphiques (fig~\ref{sub:GUI}) où \emph{Graphical User Interface (GUI)} dans la plupart des application de réalité augmentée car elles fournissent un contrôle direct a l'utilisateur sur ce qu'il souhaite manipuler (par opposition au contrôle indirect, comme la souris, nécessaire à la manipulation des GUI).
+
+\begin{figure}[h]
+    \centering
+	\subfloat[Interface Utilisateur Graphique (GUI)]{
+      \includegraphics[width=0.45\textwidth]{images/GUI}
+      \label{sub:GUI}
+      }
+    \subfloat[Interface Utilisateur Tangible]{
+      \includegraphics[width=0.45\textwidth]{images/TUI}
+      \label{sub:TUI}
+      }
+\caption{Différences des interfaces utilisateurs}
+\label{fig:GUITUI}
+\end{figure}
+
 
 \paragraph{Programmation graphique haute performance}
