@@ -5,7 +5,14 @@
 Le domaine d'activité qui entoure ce stage est très riche en termes de notions et de vocabulaire. Afin de mieux comprendre de quoi il va être question tout au long de ce rapport, il est nécessaire d'en définir les notions de base.
 
 \paragraph{Réalité virtuelle}
-La réalité virtuelle plus communément appelé \emph{Virtual Reality (VR)} désigne l'ensemble des environnements purement numériques (fig~\ref{fig;realityspectrum}), qu'ils soient réalistes ou non, dans lesquels aucune interaction avec l'environnement réel n'est possible et inversement. Cette réalité se base très généralement sur un casque \emph{Head Mounted Display (HMD)} dont l'utilisateur doit se munir afin d'être immergé dans un monde numérique avec lequel il peut interagir. Dans la réalité virtuelle, l'immersion est une notion importe lorsqu'il s'agit de la différenciée d'un simple programme informatique.
+La réalité virtuelle plus communément appelé \emph{Virtual Reality (VR)} désigne l'ensemble des environnements purement numériques (fig~\ref{fig:realityspectrum}), qu'ils soient réalistes ou non, dans lesquels aucune interaction avec l'environnement réel n'est possible et inversement. Cette réalité se base très généralement sur un casque \emph{Head Mounted Display (HMD)} dont l'utilisateur doit se munir afin d'être immergé dans un monde numérique avec lequel il peut interagir. Dans la réalité virtuelle, l'immersion est une notion importe lorsqu'il s'agit de la différenciée d'un simple programme informatique.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=1]{images/RealitySpectrum}
+\caption{Représentation de continuum de la virtualité par Milgram et Kishino, 1995\cite{milgram1995augmented}}
+\label{fig:realityspectrum}
+\end{figure}
 
 \paragraph{Réalité augmentée}
 La réalité augmentée plus communément appelé \emph{Augmented Reality (AR)} quant a elle est un sous domaine de la réalité virtuelle. L'idée de la réalité augmentée est de venir superposer à l'environnement réel des éléments virtuels. Ces éléments vont alors venir "augmenter" notre monde en apportant le plus souvent des compléments d'informations. Elle est donc qualifié de sous domaine de la réalité virtuelle car l'utilisateur n'est plus immergé dans un environnement complètement numérique mais du contenu virtuel est ajouté en contexte à la vision réelle. Par abus de langage le terme de réalité augmentée est souvent utilisé pour parler de réalité mixte dont la notion est détaillé ci dessous.
@@ -22,13 +29,6 @@ Il faut noter que ce type de réalité ne se base pas uniquement sur des \emph{H
 La réalité mixte, ou hybride, plus communément appelé \emph{Mixed Reality (MR)}, ou \emph{Crossed Reality (XR)}, est la fusion parfaite de l'environnement numérique et de l'environnement physique (fig~\ref{fig:realityspectrum}). Dans ce "nouvel" environnement, les objets physiques et numériques coexistent et peuvent interagir entre eux, par exemple une table peut devenir une plateforme pour un personnage virtuel (fig~\ref{fig:youngconker}).
 
 \begin{figure}[h]
-\centering
-\includegraphics[scale=0.7]{images/RealitySpectrum}
-\caption{Représentation de continuum de la virtualité par Milgram et Kishino, 1994.}
-\label{fig:realityspectrum}
-\end{figure}
-
-\begin{figure}
 \centering
 \includegraphics[scale=0.4]{images/youngconker}
 \caption{Asobo Studio\texttrademark - Young Conker\copyright}
@@ -66,7 +66,7 @@ La réalité augmentée spatiale, plus communément appelé \emph{Spatial Augmen
 \end{figure}
 
 \paragraph{Interface tangible}
-Une interface utilisateur tangible ou \emph{Tangible User Interface (TUI)} est une interface utilisateur via laquelle des objets physiques, ou encore le toucher, permettent de manipuler des données numériques (fig~\ref{sub:TUI}). Les interfaces tangibles remplacent très souvent les interfaces utilisateur graphiques (fig~\ref{sub:GUI}) où \emph{Graphical User Interface (GUI)} dans la plupart des application de réalité augmentée car elles fournissent un contrôle direct a l'utilisateur sur ce qu'il souhaite manipuler (par opposition au contrôle indirect, comme la souris, nécessaire à la manipulation des GUI).
+Une interface utilisateur tangible ou \emph{Tangible User Interface (TUI)} est une interface utilisateur via laquelle des objets physiques, ou encore le toucher, permettent de manipuler des données numériques (fig~\ref{sub:TUI}). Les interfaces utilisateurs tangibles remplacent très souvent les interfaces utilisateur graphiques (fig~\ref{sub:GUI}) où \emph{Graphical User Interface (GUI)} dans la plupart des application de réalité augmentée car elles fournissent un contrôle direct à l'utilisateur sur ce qu'il souhaite manipuler (par opposition au contrôle indirect, comme la souris, nécessaire à la manipulation des GUI).
 
 \begin{figure}[h]
     \centering
@@ -74,7 +74,7 @@ Une interface utilisateur tangible ou \emph{Tangible User Interface (TUI)} est u
       \includegraphics[width=0.45\textwidth]{images/GUI}
       \label{sub:GUI}
       }
-    \subfloat[Interface Utilisateur Tangible]{
+    \subfloat[Interface Utilisateur Tangible (TUI)]{
       \includegraphics[width=0.45\textwidth]{images/TUI}
       \label{sub:TUI}
       }
@@ -83,4 +83,7 @@ Une interface utilisateur tangible ou \emph{Tangible User Interface (TUI)} est u
 \end{figure}
 
 
-\paragraph{Programmation graphique haute performance}
+\paragraph{Calcul haute performance}
+Le calcul haute performance ou \emph{General-Purpose computing on Graphics Processing Units (GPGPU)} désigne une méthode de calcul utilisant la carte graphique (GPU) plutôt que le processeur (CPU). Cette technique permet de bénéficier de la puissance de la carte graphique afin de réaliser du calcul en parallèle et est très souvent utilisée pour la plupart des traitement lourd comme par exemple le rendu d'une scène 3D, l'encodage de vidéo, les simulations physiques (particules) etc. 
+% Expliquer comment ca marche (carte graphique beaucoup de coeur pour faire des opérations simple, CPU pas beaucoup de coeur donc plus lent)
+% Ajouter image comparaison
