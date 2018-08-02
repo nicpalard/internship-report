@@ -52,17 +52,30 @@ Ainsi j'ai défini les besoins suivant pour l'application:
 
 \subsubsection{Choix et implémentation}
 L'application a donc été développé sous Processing en utilisant PapARt pour la partie visualisation, détection et projection et Sonic Pi\footnotetext{\href{https://sonic-pi.net/}{Sonic Pi site}} pour la génération de son.
-Sonic Pi est un synthétiseur temps réel qui permet très facilement de générer des son cohérent. Le gros avantage de Sonic Pi est qu'il gère en interne énormément de problèmes posé par la génération dynamique de musique comme par exemple la synchronisation des effets, la boucle, le mixage etc.
+Sonic Pi est un synthétiseur temps réel qui permet très facilement de générer des sons de manière cohérente. Le gros avantage de Sonic Pi est qu'il gère en interne énormément de problèmes posé par la génération dynamique de musique comme par exemple la synchronisation de la boucle sonore principale, les effets d'entrée et de sortie des instruments etc...
 
-Comme on peut le voir sur le schéma explicatif (fig ~\ref{fig:reartable:generalscheme}), les éléments tangible représentant des sons se présentent sous forme de regroupement d'éléments rond de petite taille. On peut différencier deux sons en fonction du contenu du regroupement (nombre et position des éléments rouges comparé a ceux des éléments bleu).
-Une fois l'élément tangible détecté et identifié, un message OSC\footnotetext{Le protocole OSC où OpenSoundControl est un format de transmission de donnée conçu pour le controle en temps réel} est envoyé a un serveur SonicPi préalablement démarré.
+Comme on peut le voir sur le schéma explicatif (fig ~\ref{fig:reartable:generalscheme}), les éléments tangibles représentants des sons se présentent sous forme de regroupement d'éléments rond de petite taille. L'idée derrière ce choix est d'encourager la manipulation d'élément physique pour garder le contenu numérique en contexte et favoriser la création. On peut différencier deux sons en fonction du contenu du regroupement (nombre, position et couleur des éléments regroupés).
 
-Pour ce qui est du contrôle du son, une zone autour du composant est défini dans laquelle soit un élément tangible, soit une interaction physique (avec le doigt) peut venir contrôler le son (fig.~\ref{fig:reartable:interactionzone}).
+\begin{figure}[H]
+\centering
+\caption{ReARtable: Schéma général}
+\includegraphics[scale=•]{•}
+\label{fig:reartable:generalscheme}
+\end{figure}
+
+Une fois les éléments détectés, regroupés et identifiés, le son peut être créer. La création de son se fait simplement via la transmission d'un message OSC\footnotetext{Le protocole OSC où OpenSoundControl est un format de transmission de donnée conçu pour le contrôle en temps réel} à un serveur Sonic Pi préalablement démarré. Toutes les communications entre l'application et Sonic Pi utilisent ce protocole ce qui permet de démarrer/arrêter/modifier le son en directe.
+
+Pour ce qui est du contrôle du son, une zone autour du composant est défini dans laquelle soit un élément tangible, soit une interaction physique (avec le doigt) vont être détecté et converti en interaction avec le contenu numérique (fig.~\ref{fig:reartable:interactionzone}).
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.65\textwidth]{images/reartable_cluster_interaction}
+\caption{Schéma représentant la création d'un son avec zone d'interaction}
+\label{fig:reartable:interactionzone}
 \end{figure}
+
+La dernière étape de l'application est la visualisation de la musique générée. Cette étape n'a finalement pas été abouti par manque de temps cependant elle a été réfléchi. L'idée était d'utiliser le spectre du son et les différentes fréquences qui le compose qu'on aurai récupérer via une transformer de fourrier pour créer une visualisation basé sur les fréquences avec des variations en fonction de hauteur, du tempo etc ou d'isoler pour chaque composant du son le spectre de fréquence qu'il génère et créer pour chaque composant sa visualisation associé.
+
 % TODO Rajouter un petit schéma d'architecture de l'application avec Appli -> Message OSC -> Sonic Pi -> Génération de son et Sonic Pi -> Message OSC -> Appli -> Visualisation du son
 
 % Analyse de technologie de la reactable
@@ -79,7 +92,12 @@ Pour ce qui est du contrôle du son, une zone autour du composant est défini da
 % Parler du résultat final et des soucis d'implémentation
 % Parler des cas d'utilisations
 
-\section{Extraction de document}
+\section{Détection de document}
+
+Plus tard au cours de mon stage des cas d'utilisation ou l'extraction et la numérisation de document ont été abordé comme par exemple %TODO {... trouver cas d'utilisation }
+de ce fait il a été décidé de développer une application de démonstration/preuve de concept de cette fonctionnalité.
+
+L'application a été développée dans le but d'expérimenter plusieurs technique de détection de document 
 
 % Analyse rapide des besoins de l'application
 % Proposition schématique de toutes les techniques misent en oeuvre (expliquer la notion d'echelle et de connaissance a priori)
