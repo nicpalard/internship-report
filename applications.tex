@@ -1,9 +1,11 @@
 \chapter{Développement d'application}
 
-Comme expliqué dans l'introduction chapitre ~\ref{chap:intro} le premier objective du stage était le développement d'applications de réalité augmentée spatiale.Il était important pour commencer le stage d'évaluer les possibilités offertes mais aussi les contraintes posés par le kit de développement. Le travail demandé ne se cantonnais donc pas uniquement au développement d'application mais il était important d'effectuer un travail d'analyse et de critique du kit.
+Comme expliqué dans l'introduction chapitre ~\ref{chap:intro} le premier objectif du stage était le développement d'applications de réalité augmentée spatiale. Il était important pour commencer, d'évaluer les possibilités mais aussi les contraintes qu'offrait le kit de développement.
+Ainsi un travail d'analyse et de critique de l'API à été effectué en parallèle du développement d'applications.
 
 \section{ReARTable}
-D'après le contexte et le public ciblé par l'entreprise, il m'a paru intéressant de développer une démonstration au but à la fois ludique et éducatif. J'ai donc choisit de recréer la technologie Reactable\cite{reactable} proposé par la société du même nom.
+\label{sec:reartable}
+D'après le contexte et le public ciblé par l'entreprise, il m'a paru intéressant de développer une démonstration a but à la fois ludique et éducatif. J'ai donc choisit de recréer une Reactable\cite{reactable} proposé par la société du même nom en réalité augmentée spatiale.
 
 La Reactable est un instrument de musique électronique permettant la génération de son en direct développé depuis 2003. Présenté sous forme d'une table interactive, le son est généré via des éléments tangibles (fig. ~\ref{fig:reactelem}) placés a sa surface. 
 
@@ -35,46 +37,47 @@ Au delà de la détection des éléments tangible, la table est rétro éclairé
 
 \footnotetext{Source: \href{http://a-blok.com/FR/reactable.html}{Reactable}}
 
+\subsection{Besoins de l'application}
+\label{subsec:reartable:content}
+Le but de l'application était de proposé une démonstration ce de qu'est capable de faire le système proposé par RealityTech et non pas de créer une simulateur de musique en direct fini reprenant tous les points de la Reactable. Un tel développement pourrai faire l'objet d'un stage entier et ce n'était pas le cas ici.
 
-\subsection{Besoins et contenu de l'application}
-Le but de l'application était de proposé une démonstration ce de qu'est capable de faire le système proposé par RealityTech et non pas de créer une application finie reprenant tous les points de la Reactable. Un tel développement pourrai faire l'objet d'un stage entier et ce n'était pas le cas ici.
-
-Pour être en adéquation avec l'idéologie de l'entreprise, l'interface tangible et les modes d'interactions avec la musique était un point cruciale dans le développement de cette application.
-
-Ainsi j'ai défini les besoins suivant pour l'application:
+Pour être en adéquation avec l'idéologie de l'entreprise, l'interface tangible et les modes d'interactions avec la musique était le point le plus cruciale. 
+En gardant ça en tête nous avons défini les besoins fonctionnels principaux:
 \begin{itemize}
-\item Créer un son. L'application devait pouvoir générer du son.
-\item Créer une représentation physique du son. Chaque son devait avoir sa représentation physique, c'est à dire, son élément qui une fois posé dans le champ de vision de la caméra allé détecter le son.
-\item Détecter et identifier les éléments représentation des sons. Pour pouvoir jouer le bon son en fonction d'un objet physique, il fallait que l'applcation soit capable de détecter et d'identifier l'élément en question.
-\item Contrôler les paramètres d'un son. L'application devait pouvoir contrôler certains paramètre défini a l'avance du son généré comme par exemple la fréquence ou l'amplitude.
-\item Créer une visualisation basic d'un son. L'application devait proposer une visualisation du son généré pour guider l'utilisateur dans son expérimentation.
+\item Générer du son en direct.
+\item Créer une représentation physique du son. Chaque son ou élément sonore devait avoir une représentation physique qui lui était associé, c'est à dire, un élément ou groupement d'éléments tangibles représentant ce son.
+\item Détecter des éléments physiques représentant les éléments sonores dans une image. L'application devait pouvoir détecter dans une image de caméra les divers éléments physiques présents de façon a ce qu'ils soient utilisés pour identifier les éléments sonores.
+\item Identifier les représentation physique des sons. Chaque élément sonore étant représenter par un ou plusieurs éléments physique, l'application devait être capable, à partir des résultats de la détection, d'identifier et de différencier des éléments sonores entre eux. 
+\item Modifier un élément sonore. L'application devait pouvoir contrôler certains paramètre défini a l'avance de chaque élément sonore généré. Ces paramètres ont pour but d'apporter a l'utilisateur a un niveau de contrôle supérieur lors de la création de musique en direct.
+\item Détecter des événements liés au toucher. Dans le cas du contrôle d'un son, l'utilisateur peut être amener a toucher des zones interactives pour déclencher divers effets.
+\item Créer une visualisation basique d'un son. L'application devait proposer une visualisation du son généré pour guider l'utilisateur dans son expérimentation.
 \end{itemize}
 
-\subsubsection{Choix et implémentation}
-L'application a donc été développé sous Processing en utilisant PapARt pour la partie visualisation, détection et projection et Sonic Pi\footnotetext{\href{https://sonic-pi.net/}{Sonic Pi site}} pour la génération de son.
-Sonic Pi est un synthétiseur temps réel qui permet très facilement de générer des sons de manière cohérente. Le gros avantage de Sonic Pi est qu'il gère en interne énormément de problèmes posé par la génération dynamique de musique comme par exemple la synchronisation de la boucle sonore principale, les effets d'entrée et de sortie des instruments etc...
+\subsection{Choix et implémentation}
+\label{subsec:reartable:impl}
+L'application a donc été développé avec Processing en utilisant PapARt pour la partie visualisation, détection et projection et Sonic Pi\footnotetext{\href{https://sonic-pi.net/}{Sonic Pi site}} pour la génération de musique en direct.
+Sonic Pi est un synthétiseur temps réel qui permet très facilement de générer des sons de manière cohérente. Le gros avantage de Sonic Pi est qu'il résout tout seul énormément de problèmes posé par la génération dynamique de musique comme par exemple la synchronisation des boucles, les effets d'entrée et de sortie des instruments et bien d'autre ce qui décomplexifie énormément la synthèse de musique en direct et la rend très accessible.
 
-Comme on peut le voir sur le schéma explicatif (fig ~\ref{fig:reartable:generalscheme}), les éléments tangibles représentants des sons se présentent sous forme de regroupement d'éléments rond de petite taille. L'idée derrière ce choix est d'encourager la manipulation d'élément physique pour garder le contenu numérique en contexte et favoriser la création. On peut différencier deux sons en fonction du contenu du regroupement (nombre, position et couleur des éléments regroupés).
+Comme on peut le voir sur le schéma explicatif (fig ~\ref{fig:reartable:generalscheme}), les éléments tangibles représentants des sons se présentent sous forme de regroupement d'éléments rond de petite taille (des aimants dans notre cas). L'idée derrière ce choix est d'encourager la manipulation d'élément physique pour garder le contenu numérique en contexte et favoriser la création. On peut différencier deux sons en fonction du contenu du regroupement (nombre, position et couleur des éléments regroupés).
 
 \begin{figure}[H]
 \centering
 \caption{ReARtable: Schéma général}
-\includegraphics[scale=•]{•}
 \label{fig:reartable:generalscheme}
 \end{figure}
 
-Une fois les éléments détectés, regroupés et identifiés, le son peut être créer. La création de son se fait simplement via la transmission d'un message OSC\footnotetext{Le protocole OSC où OpenSoundControl est un format de transmission de donnée conçu pour le contrôle en temps réel} à un serveur Sonic Pi préalablement démarré. Toutes les communications entre l'application et Sonic Pi utilisent ce protocole ce qui permet de démarrer/arrêter/modifier le son en directe.
+Une fois les éléments détectés, regroupés et identifiés, l'élément sonore associé peut être créer. La création d'élément sonore se fait simplement via la transmission d'un message OSC\footnotetext{Le protocole OSC où OpenSoundControl est un format de transmission de donnée conçu pour le contrôle en temps réel} à un serveur Sonic Pi préalablement démarré. Ce message contient l'identifiant unique de la boucle que Sonic Pi doit démarrer. Pour chaque éléments sonores que l'application peut créer Sonic Pi possède une fonction a exécuter que nous avons préalablement créer. Toutes les communications entre l'application et Sonic Pi utilisent ce protocole ce qui permet de démarrer/arrêter/modifier certaines partie du son en directe.
 
 Pour ce qui est du contrôle du son, une zone autour du composant est défini dans laquelle soit un élément tangible, soit une interaction physique (avec le doigt) vont être détecté et converti en interaction avec le contenu numérique (fig.~\ref{fig:reartable:interactionzone}).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.65\textwidth]{images/reartable_cluster_interaction}
+\includegraphics[width=0.45\textwidth]{images/reartable_cluster_interaction}
 \caption{Schéma représentant la création d'un son avec zone d'interaction}
 \label{fig:reartable:interactionzone}
 \end{figure}
 
-La dernière étape de l'application est la visualisation de la musique générée. Cette étape n'a finalement pas été abouti par manque de temps cependant elle a été réfléchi. L'idée était d'utiliser le spectre du son et les différentes fréquences qui le compose qu'on aurai récupérer via une transformer de fourrier pour créer une visualisation basé sur les fréquences avec des variations en fonction de hauteur, du tempo etc ou d'isoler pour chaque composant du son le spectre de fréquence qu'il génère et créer pour chaque composant sa visualisation associé.
+La dernière étape du développement de l'application était la visualisation de la musique générée (section ~\ref{subsec:reartable:content}). Cette étape n'a finalement pas été abouti par manque de temps. L'idée était d'utiliser le spectre du son et les différentes fréquences qui le compose récupérable a l'aide d'une transformée de fourrier\footnotetext{Opération mathématique permettant de décomposer un signal en la somme des signaux qui le compose \href{https://fr.wikipedia.org/wiki/Transformation_de_Fourier}{Wikipédia - Transformation de Fourier}.} pour créer une visualisation globale basée sur les fréquences avec des variations visuels en fonction de la hauteur, du tempo du son et tous les autres paramètre du son qu'on peu extraire.
 
 % TODO Rajouter un petit schéma d'architecture de l'application avec Appli -> Message OSC -> Sonic Pi -> Génération de son et Sonic Pi -> Message OSC -> Appli -> Visualisation du son
 
@@ -92,14 +95,44 @@ La dernière étape de l'application est la visualisation de la musique génér�
 % Parler du résultat final et des soucis d'implémentation
 % Parler des cas d'utilisations
 
-\section{Détection de document}
+\section{Extraction de document}
+\label{sec:document}
+Plus tard au cours de mon stage des cas d'utilisation où l'extraction et la numérisation de document ont été abordé comme par exemple %TODO {... trouver cas d'utilisation }
+et il a donc été décidé qu'il était judicieux de développer une preuve de concept de cette fonctionnalité sous la forme d'une application de SAR.
 
-Plus tard au cours de mon stage des cas d'utilisation ou l'extraction et la numérisation de document ont été abordé comme par exemple %TODO {... trouver cas d'utilisation }
-de ce fait il a été décidé de développer une application de démonstration/preuve de concept de cette fonctionnalité.
+Le but de ce développement était d'expérimenter diverses techniques de détection de document se basant ou non sur des connaissances à priori comme la taille du document, sa couleur, la couleur du fond (duquel il falloir extraire le document), la présence d’éléments distinctifs (comme des marqueurs fiduciaires ou des ronds colorés de petite taille).
 
-L'application a été développée dans le but d'expérimenter plusieurs technique de détection de document 
+\subsection{Besoins de l'application}
+\label{subsec:doc:content}
+\begin{itemize}
+\item Accéder au flux vidéo d'une caméra. L'application devait avoir access au flux vidéo d'une caméra filmant le document à détecter.
+\item Détecter un document dans une image. Des images extraites du flux vidéo, l'application devait être capable, avec ou sans connaissance a priori, de détecter un document se trouvant dans cette image.
+\item Extraire un document d'une image. Grâce au résultat de la détection, l'application devait être capable d'extraire ce document de l'image afin d'obtenir une image ne contenant que le dit document.
+\end{itemize}
 
-% Analyse rapide des besoins de l'application
+\subsection{Choix et implémentation}
+\label{subsec:doc:impl}
+
+La détection de document est un problème connu en traitement d'image sur lequel j'avais déjà eu l'occasion de travailler lors de mon projet de fin d'étude durant le deuxième semestre de mon année de Master 2.
+
+Dans cette application nous avons mis en place plusieurs détection différentes pour essayer de trouver une solution a ce problème.
+
+\paragraph{Détection de document basé sur des marqueurs colorés} La première détection utilise une connaissance a priori sur le document: Le document cible est muni de lignes d'éléments ronds colorés de petite taille dans un ou plusieurs de ses coins (fig. ~\ref{fig:doc-detection:coloredsticker}). Ainsi tout l'enjeu de cette détection se base dans la détection de ces éléments colorés dont il est question plus tard dans ce rapport (voir section ~\ref{sec:sticker-detection}).
+
+\begin{figure}
+\caption{Document à détecter muni de marqueurs colorés}
+\label{fig:doc-detection:coloredsticker}
+\end{figure}
+
+Une fois les éléments détectés, ils sont regroupés en différentes lignes. %TODO citer figure a de la grosse figure ici.
+Une ligne est défini par un regroupement d'éléments dont l'écart entre chaque éléments ne dépasse pas une certaine distance verticale ou horizontale. L'angle de la ligne est défini par les deux premiers éléments qui la compose. Si un autre élément "dérive" il est rejeté et la ligne est créée. Cette ligne est ensuite utilisé pour calculer deux vecteurs, dont un est confondu avec la ligne et le deuxième est perpendiculaire au premier (fig ~\ref{fig:doc-detection:ligne-vectors}).
+La détection finale du document se fait en calculant l'intersection des différents vecteurs verticaux et horizontaux.
+
+% multi figure, schéma avec premierement la feuille, deuxiement la detection des éléments, troisiement la détection des lignes et vecteurs puis quatriemenet la detection du document avec les vecteurs
+
+%TODO Doc, citer des article de detection de document
+
+
 % Proposition schématique de toutes les techniques misent en oeuvre (expliquer la notion d'echelle et de connaissance a priori)
 % Parler du résultat final et des soucis d'implémentation
 % Parler des cas d'utilisation
