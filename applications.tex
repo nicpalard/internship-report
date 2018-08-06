@@ -159,7 +159,7 @@ Une simple connaissance a priori de la distance des éléments rond par rapport 
 
 L'algorithme de Canny\cite{Canny86acomputational} est un filtre de détection de contour permettant d'extraire d'une image des contours (fig ~\ref{sub:detectedge}) très précis respectant trois critères : La bonne détection, la bonne localisation et la clarté de la réponse. Ces trois critères en font un très bon choix dans le cadre de la détection de document ou la qualité de la détection est importante.
 
-Une fois les contours détectés, il est possible d'essayer d'extraire directement le document mais c'est une tâche plus complexe qu'il est possible de facilité en utilisant la transformée de Hough\cite{hough}. La transformée de Hough se charge d'extraire les lignes droite dans une image (fig. ~\ref{sub:detectline}).
+Une fois les contours détectés, il est possible d'essayer d'extraire directement le document mais c'est une tâche plus complexe, car elle requiere d'analyser les contours, qu'il est possible de facilité en utilisant la transformée de Hough\cite{hough}. La transformée de Hough se charge d'extraire les lignes droite dans une image (fig. ~\ref{sub:detectline}).
 
 \begin{figure}[H]
 \centering
@@ -176,13 +176,47 @@ Une fois les contours détectés, il est possible d'essayer d'extraire directeme
       \includegraphics[width=0.45\textwidth]{images/houghsample}
       \label{sub:detectline}
       }
+      \caption{Détection de lignes : Canny + Hough }
+      \label{fig:cannyhough}
 \end{figure}
 \footnotetext{Source : \href{http://funvision.blogspot.com/2016/01/hough-lines-and-canny-edge-sobel.html}{http://funvision.blogspot.com/2016/01/hough-lines-and-canny-edge-sobel.html}}
 \footnotetext{Source : \href{http://funvision.blogspot.com/2016/01/hough-lines-and-canny-edge-sobel.html}{http://funvision.blogspot.com/2016/01/hough-lines-and-canny-edge-sobel.html}}
 \footnotetext{Source : \href{http://funvision.blogspot.com/2016/01/hough-lines-and-canny-edge-sobel.html}{http://funvision.blogspot.com/2016/01/hough-lines-and-canny-edge-sobel.html}}
 
-%TODO Doc, citer des article de detection de document
+Il ne reste qu'a filtrer les lignes pour trouver des potentiels documents dans une image.
 
+Cette succession de traitement est cependant lourde et peut difficilement être effectué en temps réel sur des images de haute résolution. 
+Dans notre cas, nous nous somme servit de ces algorithmes seulement sur des parties d'image (de petite résolution) de façon a améliorer une première détection grossière effectué par exemple, via des marqueurs colorés. Une fois la première détection effectué, nous obtenons une position plus ou moins précise des quatre coins nécessaire a l'extraction du document.
+Nous utilisons cette information sur la position potentiel des coins pour extraire dans l'image a ces position des sous image de ce qui se trouve autour de ces 4 coins (fig. ~\ref{sub:subimage:subimage}). Ensuite nous appliquons la détection de contour (fig. ~\ref{sub:subimage:canny}) puis la détection de ligne (fig. ~\ref{sub:subimage:hough}) que nous filtrons pour en obtenir une vertical et une horizontale. Avec ces deux lignes, nous calculons deux équations de droite puis l'intersection de ces deux droites pour finalement trouver notre coin (fig ~\ref{sub:subimage:corner}).
+
+\begin{figure}[H]
+\centering
+	\subfloat[Sous image autour d'un coin.]{
+      \includegraphics[width=0.45\textwidth]{images/image-original-corner}
+      \label{sub:subimage:subimage}
+      }
+    \subfloat[Canny - Détection de contour basée sur un seuillage de l'image originale]{
+      \includegraphics[width=0.45\textwidth]{images/canny-corner}
+      \label{sub:subimage:canny}
+      }
+      \\
+	\subfloat[Hough - Détection de lignes basée sur le résultat de Canny]{
+      \includegraphics[width=0.45\textwidth]{images/hough-corner}
+      \label{sub:subimage:hough}
+      }
+    \subfloat[Détection finale du coin.]{
+      \includegraphics[width=0.45\textwidth]{images/corner-corner}
+      \label{sub:subimage:corner}
+      }
+      \caption{Affinage de la détection d'un coin du document}
+      \label{fig:corner-redetect}
+\end{figure}
+
+\paragraph{Bilan}
+Pour finir, vous trouverez Figure %TODO 
+un rapide comparatif des différents résultats obtenus. On peut observer quelques points notables : En utilisant la re détection de coins, l'extraction est plus fidèle au document réel car les coins sont mieux détectés. Cette méthode est cependant moins rapide car elle requiert de nombreux calculs en plus. On peut tout de même observer que la détection avec connaissance a priori du modèle fonctionne plutôt bien et que même si pour l'extraction de document elle reste en dessous, elle peut être utilisé pour le tracking de document avec estimation de pose 3d.
+%TODO image document + détection (4 coins)  et extraction dans le cas de redetection ou juste connaissance 
+%TODO Doc, citer des article de detection de document
 
 % Proposition schématique de toutes les techniques misent en oeuvre (expliquer la notion d'echelle et de connaissance a priori)
 % Parler du résultat final et des soucis d'implémentation
