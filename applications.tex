@@ -147,8 +147,8 @@ La détection finale du document se fait en calculant l'intersection des différ
       \includegraphics[width=0.45\textwidth]{images/doc-extraction}
       \label{sub:docextract}
       }
-\caption{Réalité augmentée vue au travers}
-\label{fig:STAR}
+\caption{Détection de document étape par étape}
+\label{fig:docdetection}
 \end{figure}
 
 Comme on peut le voir figure ~\ref{sub:docextract}, lors de cette détection les bords du document sont rognés. Généralement ces zones ne contiennent aucune information car elles correspondent généralement aux marges verticales et horizontales que chaque document possède. Cependant comme évoqué dans les cas d'utilisation, cette détection ne sera pas utiliser seulement pour des documents de type A4, on pourra s'en servir comme outil pour suivre une feuille de papier a la manière des marqueurs ARToolKit, ou pour détecter des post-it par exemple. Ainsi ces marges ne peuvent pas être ignoré dans notre cas.
