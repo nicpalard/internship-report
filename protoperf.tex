@@ -6,12 +6,12 @@ Durant mon stage, j'ai été amené a développer un prototype haute performance
 \section{Logiciel}
 L'optimisation logiciel, de nos jour, passe souvent par des développement très spécifique visant a améliorer un point cruciale d'une application. Dans notre cas, la plupart des algorithmes gourmands en ressources sont ceux que nous utilisons pour le traitement des images obtenues grâce au flux vidéo de la caméra couleur présente dans le matériel. Le traitement que nous somme amené a réaliser le plus souvent est le produit convolution d'une image et d'un filtre.
 
-\subsection{Convolution}
+\subsection{Convolution - Théorie}
 \begin{quotation}
 \textit{En mathématiques, le produit de convolution est un opérateur bilinéaire et un produit commutatif, généralement noté $∗$, qui, à deux fonctions f et g sur un même domaine infini, fait correspondre une autre fonction $f * g$ sur ce domaine, qui en tout point de celui-ci est égale à l'intégrale sur l'entièreté du domaine (ou la somme si celui-ci est discret) d'une des deux fonctions autour de ce point, pondérée par l'autre fonction autour de l'origine — les deux fonctions étant parcourues en sens contraire l'une de l'autre (nécessaire pour garantir la commutativité).\footnote{Source: \href{https://fr.wikipedia.org/wiki/Produit_de_convolution}{Produit de convolution - Wikipedia}}}
 \end{quotation}
 
-En traitement d'image, le produit de convolution est effectué dans le domaine discret où $f$ et $g$ représentent respectivement une image et un filtre et dont le résultat est une nouvelle image. On appel filtre, un noyau de convolution, le plus souvent de petite taille utilisé pour appliquer un traitement afin de modifier une image (fig ~\ref{fig:conv:filter}). Étant donné le domaine discret, la convolution d'une image par un filtre définit pour chaque pixel sa nouvelle valeur en sommant la valeur de chaque pixels voisins (avec un voisinage de la taille du filtre) au pixel d'origine pondéré par la valeur du filtre, centré sur le pixel d'origine, a la même position que le pixel voisin (fig ~\ref{fig:conv:image}). %TODO pseudo code
+En traitement d'image, le produit de convolution est effectué dans le domaine discret où $f$ et $g$ représentent respectivement une image et un filtre et dont le résultat est une nouvelle image. On appel filtre, un noyau de convolution, le plus souvent de petite taille utilisé pour appliquer un traitement afin de modifier une image (fig ~\ref{fig:conv:filter}). Étant donné le domaine discret, la convolution d'une image par un filtre définit pour chaque pixel sa nouvelle valeur en sommant la valeur des pixels voisins (avec un voisinage de la taille du filtre) au pixel d'origine pondéré par la valeur du filtre, qui est lui centré sur le pixel d'origine, a la même position que le pixel voisin (fig ~\ref{fig:conv:image}). %TODO pseudo code
 
 \begin{figure}[H]
 \centering
@@ -107,7 +107,32 @@ En traitement d'image, le produit de convolution est effectué dans le domaine d
 \label{fig:conv:image}
 \end{figure}
 
-Étant donné que l'image résultat est une nouvelle image et que le calcul de chaque nouveau pixel de cette image est indépendant des nouveaux pixels voisins, cette opération mathématique est hautement parallélisable et donc fortement prône a l'optimisation et au calcul sur carte graphique.
+Comme on peut s'en rendre compte, l'image résultat est une nouvelle image, totalement indépendante de l'image d'origine dont chaque pixel est complètement indépendant de ces voisins. C'est cette propriété qui va nous intéressé car cela signifie qu'il est possible de calculer chaque pixel de l'image résultat dans n'importe quel ordre et qu'avec des moyens de calculs suffisant il est possible de calculer tous les pixels de l'image résultat en une seule fois. On dit d'une telle fonction qu'elle est parallélisable. Ce fort potentiel de parallélisation fait de ce traitement une cible de choix pour l'optimisation et donc le calcul sur carte graphique (section ~\ref{chap:notions} - Calcul haute performance).
+
+\subsection{Convolution - Implémentation sur GPU}
+Il existe de nos jours plusieurs langage de programmation graphique nous permettant de mettre à profit la puissance de notre GPU. Nous avons choisit d'implémenter notre algorithme de convolution en OpenCL %TODO cité
+OpenGL ES%TODO cité
+et CUDA %TODO cité
+
+\paragraph{OpenCL} OpenCL ou \emph{Open Computing Language} est un language de programmation basé le C créé par \texttt{Khronos Group} en 2009.
+Un programme OpenCL est composé de deux partie :
+La partie \textbf{code hôte} qui est l'application principale et qui va se charger d'orchestrer les différentes tâches. Cette partie est écrite en C avec des appels a l'API OpenCL pour gérer tout ce qui allocation de mémoire et gestion des périphériques OpenCL.
+La partie \textbf{noyau} ou \textbf{code périphérique} qui représente un programmes qui va être exécutés sur un périphérique. Cette partie est écrite en OpenCL-C et représente les calculs à effectuer.
+Il faut aussi bien différencier hôte, qui dans notre cas sera le processeur et qui sert a allouer la mémoire et transférer les données au périphérique, et périphérique(s) qui représentera ici une ou plusieurs carte graphique et qui sera utilisé appliquer des traitements aux données qui lui sont transmise.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{images/opencl}
+\caption{Schéma OpenCL - Hôte et périphériques\protect\footnotemark}
+\label{fig:opencl}
+\end{figure}
+
+\footnotetext{Source: \href{https://www.anandtech.com/show/7334/a-look-at-alteras-opencl-sdk-for-fpgas/2}{https://www.anandtech.com/show/7334/a-look-at-alteras-opencl-sdk-for-fpgas/2}}
+
+OpenCL est compatible avec la plupart des systèmes et des architectures aujourd'hui présentes sur le marché sans aucune modification de code nécessaire. Cet avantage est aussi l'un de ses plus gros inconvénient car il ne permet pas d'exploiter au mieux chaque architecture comme peut le faire CUDA avec NVIDIA, et les performances de ce dernier ne sont donc pas équivalente sur chaque architecture.
+
+\paragraph{OpenGL ES} OpenGL ES est une sous partie d'OpenGL, qui est une interface de programmation multi plateforme et multi langage, créée pour le rendu 2D/3D. Même si OpenGL ES n'a pas été créer pour la programmation sur carte graphique à proprement parler elle offre des outils intéressants tel que les shaders, des petits programmes informatiques exécuter sur carte graphique. Tout comme pour OpenCL, une application hôte va être chargée d'allouer la mémoire (buffer), et de transmettre des données a ces shaders qui seront ensuite exécutés par le \emph{pipeline} de rendu graphique.
+
+% Parler du pipeline de rendu
 
 % Parler de CUDA OpenGL OpenCL CPU
 % Parler de convolution érosion
