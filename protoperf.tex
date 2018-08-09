@@ -1,7 +1,7 @@
 \chapter{Prototype haute performance}
 \label{chap:protoHP}
 
-Durant mon stage, j'ai été amené a développer un prototype haute performance des outils que propose RealityTech. Pour atteindre cet objectif, le développement de ce prototype s'est déroulé selon plusieurs axes. Il y a eu tout d'abord une partie logiciel où le but était d'optimiser les algorithmes de traitements d'image et donc avoir des gains de performances, la partie matériel où là nous nous somme intéressé de plus près à la latence des caméra, la rapidité de l'encodage et la puissance de calcul théorique des ordinateurs. Pour finir nous nous somme attaqué l'architecture générale du logiciel que propose RealityTech, et nous avons prototyper un système de micro services.
+Durant mon stage, j'ai été amené a développer un prototype haute performance des outils que propose RealityTech. Pour atteindre cet objectif, le développement de ce prototype s'est déroulé selon plusieurs axes. Il y a eu tout d'abord une partie logiciel où le but était d'optimiser les algorithmes de traitements d'image et donc avoir des gains de performances, la partie matériel où là nous nous somme intéressé de plus près à la latence des caméra, la rapidité de l'encodage et la puissance de calcul théorique des ordinateurs et pour finir nous avons entièrement revu le côté architecture logiciel et avons développé une nouvelle version en microservices.
 
 \section{Logiciel}
 L'optimisation logiciel, de nos jour, passe souvent par des développement très spécifique visant a améliorer un point cruciale d'une application. Dans notre cas, la plupart des algorithmes gourmands en ressources sont ceux que nous utilisons pour le traitement des images obtenues grâce au flux vidéo de la caméra couleur présente dans le matériel. Le traitement que nous somme amené a réaliser le plus souvent est le produit convolution d'une image et d'un filtre.
@@ -110,9 +110,10 @@ En traitement d'image, le produit de convolution est effectué dans le domaine d
 Comme on peut s'en rendre compte, l'image résultat est une nouvelle image, totalement indépendante de l'image d'origine dont chaque pixel est complètement indépendant de ces voisins. C'est cette propriété qui va nous intéressé car cela signifie qu'il est possible de calculer chaque pixel de l'image résultat dans n'importe quel ordre et qu'avec des moyens de calculs suffisant il est possible de calculer tous les pixels de l'image résultat en une seule fois. On dit d'une telle fonction qu'elle est parallélisable. Ce fort potentiel de parallélisation fait de ce traitement une cible de choix pour l'optimisation et donc le calcul sur carte graphique (section ~\ref{chap:notions} - Calcul haute performance).
 
 \subsection{Convolution - Implémentation sur GPU}
-Il existe de nos jours plusieurs langage de programmation graphique nous permettant de mettre à profit la puissance de notre GPU. Nous avons choisit d'implémenter notre algorithme de convolution en OpenCL %TODO cité
-OpenGL ES%TODO cité
+Il existe de nos jours plusieurs langage de programmation graphique nous permettant de mettre à profit la puissance de notre GPU. Nous avons choisit d'implémenter notre algorithme de convolution dans 3 de ces langages en OpenCL %TODO cité
+OpenGL ES %TODO cité
 et CUDA %TODO cité
+enfin d'en évaluer les compétences et d'en comparer les différentes performances.
 
 \paragraph{OpenCL} OpenCL ou \emph{Open Computing Language} est un language de programmation basé le C créé par \texttt{Khronos Group} en 2009.
 Un programme OpenCL est composé de deux partie :
@@ -128,7 +129,7 @@ Il faut aussi bien différencier hôte, qui dans notre cas sera le processeur et
 
 \footnotetext{Source: \href{https://www.anandtech.com/show/7334/a-look-at-alteras-opencl-sdk-for-fpgas/2}{https://www.anandtech.com/show/7334/a-look-at-alteras-opencl-sdk-for-fpgas/2}}
 
-OpenCL est compatible avec la plupart des systèmes et des architectures aujourd'hui présentes sur le marché sans aucune modification de code nécessaire. Cet avantage est aussi l'un de ses plus gros inconvénient car il ne permet pas d'exploiter au mieux chaque architecture comme peut le faire CUDA avec NVIDIA, et les performances de ce dernier ne sont donc pas équivalente sur chaque architecture.
+OpenCL est compatible avec la plupart des systèmes et des architectures aujourd'hui présents sur le marché sans aucune modification de code nécessaire. Cet avantage est aussi l'un de ses plus gros inconvénients car il ne permet pas d'exploiter au mieux chaque architecture comme peut le faire CUDA avec NVIDIA, et les performances de ce dernier ne sont donc pas équivalentes sur chaque architecture.
 
 \paragraph{OpenGL ES} OpenGL ES est une sous partie d'OpenGL, qui est une interface de programmation multi plateforme et multi langage, créée pour le rendu 2D/3D. Même si OpenGL ES n'a pas été créer pour la programmation sur carte graphique à proprement parler elle offre des outils intéressants tel que les shaders, des petits programmes informatiques exécuter sur carte graphique. Tout comme pour OpenCL, une application hôte va être chargée d'allouer la mémoire (buffer), et de transmettre des données a ces shaders qui seront ensuite exécutés par le \emph{pipeline} de rendu graphique.
 
