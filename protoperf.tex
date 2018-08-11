@@ -191,8 +191,11 @@ Le pipeline OpenGL reçoit en entrée:
 \end{itemize}
 et donne en sortie une image de la scène.
 
-Pour pouvoir utiliser ce pipeline dans le but d'opérer des traitements sur des images 2D, il est nécessaire d'en détourner l'utilisation. Sans géométrie a fournir au vertex shader, le pipeline de rendu ne se déclenche pas. L'idée pour passer outre est de créer un bout de géométrie recouvrant l'écran, le plus souvent un quad, afin d'activer le pipeline. Une fois le pipeline activité, le vertex shader est programmé pour ne rien faire  et ainsi les étapes d'assemblage et de rastérisation sont très rapidement passé pour arriver a l'étape du rendu par fragment. C'est dans ce shader que se compose l'image de sortie du rendu et c'est ici que nous avons access a tout les pixels de l'image.
+Pour pouvoir utiliser ce pipeline dans le but d'opérer des traitements sur des images 2D, il est nécessaire d'en détourner l'utilisation. Sans géométrie a fournir au vertex shader, le pipeline de rendu ne se déclenche pas. L'idée pour passer outre est de créer un bout de géométrie recouvrant l'écran, le plus souvent un quad, afin d'activer le pipeline. Une fois le pipeline activité, le vertex shader est programmé pour ne rien faire  et ainsi les étapes d'assemblage et de rastérisation sont très rapidement passé pour arriver à l'étape du rendu par fragment. C'est dans ce shader que se compose l'image de sortie du rendu et c'est ici que nous avons access à tout les pixels de l'image. Le calcul de la convolution se fait donc pour chaque pixel grâce au code présent dans le fragment shader. Une fois le traitement par fragment effectué, l'image résultat est stockée dans le \emph{Frame Buffer Object ou FBO} et peut être récupéré depuis l'hôte.
 
+L'avantage de cette technique est que comme OpenCL, OpenGL ES est largement compatible sur toutes les plateforme et très largement utilisé. Cependant contrairement à OpenCL, les performances d'OpenGL ne dépendent que du matériel et ne varieront pas ou que très peu d'un système à un autre.
+
+\paragraph{CUDA}
 % Parler de CUDA OpenGL OpenCL CPU
 % Parler de convolution érosion
 % Benchmark sur un seul PC
