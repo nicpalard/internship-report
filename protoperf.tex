@@ -173,9 +173,25 @@ Il faut donc aussi différencier hôte et périphérique (fig ~\ref{fig:opencl})
 
 Nous nous sommes intéressé a OpenCL car il est compatible avec la plupart des systèmes et des architectures aujourd'hui présents sur le marché sans aucune modification de code nécessaire. Cet avantage est aussi l'un de ses plus gros inconvénients car il ne permet pas d'exploiter au mieux chaque architecture comme peut le faire CUDA avec NVIDIA, et les performances de ce dernier ne sont donc pas équivalentes sur chaque architecture. %Parler dans le bilan Le coût de développement de traitement en OpenCL tout aussi lour
 
-\paragraph{OpenGL ES} OpenGL ES est une sous partie d'OpenGL, qui est une interface de programmation multi plateforme et multi langage, créée pour le rendu 2D/3D. Même si OpenGL ES n'a pas été créer pour la programmation sur carte graphique à proprement parler elle offre des outils intéressants tel que les shaders, des petits programmes informatiques exécuter sur carte graphique. Tout comme pour OpenCL, une application hôte va être chargée d'allouer la mémoire (buffer), et de transmettre des données a ces shaders qui seront ensuite exécutés par le \emph{pipeline} de rendu graphique.
+\paragraph{OpenGL (ES)} 
+OpenGL est une interface de programmation multi plateforme et multi langage permettant faire le rendu de scène 2D/3D. En tant qu'interface il est possible de l'implémenter de façon logiciel mais elle a été conçu pour être implémenté de manière matérielle avec de profiter au mieux des accélérations matérielles disponibles. Ainsi c'est grâce à ces implémentation qu'OpenGL fournit un \emph{pipeline} programmable de rendu ultra performant. C'est via ce pipeline programmable et plus spécifiquement via le code hôte et les shaders qu'il est possible de transmettre des instructions et des données à la carte graphique (fig ~\ref{fig:opengl:pipeline})
 
-% Parler du pipeline de rendu
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{images/opengl-pipeline}
+\caption{Pipeline de rendu - OpenGL\protect\footnotemark}
+\end{figure}
+
+\footnotetext{Source: \href{http://www.labri.fr/perso/pbenard/teaching/mondes3d/slides/Cours_Monde3D_2017_04-IntroGL.pdf}{Cours M1 Informatique - Mondes 3D - Pierre Benard}}
+
+Le pipeline OpenGL reçoit en entrée:
+\begin{itemize}
+\item Des informations sur la géométrie de la scène.
+\item Des paramètres nécessaire pour effectuer le rendu de la scène. Point de vue de la caméra, lumières, textures, matériaux.
+\end{itemize}
+et donne en sortie une image de la scène.
+
+Pour pouvoir utiliser ce pipeline dans le but d'opérer des traitements sur des images 2D, il est nécessaire d'en détourner l'utilisation. Sans géométrie a fournir au vertex shader, le pipeline de rendu ne se déclenche pas. L'idée pour passer outre est de créer un bout de géométrie recouvrant l'écran, le plus souvent un quad, afin d'activer le pipeline. Une fois le pipeline activité, le vertex shader est programmé pour ne rien faire  et ainsi les étapes d'assemblage et de rastérisation sont très rapidement passé pour arriver a l'étape du rendu par fragment. C'est dans ce shader que se compose l'image de sortie du rendu et c'est ici que nous avons access a tout les pixels de l'image.
 
 % Parler de CUDA OpenGL OpenCL CPU
 % Parler de convolution érosion
