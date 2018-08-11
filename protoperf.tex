@@ -15,12 +15,13 @@ Dans le cadre du traitement d'image, le produit de convolution représente une t
 
 On appel filtre, ou noyau de convolution, une image (ou une matrice) généralement de petite taille définit en amont qui va être utilisée pour calculer la nouvelle valeur de chacun des pixels de l'image résultat. C'est la définition de ce dernier qui va décider du traitement appliquer à l'image. 
 
-Le calcul de la valeur d'un pixel dans l'image résultat se fait de la manière suivante : Le voisinage autour du pixel dont on souhaite calculé la valeur est pondéré par le filtre de convolution que l'on aura préalablement centré sur ce pixel. La nouvelle valeur du pixel représente la somme de toutes les valeurs précédemment calculées.
+Le calcul de la valeur d'un pixel dans l'image résultat se fait de la manière suivante : Le voisinage autour du pixel dont on souhaite calculé la valeur est pondéré par le filtre de convolution que l'on aura préalablement centré sur ce pixel. La nouvelle valeur du pixel représente la somme de toutes les valeurs précédemment calculées (voir algorithme ~\ref{algo:pseudo:cpu:conv}).
 
-Sur la figure ~\ref{fig:conv:image} on souhaite calculer la nouvelle valeur du pixel positionné en 3,3 dans l'image d'origine (I). On sélectionne donc un voisinage de même taille que le filtre (K) centré sur ce pixel dont chaque élément va être multiplié par la valeur du filtre pour calculée la valeur du pixel 3,3 dans la nouvelle image soit 
+Sur la figure ~\ref{fig:conv:image} on souhaite calculer la nouvelle valeur du pixel positionné en 3,3 dans l'image d'origine (I). On sélectionne donc un voisinage de même taille que le filtre (K) centré sur ce pixel dont chaque élément va être multiplié par la valeur du filtre pour calculée la valeur du pixel 3,3 dans la nouvelle image soit: 
 \begin{center}
-$I_{3,3} * K = 88 * 1/9 + 21 * 1/9 + 25 * 1/2 + 68 * 1/9 + 14 * 1/9 + 15 * 1/9 + 35 * 1/9 + 52 * 1/9 + 10 * 1/9 = 36$.
-\end{center}
+$I_{3,3} * K = 88 * 1/9 + 21 * 1/9 + 25 * 1/2 + 68 * 1/9 + 14 * 1/9 + 15 * 1/9 + 35 * 1/9 + 52 * 1/9 + 10 * 1/9 = 36$
+\end{center}.
+
 
 \begin{figure}[H]
 \centering
@@ -116,19 +117,51 @@ $I_{3,3} * K = 88 * 1/9 + 21 * 1/9 + 25 * 1/2 + 68 * 1/9 + 14 * 1/9 + 15 * 1/9 +
 \label{fig:conv:image}
 \end{figure}
 
-Comme on peut s'en rendre compte, l'image résultat est une nouvelle image, totalement indépendante de l'image d'origine dont chaque pixel est complètement indépendant de ces voisins. C'est cette propriété qui va nous intéressé car cela signifie qu'il est possible de calculer chaque pixel de l'image résultat dans n'importe quel ordre et qu'avec des moyens de calculs suffisant il est possible de calculer tous les pixels de l'image résultat en une seule fois. On dit d'une telle fonction qu'elle est parallélisable. Ce fort potentiel de parallélisation fait de ce traitement une cible de choix pour l'optimisation et donc le calcul sur carte graphique (section ~\ref{chap:notions} - Calcul haute performance).
+	\begin{algorithm}[H]
+		\caption{Convolution d'image image par un filtre}
+		\begin{algorithmic}
+			\Procedure{Convolution}{I, K, Iw, Ih, Ks}\Comment{I: image, K: filtre}
+			\State $I_{conv} \gets I$
+			\State $Khs \gets floor(Ks \div 2)$
+			\State $x \gets 0, y \gets 0$
+			\State $sum \gets 0$
+			\For{$x \leq Iw ; ++x$}
+				\For{$y \leq Ih ; ++y$}\Comment{Pour tous les pixels $x,y$}
+					\For{$i \leq Ks ; ++j$}
+						\For{$j \leq Ks ; ++j$}\Comment{Pour chaque éléments dans une fenêtre de taille $Ks$}
+						\State ${pos_x \gets x + i - Ksh}$ \Comment{pos = pos + position dans le voisinage}
+						\State ${pos_y \gets y + j - Ksh}$ \Comment{pos = pos + position dans le voisinage}
+						\If{$outOf(I, pos_x, pos_y)$} \Comment{Vérifie que les positions sont dans l'image (bords)}
+							\State $continue$
+						\EndIf
+						\State $sum \gets sum + I_{pos_x, pos_y} * K{i, j}$ \Comment{Somme du voisinage par le filtre}
+						\State $maskSum \gets maskSum + K{i, j}$
+						\EndFor
+					\EndFor
+					\State $I_{conv}{x, y} \gets sum \div maskSum$ \Comment{Valeur final = somme normalisée}
+				\EndFor
+			\EndFor
+			\State \Return $I_{conv}$ \Comment{Retourne la nouvelle image}
+			\EndProcedure
+		\end{algorithmic}
+		\label{algo:pseudo:cpu:conv}
+	\end{algorithm}
 
-\subsection{Convolution - Implémentation sur GPU}
-Il existe de nos jours plusieurs langage de programmation graphique nous permettant de mettre à profit la puissance de notre GPU. Nous avons choisit d'implémenter notre algorithme de convolution dans 3 de ces langages en OpenCL %TODO cité
-OpenGL ES %TODO cité
-et CUDA %TODO cité
-enfin d'en évaluer les compétences et d'en comparer les différentes performances.
+Comme on peut s'en rendre compte dans le pseudo code proposé (algo ~\ref{algo:pseudo:cpu:conv}), l'image résultat est une nouvelle image, indépendante de l'image d'origine dont chaque pixel est calculé indépendamment de ces voisins dans cette nouvelle image. Cela signifie que n'importe quel pixel peut être calculé dans n'importe quel ordre. C'est précisément à cette propriété que nous allons nous intéresser car en théorie, avec une puissance de calcul suffisante il est possible de calculer en même temps tous les pixels de l'image résultat. Cet algorithme possède donc un très fort potentiel d'optimisation car il est très largement parallélisable.
 
-\paragraph{OpenCL} OpenCL ou \emph{Open Computing Language} est un language de programmation basé le C créé par \texttt{Khronos Group} en 2009.
-Un programme OpenCL est composé de deux partie :
-La partie \textbf{code hôte} qui est l'application principale et qui va se charger d'orchestrer les différentes tâches. Cette partie est écrite en C avec des appels a l'API OpenCL pour gérer tout ce qui allocation de mémoire et gestion des périphériques OpenCL.
-La partie \textbf{noyau} ou \textbf{code périphérique} qui représente un programmes qui va être exécutés sur un périphérique. Cette partie est écrite en OpenCL-C et représente les calculs à effectuer.
-Il faut aussi bien différencier hôte, qui dans notre cas sera le processeur et qui sert a allouer la mémoire et transférer les données au périphérique, et périphérique(s) qui représentera ici une ou plusieurs carte graphique et qui sera utilisé appliquer des traitements aux données qui lui sont transmise.
+%C'est cette propriété qui va nous intéressé car cela signifie qu'il est possible de calculer chaque pixel de l'image résultat dans n'importe quel ordre et qu'avec des moyens de calculs suffisant il est possible de calculer tous les pixels de l'image résultat en une seule fois. On dit d'une telle fonction qu'elle est parallélisable. Ce fort potentiel de parallélisation fait de ce traitement une cible de choix pour l'optimisation et donc le calcul sur carte graphique (section ~\ref{chap:notions} - Calcul haute performance).
+
+\subsection{Convolution - Optimisation}
+L'optimisation de cet algorithme peut se faire de deux façon bien distinctes. La première se fait en utilisant la puissance de la carte graphique de l'ordinateur pour effectuer énormément de calculs en même temps. C'est l'optimisation sur carte graphique dont nous avons évoqué le principe section ~\ref{chap:notions}. La seconde méthode d'optimisation consiste a légèrement changer l'algorithme de convolution: la convolution est séparé en deux filtres distincts\cite{podlozhnyuk2007image}, un horizontal et un vertical qui sont successivement appliqués à l'image origine.
+Nous avons choisit de n'effectuer que l'optimisation sur carte graphique car la deuxième méthode comporte de nombreux coûts et désavantage qui seront évoqués par la suite. %TODO cité la partie ou c'est évoqué !.
+
+Pour pouvoir développer la dite optimisation, il a fallut utiliser un langage de programmation sur carte graphique. De nos jours, il en existe plusieurs et ils possèdent tous leurs spécificités cependant pendant la phase de recherche, 3 langages (ou sous langages) se sont démarqués : OpenCL\cite{opencl}, OpenGL ES\cite{opengles} et CUDA\cite{cuda}. Nous avons donc choisit d'implémenter 3 version de l'algorithme de convolution naïf (non séparé) utilisant chaque de ces langages et d'en évaluer les performances. % Précisé que l'évaluation c'est : une image niveau de gris, convolution de taille x par x et machine
+
+\paragraph{OpenCL} OpenCL ou \emph{Open Computing Language} est un langage de programmation basé sur le C créé par \texttt{Khronos Group} en 2009.
+Un programme OpenCL s'écrit en deux partie:
+La partie \textbf{code hôte} et la partie \textbf{noyau} ou \textbf{code périphérique} qui représentent respectivement la partie application se chargeant d'orchestrer les différentes et tâches, la gestion mémoire, la gestion des périphériques s'exécutant sur l'hôte et la partie calcul permettant de compléter les dites tâches s'exécutant sur les périphériques. La partie hôte est écrite en C tandis que la partie noyau est écrit en OpenCL-C.
+Il faut donc aussi différencier hôte et périphérique (fig ~\ref{fig:opencl}). Dans notre cas d'utilisation l'hôte représente le processeur et permet de transmettre les données au périphérique qui dans notre cas correspond à une ou plusieurs cartes graphiques.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth]{images/opencl}
@@ -138,7 +171,7 @@ Il faut aussi bien différencier hôte, qui dans notre cas sera le processeur et
 
 \footnotetext{Source: \href{https://www.anandtech.com/show/7334/a-look-at-alteras-opencl-sdk-for-fpgas/2}{https://www.anandtech.com/show/7334/a-look-at-alteras-opencl-sdk-for-fpgas/2}}
 
-OpenCL est compatible avec la plupart des systèmes et des architectures aujourd'hui présents sur le marché sans aucune modification de code nécessaire. Cet avantage est aussi l'un de ses plus gros inconvénients car il ne permet pas d'exploiter au mieux chaque architecture comme peut le faire CUDA avec NVIDIA, et les performances de ce dernier ne sont donc pas équivalentes sur chaque architecture.
+Nous nous sommes intéressé a OpenCL car il est compatible avec la plupart des systèmes et des architectures aujourd'hui présents sur le marché sans aucune modification de code nécessaire. Cet avantage est aussi l'un de ses plus gros inconvénients car il ne permet pas d'exploiter au mieux chaque architecture comme peut le faire CUDA avec NVIDIA, et les performances de ce dernier ne sont donc pas équivalentes sur chaque architecture. %Parler dans le bilan Le coût de développement de traitement en OpenCL tout aussi lour
 
 \paragraph{OpenGL ES} OpenGL ES est une sous partie d'OpenGL, qui est une interface de programmation multi plateforme et multi langage, créée pour le rendu 2D/3D. Même si OpenGL ES n'a pas été créer pour la programmation sur carte graphique à proprement parler elle offre des outils intéressants tel que les shaders, des petits programmes informatiques exécuter sur carte graphique. Tout comme pour OpenCL, une application hôte va être chargée d'allouer la mémoire (buffer), et de transmettre des données a ces shaders qui seront ensuite exécutés par le \emph{pipeline} de rendu graphique.
 
