@@ -1,17 +1,26 @@
 \chapter{Prototype haute performance}
 \label{chap:protoHP}
 
-Durant mon stage, j'ai été amené a développer un prototype haute performance des outils que propose RealityTech. Pour atteindre cet objectif, le développement de ce prototype s'est déroulé selon plusieurs axes. Il y a eu tout d'abord une partie logiciel où le but était d'optimiser les algorithmes de traitements d'image et donc avoir des gains de performances, la partie matériel où là nous nous somme intéressé de plus près à la latence des caméra, la rapidité de l'encodage et la puissance de calcul théorique des ordinateurs et pour finir nous avons entièrement revu le côté architecture logiciel et avons développé une nouvelle version en microservices.
+Dans un cadre d'application comme celui de la réalité augmentée spatiale ou les interactions jouent un rôle majeure dans l'expérience de l'utilisateur la réactivité, la fluidité de l'expérience et la latence générale du système sont des points cruciaux qu'il est impossible de négliger. Pour pouvoir atteindre ces objectifs et pouvoir pousser les applications encore plus loin aussi bien dans l'interaction, dans le rendu ou dans le contenu, sans avoir besoin d'une puissance de calcul dépassant l'entendement, une optimisation aussi bien logicielle, matérielle ou architecturale est nécessaire. Cette optimisation a fait l'objet d'une grande partie de mon stage qui m'a amener a développer un prototype dit "haute performance" des outils que propose \texttt{RealityTech}. L'optimisation logicielle c'est surtout porté sur l'amélioration des performances des algorithmes de traitement d'image bien connus pour être extrêmement consommateur des ressources. Pour l'optimisation matérielle, la tâche a était un peu différentes et nous nous sommes attelé à effectuer des mesures et des calculs sur la puissance théorique du matériel, la latence réel des caméra ou encore la rapidité de l'encodage des flux vidéos pour arriver à établir les performances réelles qu'il nous était possible d'atteindre avec différentes combinaison de matériel. Le développement du prototype s'est achevé avec la création d'une nouvelle architecture logiciel en micro services dans le but de créer un environnement modulaire réactif ou les services peuvent mourir sans mettre en péril tout le système et ainsi améliorer grandement la qualité général des outils fournis.
 
-\section{Logiciel}
-L'optimisation logiciel, de nos jour, passe souvent par des développement très spécifique visant a améliorer un point cruciale d'une application. Dans notre cas, la plupart des algorithmes gourmands en ressources sont ceux que nous utilisons pour le traitement des images obtenues grâce au flux vidéo de la caméra couleur présente dans le matériel. Le traitement que nous somme amené a réaliser le plus souvent est le produit convolution d'une image et d'un filtre.
+\section{Amélioration logiciel}
+De nos jour, les optimisations font l'objet de développements ciblés et très spécifique, se concentrant la plupart du temps sur l'amélioration d'un unique point cruciale d'un algorithme ou d'une application. Dans notre cas l'optimisation logiciel a surtout été effectué au niveau des algorithmes de traitement d'images omniprésent et indispensable a la technologie. La réalité augmentée spatiale a besoin du monde réel pour exister c'est pourquoi le matériel dispose de nombreux capteurs (caméras) pour l'analyser et que de nombreux algorithmes de traitement des données captés (images) sont mis en place. Après une rapide analyse du logiciel, il est indéniable que traitement le plus utilisé est la convolution d'une image par un filtre qui possède un nombre incalculable d'application et c'est pourquoi nous avons choisit de concentrer nos efforts sur l'optimisation de ce dernier.
 
 \subsection{Convolution - Théorie}
 \begin{quotation}
 \textit{En mathématiques, le produit de convolution est un opérateur bilinéaire et un produit commutatif, généralement noté $∗$, qui, à deux fonctions f et g sur un même domaine infini, fait correspondre une autre fonction $f * g$ sur ce domaine, qui en tout point de celui-ci est égale à l'intégrale sur l'entièreté du domaine (ou la somme si celui-ci est discret) d'une des deux fonctions autour de ce point, pondérée par l'autre fonction autour de l'origine — les deux fonctions étant parcourues en sens contraire l'une de l'autre (nécessaire pour garantir la commutativité).\footnote{Source: \href{https://fr.wikipedia.org/wiki/Produit_de_convolution}{Produit de convolution - Wikipedia}}}
 \end{quotation}
 
-En traitement d'image, le produit de convolution est effectué dans le domaine discret où $f$ et $g$ représentent respectivement une image et un filtre et dont le résultat est une nouvelle image. On appel filtre, un noyau de convolution, le plus souvent de petite taille utilisé pour appliquer un traitement afin de modifier une image (fig ~\ref{fig:conv:filter}). Étant donné le domaine discret, la convolution d'une image par un filtre définit pour chaque pixel sa nouvelle valeur en sommant la valeur des pixels voisins (avec un voisinage de la taille du filtre) au pixel d'origine pondéré par la valeur du filtre, qui est lui centré sur le pixel d'origine, a la même position que le pixel voisin (fig ~\ref{fig:conv:image}). %TODO pseudo code
+Dans le cadre du traitement d'image, le produit de convolution représente une technique de filtrage d'image visant à accentuer ou atténuer certaines caractéristiques ce celle ci comme la netteté, le flou ou les zones de fort gradient (les contours) par exemple (fig ~\ref{fig:conv:filter}). Étant donné que nous travaillons avec des images définit par un nombre fini de pixels, la convolution d'une image est réalisée dans le domaine discret où $f$ et $g$ dans la définition mathématique représentent respectivement une image et le filtre qu'on souhaite lui appliquer. Le résultat de cette convolution est une nouvelle image.
+
+On appel filtre, ou noyau de convolution, une image (ou une matrice) généralement de petite taille définit en amont qui va être utilisée pour calculer la nouvelle valeur de chacun des pixels de l'image résultat. C'est la définition de ce dernier qui va décider du traitement appliquer à l'image. 
+
+Le calcul de la valeur d'un pixel dans l'image résultat se fait de la manière suivante : Le voisinage autour du pixel dont on souhaite calculé la valeur est pondéré par le filtre de convolution que l'on aura préalablement centré sur ce pixel. La nouvelle valeur du pixel représente la somme de toutes les valeurs précédemment calculées.
+
+Sur la figure ~\ref{fig:conv:image} on souhaite calculer la nouvelle valeur du pixel positionné en 3,3 dans l'image d'origine (I). On sélectionne donc un voisinage de même taille que le filtre (K) centré sur ce pixel dont chaque élément va être multiplié par la valeur du filtre pour calculée la valeur du pixel 3,3 dans la nouvelle image soit 
+\begin{center}
+$I_{3,3} * K = 88 * 1/9 + 21 * 1/9 + 25 * 1/2 + 68 * 1/9 + 14 * 1/9 + 15 * 1/9 + 35 * 1/9 + 52 * 1/9 + 10 * 1/9 = 36$.
+\end{center}
 
 \begin{figure}[H]
 \centering
@@ -71,7 +80,7 @@ En traitement d'image, le produit de convolution est effectué dans le domaine d
 		 &   &  &  &  &  & \\
 		 &   &  &  &  &  & \\
 		 &   &  &  &  &  & \\
-		 &   &  & |[fill=green!30]| 51 &  &  & \\
+		 &   &  & |[fill=green!30]| 36 &  &  & \\
 		 &   &  &  &  &  & \\
 		 &   &  &  &  &  & \\
 		 &   &  &  &  &  & \\
