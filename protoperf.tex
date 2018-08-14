@@ -1,10 +1,11 @@
 \chapter{Prototype haute performance}
 \label{chap:protoHP}
 
-Dans un cadre d'application comme celui de la réalité augmentée spatiale ou les interactions jouent un rôle majeure dans l'expérience de l'utilisateur la réactivité, la fluidité de l'expérience et la latence générale du système sont des points cruciaux qu'il est impossible de négliger. Pour pouvoir atteindre ces objectifs et pouvoir pousser les applications encore plus loin aussi bien dans l'interaction, dans le rendu ou dans le contenu, sans avoir besoin d'une puissance de calcul dépassant l'entendement, une optimisation aussi bien logicielle, matérielle ou architecturale est nécessaire. Cette optimisation a fait l'objet d'une grande partie de mon stage qui m'a amener a développer un prototype dit "haute performance" des outils que propose \texttt{RealityTech}. L'optimisation logicielle c'est surtout porté sur l'amélioration des performances des algorithmes de traitement d'image bien connus pour être extrêmement consommateur des ressources. Pour l'optimisation matérielle, la tâche a était un peu différente, nous nous sommes attelé à effectuer des mesures et des calculs sur la puissance théorique du matériel, la latence réel des caméra ou encore la rapidité de l'encodage des flux vidéos pour arriver à établir les performances réelles qu'il nous était possible d'atteindre avec différentes combinaison de matériel. Le développement du prototype s'est achevé avec la création d'une nouvelle architecture logiciel en micro services dans le but de créer un environnement modulaire réactif ou les services peuvent mourir sans mettre en péril tout le système et ainsi améliorer grandement la qualité général des outils fournis.
+Dans le cadre d'application comme celui de la réalité augmentée spatiale où les interactions jouent un rôle majeure dans l'expérience de l'utilisateur la réactivité, la fluidité de l'expérience et la latence générale du système sont des points cruciaux qu'il est impossible de négliger. Pour pouvoir atteindre ces objectifs et pouvoir pousser les applications encore plus loin aussi bien dans l'interaction, dans le rendu ou dans le contenu, sans avoir besoin d'une puissance de calcul dépassant l'entendement, une optimisation aussi bien logicielle, matérielle ou architecturale est nécessaire. Cette optimisation a fait l'objet d'une grande partie de mon stage qui m'a amener à développer un prototype dit "haute performance" des outils que propose \texttt{RealityTech}. L'optimisation logicielle a été porté sur l'amélioration des performances des algorithmes de traitement d'image bien connus pour être extrêmement consommateur des ressources. Pour l'optimisation matérielle, la tâche a était un peu différente, nous nous sommes attelé à effectuer des mesures et des calculs sur la puissance théorique du matériel, la latence réel des caméra ou encore la rapidité de l'encodage des flux vidéos pour arriver à établir les performances réelles qu'il nous était possible d'atteindre avec différentes combinaison de matériel. Le développement du prototype s'est achevé avec la création d'une nouvelle architecture logiciel en micro services dans le but de créer un environnement modulaire réactif ou les services peuvent mourir sans mettre en péril tout le système et ainsi améliorer grandement la qualité général des outils fournis.
 
 \section{Amélioration logiciel}
-De nos jour, les optimisations font l'objet de développements ciblés et très spécifique, se concentrant la plupart du temps sur l'amélioration d'un unique point cruciale d'un algorithme ou d'une application. Dans notre cas l'optimisation logiciel a surtout été effectué au niveau des algorithmes de traitement d'images omniprésent et indispensable a la technologie. La réalité augmentée spatiale a besoin du monde réel pour exister c'est pourquoi le matériel dispose de nombreux capteurs (caméras) pour l'analyser et que de nombreux algorithmes de traitement des données captés (images) sont mis en place. Après une rapide analyse du logiciel, il est indéniable que traitement le plus utilisé est la convolution d'une image par un filtre qui possède un nombre incalculable d'application et c'est pourquoi nous avons choisit de concentrer nos efforts sur l'optimisation de ce dernier.
+\label{sec:hpsoft}
+De nos jour, les optimisations font l'objet de développements ciblés et très spécifique, se concentrant la plupart du temps sur l'amélioration d'un unique point cruciale d'un algorithme ou d'une application. Dans notre cas l'optimisation logiciel a surtout été effectué au niveau des algorithmes de traitement d'images omniprésents et indispensables a la technologie. La réalité augmentée spatiale a besoin du monde réel pour exister c'est pourquoi le matériel dispose de nombreux capteurs (caméras) pour l'analyser et que de nombreux algorithmes de traitement des données captés (images) sont mis en place. Après une rapide analyse du logiciel, il est indéniable que traitement le plus utilisé est la convolution d'une image par un filtre qui possède un nombre incalculable d'application et c'est pourquoi nous avons choisit de concentrer nos efforts sur l'optimisation de ce dernier.
 
 \subsection{Convolution - Théorie}
 \begin{quotation}
@@ -235,13 +236,13 @@ Dans ce test de performances, nous avons mesurer plusieurs choses:
 \item \textbf{La "bande passante"} du traitement entier, comprenant transfert calcul et re transfert. Cette mesure donne une bonne idée de la rapidité des algorithme car elle exprime le nombre de méga octet qu'il est possible de traiter en une seconde avec chaque implémentation.
 \end{itemize}
 
-\textbf{Note:} Les résultats donnés Figure ~\ref{fig:conv:benchmark} ont été mesuré sur le kit de développement NVIDIA Tegra Jetson TX2 dont les spécificité sont les suivantes: \texttt{CPU ARM ARM Cortex-A57 (quad-core) @ 2GHz + NVIDIA Denver2 (dual-core) @ 2GHz, GPU 256-core Pascal @ 1300MHz, RAM 8GB 128-bit LPDDR4 @ 1866Mhz |  59.7 GB/s} Nous avons choisit de montrer ici seulement les résultats obtenues sur le kit de developpement NVIDIA car il permet d'observer les performances de CUDA dans un environnement ultra optimisé pour ce dernier cependant vous trouverez Annexe %TODO
+\textbf{Note:} Les résultats donnés Tableau ~\ref{fig:conv:benchmark} ont été mesuré sur le kit de développement NVIDIA Tegra Jetson TX2 dont les spécificité sont les suivantes: \texttt{CPU ARM ARM Cortex-A57 (quad-core) @ 2GHz + NVIDIA Denver2 (dual-core) @ 2GHz, GPU 256-core Pascal @ 1300MHz, RAM 8GB 128-bit LPDDR4 @ 1866Mhz |  59.7 GB/s} Nous avons choisit de montrer ici seulement les résultats obtenues sur le kit de developpement NVIDIA car il permet d'observer les performances de CUDA dans un environnement ultra optimisé pour ce dernier cependant vous trouverez Annexe %TODO
 les résultats de ces mêmes test sur plusieurs ordinateurs différents.
 
 \begin{table}[H]
 \centering
 \caption{CUDA 9.0 - Convolution d'une image en niveau de gris par un filtre de taille 5x5 - float 32bits}
-\label{fig:bench:cuda}
+\label{fig:conv:benchmark}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -307,6 +308,7 @@ Au vu des résultats obtenues section ~\ref{sub:conv:bench} on peut noter deux c
 \item CUDA et OpenGL fournissent tout deux des résultats plutôt similaires (avec une potentielle amélioration du côté CUDA) mais n'offre tout les deux pas les mêmes possibilités. Avec CUDA, l'algorithme ne peut tourner que sur des machines supportant l'architecture. Nous avons jugé que le gain apporté par rapport a OpenGL ES, qui lui est totalement, n'était pas suffisant pour contrebalancer ce coût, c'est pourquoi nous avons choisit de continuer à utiliser et développer la version OpenGL ES.
 \end{itemize}
 
+\newpage
 \section{Amélioration matérielle}
 Comme évoqué dans l'introduction, le deuxième axe d'amélioration de la technologie de RealityTech se base sur l'aspect purement matériel du système qu'elle propose.
 Dans cette partie, nous avons essayé d'observer et de mesurer la "puissance" du matériel utilisé afin de déterminer les parties cruciale a améliorer.
@@ -321,7 +323,7 @@ Pour mesurer cette latence, nous avons utiliser la méthode dite "Glass to glass
 \caption{Exemple de mesure de la latence de la caméra utilisant a la fois un compteur et une vidéo.}
 \label{fig:latency:glasstoglass}
 \end{figure}
-% faire les tableaux
+
 Dans un soucis de cohérence avec la partie optimisation logicielle vous trouverez Tableau~/ref{fig:latency:camera} un comparatif des différentes latence de caméra obtenues sur le kit de développement NVIDIA Jetson TX2. Vous trouverez plus de résultats sur différents ordinateur Annexe %TODO ~\ref{}
 .
 
@@ -329,7 +331,7 @@ Dans un soucis de cohérence avec la partie optimisation logicielle vous trouver
 \centering
 \caption{Latence de plusieurs caméra mesuré en Glass to glass - NVIDIA Jetson TX2}
 \label{fig:latency:camera}
-\resizebox{\textwidth}{!}{%
+\resizebox{0.65\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 \textbf{} & \textbf{Onboard (TX2)} & \textbf{Logitech} & \textbf{SR300} & \textbf{PSEye} & \textbf{Aukay} & \textbf{ELP} \\ \hline
@@ -340,8 +342,28 @@ Dans un soucis de cohérence avec la partie optimisation logicielle vous trouver
 }
 \end{table}
 
-On s'aperçoit très rapidement que les tests de latence ont été décevant, en effet les latences sont toutes plus ou moins similaire même si il y a quelques variation notamment pour la résolution 1920x1080. On observe que même la caméra embarqué disposant de son propre circuit sur la carte mère du TX2 n'apport aucun gain significatif par rapport aux autres caméra.
-N'étant pas satisfait des résultats, nous avons décider de mesurer la latence d'une caméra professionnelle PGR et la latence observé a été de seulement 8-10 millisecondes en résolution 1280x1020.%TODO demander a jeremy et mettre l'explication
+On s'aperçoit très rapidement que les tests de latence sont plutôt décevant, en effet les latences sont toutes plus ou moins similaire même si il y a quelques variation notamment pour la résolution 1920x1080 ce qui ne permet pas d'émettre beaucoup d'hypothèse d'amélioration. On observe que même la caméra embarqué disposant de son propre circuit intégré sur la carte mère du TX2 n'apporte aucun gain significatif par rapport aux autres caméra.
+N'étant pas satisfait des résultats, nous avons décider de mesurer la latence d'une caméra professionnelle point gray et la latence observé a été de seulement 8-10 millisecondes en résolution 1280x1020. %TODO demander a jeremy et mettre l'explication
 
+\newpage
 \section{Nectar - Architecture micro services}
+\label{sec:nectararchi}
+
+Pour achever le développement du prototype haute performance nous avons choisit de réétudié l'architecture logicielle de PapARt. Actuellement, PapARt est un gros kit de développement proposant une multitude de services regroupés en son sein comme par exemple l'acquisition du flux vidéo d'une caméra, le traitement des images, la détection de marqueurs, la visualisation, l'estimation de pose, etc... . Avec la centralisation des services une panne peut être dramatique et rendre tout le système inutilisable.
+L'idée était donc de développer une nouvelle architecture pour pallier à ce défaut et permettre au système de gagner en réactivité, stabilité, performance, modularité et temps de maintenance. Une architecture en micro services s'est imposé comme une solution de choix car elle répond a tous les besoins énoncés.
+
+Une architecture en micro service consiste à décomposer un logiciel en une multitude de services indépendants effectuant chacun une tâche bien précise. Ces services peuvent ensuite communiquer les uns avec les autres par le biais d'une API.
+
+\begin{itemize}
+\item \textbf{Performance} Contrairement à une bibliothèque classique, avec une telle architecture il est possible d'allouer des ressources à la demande aux services en ayant besoin. Cela permet, par exemple, d'allouer beaucoup de ressources aux services qui les demandent lorsqu'un faible de nombre d'entre eux sont entrain de fonctionner, là ou dans le cas d'une bibliothèque classique les ressources supplémentaires alloués l'auraient été pour tous les services. Ce gain de performance n'est pas négligeable car il permet d'améliorer considérablement la gestion des ressources, qui peut devenir critique en cas de saturation etc..
+
+\item \textbf{Réactivité} Dans le cas d'une panne d'un service critique, comme par exemple le service récupérant le flux vidéo de la caméra, avec une architecture centralisée la gestion de cette panne est très complexe et nécessite souvent de redémarrer tout le système ce qui prends un certain temps, la ou une architecture en micro services couplé a un gestionnaire de processus se chargera uniquement de relancer le service en panne et, si il faut, les services associés, de manière quasiment transparente pour l'utilisateur (avec une petite latence ou un écran d'attente).
+
+\item \textbf{Modularité} L'architecture en micro services offre une très grande modularité, chaque service peut être écrit dans n'importe quel langage et peut être intégré au système sans cout tant qu'il respecte l'API de communication inter processus si il n'est pas totalement indépendant. Il est ainsi très facile pour n'importe qui de rajouter des modules qui peuvent venir soit compléter un service existant soit tout simplement rajouter une fonctionnalité au système. Par exemple, un service d'estimation de pose peut être complété par un service de filtrage de façon totalement transparente a l'utilisateur finale. L'utilisation ou non du filtrage peut être contrôlé de façon automatique par un autre module gérant par exemple la qualité générale voulu par l'utilisateur.
+
+\item \textbf{Maintenabilité} Lorsqu'un service est défectueux, le problème peut être très rapidement identifier car les services sont très faiblement couplés et ainsi il n'est pas nécessaire de devoir parcourir une grande quantité de code pour pouvoir identifier un bug. De plus grâce a la modularité de l'architecture, un service en maintenance n'affecte pas la stabilité générale du système.
+
+\end{itemize}
+
+
 % Schéma dans téléphone a refaire 

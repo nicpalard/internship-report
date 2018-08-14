@@ -79,6 +79,13 @@ Pour ce qui est du contrôle du son, une zone autour du composant est défini da
 
 La dernière étape du développement de l'application était la visualisation de la musique générée (section ~\ref{subsec:reartable:content}). Cette étape n'a finalement pas été abouti par manque de temps. L'idée était d'utiliser le spectre du son et les différentes fréquences qui le compose récupérable a l'aide d'une transformée de fourrier\footnote{Opération mathématique permettant de décomposer un signal en la somme des signaux qui le compose \href{https://fr.wikipedia.org/wiki/Transformation_de_Fourier}{Wikipédia - Transformation de Fourier}.} pour créer une visualisation globale basée sur les fréquences avec des variations visuels en fonction de la hauteur, du tempo du son et tous les autres paramètre du son qu'on peu extraire.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\linewidth]{images/reactable}
+\caption{Démonstration de l'application}
+\label{fig:reartable:demo}
+\end{figure}
+
 % TODO Rajouter un petit schéma d'architecture de l'application avec Appli -> Message OSC -> Sonic Pi -> Génération de son et Sonic Pi -> Message OSC -> Appli -> Visualisation du son
 
 % Analyse de technologie de la reactable
@@ -95,10 +102,10 @@ La dernière étape du développement de l'application était la visualisation d
 % Parler du résultat final et des soucis d'implémentation
 % Parler des cas d'utilisations
 
+\newpage
 \section{Extraction de document}
 \label{sec:document}
-Plus tard au cours de mon stage des cas d'utilisation où l'extraction et la numérisation de document ont été abordé comme par exemple %TODO {... trouver cas d'utilisation }
-et ainsi il était judicieux de développer une preuve de concept de cette fonctionnalité sous la forme d'une application de SAR.
+Plus tard au cours de mon stage des cas d'utilisation où l'extraction et la numérisation de document ont été abordé comme par exemple l'écriture d'une lettre en réalité augmentée et ainsi il était judicieux de développer une preuve de concept de cette fonctionnalité sous la forme d'une application de SAR.
 
 Le but de ce développement était d'expérimenter diverses techniques de détection de document en temps réel se basant ou non sur des connaissances à priori comme la taille du document, sa couleur, la couleur du fond (duquel il falloir extraire le document), la présence d’éléments distinctifs (comme des marqueurs fiduciaires ou des ronds colorés de petite taille).
 
@@ -118,11 +125,6 @@ La détection de document est un problème connu en traitement d'image sur leque
 Dans cette application nous avons mis en place plusieurs détection différentes pour essayer de trouver une solution a ce problème.
 
 \paragraph{Détection de document basé sur des marqueurs colorés} La première détection utilise une connaissance a priori sur le document: Le document cible est muni de lignes d'éléments ronds colorés de petite taille dans un ou plusieurs de ses coins (fig. ~\ref{sub:doc}). Ainsi tout l'enjeu de cette détection se base dans la détection de ces éléments colorés dont il est question plus tard dans ce rapport (voir section ~\ref{sec:sticker-detection}).
-
-\begin{figure}
-\caption{Document à détecter muni de marqueurs colorés}
-\label{fig:doc-detection:coloredsticker}
-\end{figure}
 
 Une fois les éléments détectés, ils sont regroupés en différentes lignes (fig. ~\ref{sub:docline}).
 Une ligne est défini par un regroupement d'éléments dont l'écart entre chaque éléments ne dépasse pas une certaine distance verticale ou horizontale. L'angle de la ligne est défini par les deux premiers éléments qui la compose. Si un autre élément "dérive" il est rejeté et la ligne est créée. Cette ligne est ensuite utilisé pour calculer deux vecteurs, dont un est confondu avec la ligne et le deuxième est perpendiculaire au premier (fig ~\ref{sub:doclineperp}).
