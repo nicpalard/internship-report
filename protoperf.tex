@@ -354,16 +354,26 @@ L'idée était donc de développer une nouvelle architecture pour pallier à ce 
 
 Une architecture en micro service consiste à décomposer un logiciel en une multitude de services indépendants effectuant chacun une tâche bien précise. Ces services peuvent ensuite communiquer les uns avec les autres par le biais d'une API.
 
+\paragraph{Performance} Contrairement à une bibliothèque classique, avec une telle architecture il est possible d'allouer des ressources à la demande aux services en ayant besoin. Cela permet, par exemple, d'allouer beaucoup de ressources aux services qui les demandent lorsqu'un faible nombre d'entre eux est entrain de fonctionner, là ou dans le cas d'une bibliothèque classique, les ressources supplémentaires alloués l'auraient été pour tous les services. Ce gain de performance n'est pas négligeable car il permet d'améliorer considérablement la gestion des ressources, qui peut devenir critique en cas de saturation etc....
+
+\paragraph{Réactivité} Dans le cas d'une panne d'un service critique, comme par exemple le service récupérant le flux vidéo de la caméra, avec une architecture centralisée la gestion de cette panne est très complexe et nécessite souvent de redémarrer tout le système, ce qui prends un certain temps, la ou une architecture en micro services couplé a un gestionnaire de processus se chargera uniquement de relancer le service en panne et, si il faut, les services associés, de manière quasiment transparente pour l'utilisateur.
+
+\paragraph{Modularité} L'architecture en micro services offre une très grande modularité, chaque service peut être écrit dans n'importe quel langage et peut être intégré au système sans cout tant qu'il respecte l'API de communication inter processus si il n'est pas totalement indépendant. Il est ainsi très facile pour n'importe qui de rajouter des modules qui peuvent venir soit compléter un service existant soit tout simplement rajouter une fonctionnalité au système. Par exemple, un service d'estimation de pose peut être complété par un service de filtrage de façon totalement transparente a l'utilisateur finale. L'utilisation ou non du filtrage peut être contrôlé de façon automatique par un autre module gérant par exemple la qualité générale voulu par l'utilisateur.
+
+\paragraph{Maintenabilité} Lorsqu'un service est défectueux, le problème peut être très rapidement identifier car les services sont très faiblement couplés et ainsi il n'est souvent pas nécessaire de devoir parcourir une grande quantité de code pour pouvoir identifier un bug. De plus grâce a la modularité de l'architecture, un service en maintenance n'affecte pas la stabilité générale du système.
+
+\vspace{1cm}
+Pour mettre en place cette nouvelle architecture nous nous sommes basés sur 3 technologies principales:
 \begin{itemize}
-\item \textbf{Performance} Contrairement à une bibliothèque classique, avec une telle architecture il est possible d'allouer des ressources à la demande aux services en ayant besoin. Cela permet, par exemple, d'allouer beaucoup de ressources aux services qui les demandent lorsqu'un faible de nombre d'entre eux sont entrain de fonctionner, là ou dans le cas d'une bibliothèque classique les ressources supplémentaires alloués l'auraient été pour tous les services. Ce gain de performance n'est pas négligeable car il permet d'améliorer considérablement la gestion des ressources, qui peut devenir critique en cas de saturation etc..
-
-\item \textbf{Réactivité} Dans le cas d'une panne d'un service critique, comme par exemple le service récupérant le flux vidéo de la caméra, avec une architecture centralisée la gestion de cette panne est très complexe et nécessite souvent de redémarrer tout le système ce qui prends un certain temps, la ou une architecture en micro services couplé a un gestionnaire de processus se chargera uniquement de relancer le service en panne et, si il faut, les services associés, de manière quasiment transparente pour l'utilisateur (avec une petite latence ou un écran d'attente).
-
-\item \textbf{Modularité} L'architecture en micro services offre une très grande modularité, chaque service peut être écrit dans n'importe quel langage et peut être intégré au système sans cout tant qu'il respecte l'API de communication inter processus si il n'est pas totalement indépendant. Il est ainsi très facile pour n'importe qui de rajouter des modules qui peuvent venir soit compléter un service existant soit tout simplement rajouter une fonctionnalité au système. Par exemple, un service d'estimation de pose peut être complété par un service de filtrage de façon totalement transparente a l'utilisateur finale. L'utilisation ou non du filtrage peut être contrôlé de façon automatique par un autre module gérant par exemple la qualité générale voulu par l'utilisateur.
-
-\item \textbf{Maintenabilité} Lorsqu'un service est défectueux, le problème peut être très rapidement identifier car les services sont très faiblement couplés et ainsi il n'est pas nécessaire de devoir parcourir une grande quantité de code pour pouvoir identifier un bug. De plus grâce a la modularité de l'architecture, un service en maintenance n'affecte pas la stabilité générale du système.
-
+\item \textbf{Redis}\cite{redis} ou \emph{REmote DIctionnary Server} est un système de stockage clef-valeur qui contrairement aux base de données plus conventionnelle stock les données directement dans la mémoire vive (RAM) de l'ordinateur ou dans la mémoire virtuelle\footnotetext{\href{https://fr.wikipedia.org/wiki/Mémoire_virtuelle}{Wikipédia - Mémoire virtuelle}}
+ et non pas sur le disque. Cette spécificité permet a Redis d'atteindre des performances inégalés par des bases de données classiques et il s'impose donc comme un choix de qualité pour nos besoins.
+\item \textbf{Eye}\cite{eye} est un outil de gestion de processus qui permet de s'assurer du cycle de vie des processus qu'il gère. Eye offre la possibilité lancer/redémarrer/couper automatiquement des processus en fonction de leur état, de leur dépendances et de leur consommation en ressources (mémoire, CPU). Il est ainsi possible de définir pour chaque service de quoi il dépend et quels sont les ressources maximales auxquels qui lui sont autorisés ce qui permet d'éviter la mise en péril de tout le système lorsqu'un un processus commence à consommer 99\% de la mémoire disponible par exemple.
+\item \textbf{Ruby on Rails}\cite{rubyrails} est un \emph{framework} destiné à la création d'applications web modernes rapidement et simplement. L'idée est d'utiliser Rails pour générer une page web de contrôle du système permettant de lancer / couper des processus, effectuer des tests et tout autre action permettant d'observer l'état général du système.
 \end{itemize}
 
-
-% Schéma dans téléphone a refaire 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{images/archi2}
+\caption{Schéma de l'architecture en micro services développée}
+\label{fig:microarchi}
+\end{figure} 
