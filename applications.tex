@@ -62,6 +62,7 @@ Comme on peut le voir sur le schéma explicatif (fig ~\ref{fig:reartable:general
 
 \begin{figure}[H]
 \centering
+\includegraphics[width=0.5\linewidth]{images/rearproto}
 \caption{ReARtable: Schéma général}
 \label{fig:reartable:generalscheme}
 \end{figure}
@@ -81,26 +82,10 @@ La dernière étape du développement de l'application était la visualisation d
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.65\linewidth]{images/reactable}
+\includegraphics[width=0.65\linewidth]{images/reartable}
 \caption{Démonstration de l'application}
 \label{fig:reartable:demo}
 \end{figure}
-
-% TODO Rajouter un petit schéma d'architecture de l'application avec Appli -> Message OSC -> Sonic Pi -> Génération de son et Sonic Pi -> Message OSC -> Appli -> Visualisation du son
-
-% Analyse de technologie de la reactable
-	% Retro eclairage -> marqueur fiduciaire -> interface tangible -> visualisation très poussés -> très cher
-% Analyse rapide des besoins de l'application
-	% Pouvoir créer différents effets sonores
-	% Pouvoir jouer plusieurs effet sonores en même temps (cohérence des loops)
-	% Apporter du controle aux effets sonores
-	% Visualiser les effets sonores
-	% Visualiser le son
-% Proposition schématique de comment adapter la reactable au système actuel
-% Proposition des modes d'interactions en adéquation avec le concept d'interface tangibles
-% Parler de la visualisation (schéma expliquatifs)
-% Parler du résultat final et des soucis d'implémentation
-% Parler des cas d'utilisations
 
 \newpage
 \section{Extraction de document}
@@ -159,7 +144,7 @@ Une simple connaissance a priori de la distance des éléments rond par rapport 
 
 \paragraph{Détection de document - Canny et transformée de Hough} Sans connaissance a priori la détection de document devient un problème compliqué et bien connu du monde de l'informatique surtout lorsqu'il un besoin de temps réel vient s'ajouter la tâche, comme par exemple, dans une application de scan de document.
 
-L'algorithme de Canny\cite{Canny86acomputational} est un filtre de détection de contour permettant d'extraire d'une image des contours (fig ~\ref{sub:detectedge}) très précis respectant trois critères : La bonne détection, la bonne localisation et la clarté de la réponse. Ces trois critères en font un très bon choix dans le cadre de la détection de document ou la qualité et surtout la précision de la détection est importante pour ne pas rogner des bouts de document par exemple. Cet algorithme a cepdnant tendence a laisser beaucoup de bruit issue de faible contour tout de même détectés c'est pourquoi une étape de floutage visant a lisser les zones de faible contour est fortement conseillée.
+L'algorithme de Canny\cite{Canny86acomputational} est un filtre de détection de contour permettant d'extraire d'une image des contours (fig ~\ref{sub:detectedge}) très précis respectant trois critères : La bonne détection, la bonne localisation et la clarté de la réponse. Ces trois critères en font un très bon choix dans le cadre de la détection de document ou la qualité et surtout la précision de la détection est importante pour ne pas rogner des bouts de document par exemple. Cet algorithme a cependant tendance à laisser beaucoup de bruit issue de faible contour tout de même détectés c'est pourquoi il faut effectuer une étape de floutage préalable afin de lisser les zones a faible contour.
 
 Une fois les contours détectés, il est possible d'essayer d'extraire directement le document mais c'est une tâche plus complexe, car elle requiert d'analyser les contours, qu'il est possible de facilité en utilisant la transformée de Hough\cite{hough}. La transformée de Hough permet d'extraire n'importe quelle forme a partir d'une image contour en utilisant les propriété mathématiques de la forme. Dans notre cas où nous souhaitons extraire des lignes droites les propriétés mathématiques utilisés correspondent aux coordonnées polaires considérés comme plus robuste que l’équation de la droite (fig ~\ref{sub:detectline})
 
@@ -216,10 +201,4 @@ Nous utilisons cette information sur la position potentiel des coins pour extrai
 
 \paragraph{Bilan}
 Pour finir, vous trouverez Figure %TODO 
-un rapide comparatif des différents résultats obtenus. On peut observer quelques points notables : En utilisant Hough et Canny pour améliorer la détection d'un coin, l'extraction est plus fidèle au document réel. En effet, les coins détectés sont plus précis que des hypothèses effectués à priori. Cette méthode est cependant moins rapide car elle requiert de nombreux calculs en plus. Lorsque utilisé en temps réel, on peut cependant observer que la détection avec connaissance à priori du modèle est bien plus robuste, car elle ne dépend pas d'une deuxième détection qui a beaucoup de chance d'échouer (seuillage, détection de contour, détection de ligne, intersection entre deux droites puis obtention finale du coin) ainsi la méthode a utiliser variera avec les cas d'utilisations. Par exemple dans le cadre d'une application de scan de document, une méthode d'extraction de document plus précise sera envisagée, mais dans le cadre d'une estimation de pose (3D) \footnote{\href{https://en.wikipedia.org/wiki/Pose_(computer_vision)}{Pose : Wikipédia}} on pourra preferer une détection rapide et robuste.
-%TODO image document + détection (4 coins)  et extraction dans le cas de redetection ou juste connaissance 
-%TODO Doc, citer des article de detection de document
-
-% Proposition schématique de toutes les techniques misent en oeuvre (expliquer la notion d'echelle et de connaissance a priori)
-% Parler du résultat final et des soucis d'implémentation
-% Parler des cas d'utilisation
+un rapide comparatif des différents résultats obtenus. On peut observer quelques points notables : En utilisant Hough et Canny pour améliorer la détection d'un coin, l'extraction est plus fidèle au document réel. En effet, les coins détectés sont plus précis que des hypothèses effectués à priori. Cette méthode est cependant moins rapide car elle requiert de nombreux calculs en plus. Lorsque utilisé en temps réel, on peut cependant observer que la détection avec connaissance à priori du modèle est bien plus robuste, car elle ne dépend pas d'une deuxième détection qui a beaucoup de chance d'échouer (seuillage, détection de contour, détection de ligne, intersection entre deux droites puis obtention finale du coin) ainsi la méthode a utiliser variera avec les cas d'utilisations. Par exemple dans le cadre d'une application de scan de document, une méthode d'extraction de document plus précise sera envisagée, mais dans le cadre d'une estimation de pose il sera préférable d'utiliser une détection rapide et robuste.

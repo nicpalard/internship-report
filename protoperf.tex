@@ -1,7 +1,7 @@
 \chapter{Prototype haute performance}
 \label{chap:protoHP}
 
-Dans le cadre d'application comme celui de la réalité augmentée spatiale où les interactions jouent un rôle majeure dans l'expérience de l'utilisateur la réactivité, la fluidité de l'expérience et la latence générale du système sont des points cruciaux qu'il est impossible de négliger. Pour pouvoir atteindre ces objectifs et pouvoir pousser les applications encore plus loin aussi bien dans l'interaction, dans le rendu ou dans le contenu, sans avoir besoin d'une puissance de calcul dépassant l'entendement, une optimisation aussi bien logicielle, matérielle ou architecturale est nécessaire. Cette optimisation a fait l'objet d'une grande partie de mon stage qui m'a amener à développer un prototype dit "haute performance" des outils que propose \texttt{RealityTech}. L'optimisation logicielle a été porté sur l'amélioration des performances des algorithmes de traitement d'image bien connus pour être extrêmement consommateur des ressources. Pour l'optimisation matérielle, la tâche a était un peu différente, nous nous sommes attelé à effectuer des mesures et des calculs sur la puissance théorique du matériel, la latence réel des caméra ou encore la rapidité de l'encodage des flux vidéos pour arriver à établir les performances réelles qu'il nous était possible d'atteindre avec différentes combinaison de matériel. Le développement du prototype s'est achevé avec la création d'une nouvelle architecture logiciel en micro services dans le but de créer un environnement modulaire réactif ou les services peuvent mourir sans mettre en péril tout le système et ainsi améliorer grandement la qualité général des outils fournis.
+Dans le cadre d'application comme celui de la réalité augmentée spatiale où les interactions jouent un rôle majeure dans l'expérience de l'utilisateur la réactivité, la fluidité de l'expérience et la latence générale du système sont des points cruciaux qu'il est impossible de négliger. Pour pouvoir atteindre ces objectifs et pouvoir pousser les applications encore plus loin aussi bien dans l'interaction, dans le rendu ou dans le contenu, sans avoir besoin d'une puissance de calcul dépassant l'entendement, une optimisation aussi bien logicielle, matérielle ou architecturale est nécessaire. Cette optimisation a fait l'objet d'une grande partie de mon stage qui m'a amener à développer un prototype dit "haute performance" des outils que propose \texttt{RealityTech}. L'optimisation logicielle a été porté sur l'amélioration des performances des algorithmes de traitement d'image bien connus pour être extrêmement consommateur des ressources. Pour l'optimisation matérielle, la tâche a était un peu différente, nous nous sommes attelé à effectuer des mesures et des calculs sur la puissance théorique du matériel, la latence réel des caméra ou encore la rapidité de l'encodage des flux vidéos pour arriver à établir les performances réelles qu'il nous était possible d'atteindre avec différentes combinaison de matériel. Le développement du prototype s'est achevé avec la création d'une nouvelle architecture logiciel en micro services\cite{dmitry2014micro} dans le but de créer un environnement modulaire réactif ou les services peuvent mourir sans mettre en péril tout le système et ainsi améliorer grandement la qualité général des outils fournis.
 
 \section{Amélioration logiciel}
 \label{sec:hpsoft}
@@ -150,13 +150,11 @@ $I_{3,3} * K = 88 * 1/9 + 21 * 1/9 + 25 * 1/2 + 68 * 1/9 + 14 * 1/9 + 15 * 1/9 +
 
 Comme on peut s'en rendre compte dans le pseudo code proposé (algo ~\ref{algo:pseudo:cpu:conv}), l'image résultat est une nouvelle image, indépendante de l'image d'origine dont chaque pixel est calculé indépendamment de ces voisins dans cette nouvelle image. Cela signifie que n'importe quel pixel peut être calculé dans n'importe quel ordre. C'est précisément à cette propriété que nous allons nous intéresser car en théorie, avec une puissance de calcul suffisante il est possible de calculer en même temps tous les pixels de l'image résultat. Cet algorithme possède donc un très fort potentiel d'optimisation car il est très largement parallélisable.
 
-%C'est cette propriété qui va nous intéressé car cela signifie qu'il est possible de calculer chaque pixel de l'image résultat dans n'importe quel ordre et qu'avec des moyens de calculs suffisant il est possible de calculer tous les pixels de l'image résultat en une seule fois. On dit d'une telle fonction qu'elle est parallélisable. Ce fort potentiel de parallélisation fait de ce traitement une cible de choix pour l'optimisation et donc le calcul sur carte graphique (section ~\ref{chap:notions} - Calcul haute performance).
-
 \subsection{Convolution - Optimisation}
 L'optimisation de cet algorithme peut se faire de deux façon bien distinctes. La première se fait en utilisant la puissance de la carte graphique de l'ordinateur pour effectuer énormément de calculs en même temps. C'est l'optimisation sur carte graphique dont nous avons évoqué le principe chapitre ~\ref{chap:notions}. La seconde méthode d'optimisation consiste à légèrement changer l'algorithme de convolution: la convolution est séparé en deux filtres distincts\cite{podlozhnyuk2007image}, un horizontal et un vertical qui sont successivement appliqués à l'image origine (fig ~\ref{fig:conv:separable}). Ainsi la complexité d'appliquer une convolution de taille $MxM$ a une image de taille $NxN$ est réduit de $O(N^2M^2)$ a $O(N^2M)$.
 
 \begin{figure}[H]
-\includegraphics[width=\linewidth]{images/separableconv}
+\includegraphics[width=0.7\linewidth]{images/separableconv}
 \caption{Exemple d'un filtre de convolution appliqué successivement horizontalement puis verticalement}
 \label{fig:conv:separable}
 \end{figure}
@@ -186,8 +184,9 @@ OpenGL est une interface de programmation multi plateforme et multi langage perm
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{images/opengl-pipeline}
+\includegraphics[width=0.7\linewidth]{images/opengl-pipeline}
 \caption{Pipeline de rendu - OpenGL\protect\footnotemark}
+\label{fig:opengl:pipeline}
 \end{figure}
 
 \footnotetext{Source: \href{http://www.labri.fr/perso/pbenard/teaching/mondes3d/slides/Cours_Monde3D_2017_04-IntroGL.pdf}{Cours M1 Informatique - Mondes 3D - Pierre Benard}}
@@ -310,6 +309,7 @@ Au vu des résultats obtenues section ~\ref{sub:conv:bench} on peut noter deux c
 
 \newpage
 \section{Amélioration matérielle}
+\label{sec:hardwareup}
 Comme évoqué dans l'introduction, le deuxième axe d'amélioration de la technologie de RealityTech se base sur l'aspect purement matériel du système qu'elle propose.
 Dans cette partie, nous avons essayé d'observer et de mesurer la "puissance" du matériel utilisé afin de déterminer les parties cruciale a améliorer.
 
@@ -320,7 +320,9 @@ Nous nous sommes donc procuré de nombreuses caméras différentes dont nous avo
 Pour mesurer cette latence, nous avons utiliser la méthode dite "Glass to glass" qui est pratiquement la seule méthode actuellement. Pour effectuer une telle mesure il faut afficher sur un écran un chronomètre haute résolution, pointer la caméra sur l'écran, afficher le flux vidéo de la caméra, puis prendre une photo de l'écran avec le compteur et le flux vidéo de la caméra filmant se compteur côte a côte (fig ~\ref{fig:latency:glasstoglass}). La latence est finalement obtenue en faisant la soustraction des deux temps affichés par les compteurs. Cette méthode comporte un bon nombre de défauts dont le plus critique est la résolution du chronomètre utilisé. En effet la latence d'une caméra s'exprime en millisecondes, ainsi pour avoir une mesure assez précise, le chronomètre doit avoir un taux de rafraichissement inférieur a la milliseconde ce qui est extrêmement rare. Ensuite le taux de rafraichissement ainsi que la latence de l'écran utilisé viennent aussi perturber les mesures. Dans notre cas nous avons utilisé un chronomètre avec une résolution de l'ordre de 1 a 5 millisecondes\footnote{\href{https://stopwatch.onlineclock.net/}{Online stopwatch}} et un écran 120Hz, avec 1 milliseconde de temps de latence ce qui devrait réduire les imprécisions introduite dans les mesures. Aussi au lieu de prendre une photographie, nous avons décidé de réaliser des vidéos ralenti en 240 fps et d'afficher en plus du chronomètre une vidéo ou 12 couleurs se succèdent a une fréquence 1Hz. Ainsi en plus de la mesure du chronomètre nous pouvons calculer grâce a la vidéo ralenti le nombre d'images qu'il faut pour qu'un changement de couleur dans la vidéo se refléter dans l'affichage du flux vidéo de la caméra. Étant donné que nous filmons a 240 fps, chaque images de la vidéo ou le changement de couleur n'est pas reflété corresponds pas a $1/240 * 1000 = 4,16$ millisecondes. Par exemple, si sur la vidéo ralenti, un changement de couleur met 3 images a être reflété, alors la latence est de $3 x 4.16 = 12.48$ millisecondes à plus ou moins 4.16ms.
 
 \begin{figure}[H]
-\caption{Exemple de mesure de la latence de la caméra utilisant a la fois un compteur et une vidéo.}
+\centering
+\includegraphics[width=\linewidth]{images/glasstoglass}
+\caption{Exemple de mesure "glass to glass" de la latence d'une caméra}
 \label{fig:latency:glasstoglass}
 \end{figure}
 
@@ -343,7 +345,7 @@ Dans un soucis de cohérence avec la partie optimisation logicielle vous trouver
 \end{table}
 
 On s'aperçoit très rapidement que les tests de latence sont plutôt décevant, en effet les latences sont toutes plus ou moins similaire même si il y a quelques variation notamment pour la résolution 1920x1080 ce qui ne permet pas d'émettre beaucoup d'hypothèse d'amélioration. On observe que même la caméra embarqué disposant de son propre circuit intégré sur la carte mère du TX2 n'apporte aucun gain significatif par rapport aux autres caméra.
-N'étant pas satisfait des résultats, nous avons décider de mesurer la latence d'une caméra professionnelle point gray et la latence observé a été de seulement 8-10 millisecondes en résolution 1280x1020. %TODO demander a jeremy et mettre l'explication
+N'étant pas satisfait des résultats, nous avons décider de mesurer la latence d'une caméra professionnelle point gray et la latence observé a été de seulement 8-10 millisecondes en résolution 1280x1020.
 
 \newpage
 \section{Nectar - Architecture micro services}
@@ -362,8 +364,15 @@ Une architecture en micro service consiste à décomposer un logiciel en une mul
 
 \paragraph{Maintenabilité} Lorsqu'un service est défectueux, le problème peut être très rapidement identifier car les services sont très faiblement couplés et ainsi il n'est souvent pas nécessaire de devoir parcourir une grande quantité de code pour pouvoir identifier un bug. De plus grâce a la modularité de l'architecture, un service en maintenance n'affecte pas la stabilité générale du système.
 
-\vspace{1cm}
-Pour mettre en place cette nouvelle architecture nous nous sommes basés sur 3 technologies principales:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{images/archi3}
+\caption{Schéma de l'architecture en micro services développée}
+\label{fig:microarchi}
+\end{figure} 
+
+Pour mettre en place cette nouvelle architecture (fig~\ref{fig:microarchi}) nous nous sommes basés sur 3 technologies principales:
 \begin{itemize}
 \item \textbf{Redis}\cite{redis} ou \emph{REmote DIctionnary Server} est un système de stockage clef-valeur qui contrairement aux base de données plus conventionnelle stock les données directement dans la mémoire vive (RAM) de l'ordinateur ou dans la mémoire virtuelle\footnotetext{\href{https://fr.wikipedia.org/wiki/Mémoire_virtuelle}{Wikipédia - Mémoire virtuelle}}
  et non pas sur le disque. Cette spécificité permet a Redis d'atteindre des performances inégalés par des bases de données classiques et il s'impose donc comme un choix de qualité pour nos besoins.
@@ -371,9 +380,6 @@ Pour mettre en place cette nouvelle architecture nous nous sommes basés sur 3 t
 \item \textbf{Ruby on Rails}\cite{rubyrails} est un \emph{framework} destiné à la création d'applications web modernes rapidement et simplement. L'idée est d'utiliser Rails pour générer une page web de contrôle du système permettant de lancer / couper des processus, effectuer des tests et tout autre action permettant d'observer l'état général du système.
 \end{itemize}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth]{images/archi2}
-\caption{Schéma de l'architecture en micro services développée}
-\label{fig:microarchi}
-\end{figure} 
+Dans notre architecture, tous les micro services sont connectés a Redis. Ils peuvent chacun manipuler les données présentes et en écrire de nouvelle. C'est uniquement par ce biais que se fait la communication inter services. Ainsi, par exemple, un service accédant à la caméra ne transfèrent pas directement ses données a un service analysant l'image, mais envoi l'image courante de la caméra dans Redis qui est ensuite récupéré par cet autre service. Redis possède un système de "notifications", il est possible d'ordonner au un client Redis (un service) d'écouter sur une clef, de ce fait des que des nouvelles données arrivent le service est directement au courant. C'est le pipeline événementiel que nous avons utiliser pour éviter l'attente active des services et ainsi améliorer les performances générale du système.
+Couplé a Redis, c'est Eye qui s'assure a tous moments que tous les services demandé par l'utilisateur sont entrain d'être exécuté. Pour cela, il vérifie que le service est en marche mais aussi que toutes les dépendances le sont aussi. Eye peut recevoir des commandes de l'application web qui est elle même manipulée soit par l'utilisateur soit par un module de développement.
+Les modules de développement sont des API permettant aux utilisateurs développeurs de créer leurs propres applications de réalité augmentée spatiale utilisant le système de RealityTech.
