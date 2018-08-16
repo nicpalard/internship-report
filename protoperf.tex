@@ -154,6 +154,7 @@ Comme on peut s'en rendre compte dans le pseudo code proposé (algo ~\ref{algo:p
 L'optimisation de cet algorithme peut se faire de deux façon bien distinctes. La première se fait en utilisant la puissance de la carte graphique de l'ordinateur pour effectuer énormément de calculs en même temps. C'est l'optimisation sur carte graphique dont nous avons évoqué le principe chapitre ~\ref{chap:notions}. La seconde méthode d'optimisation consiste à légèrement changer l'algorithme de convolution: la convolution est séparé en deux filtres distincts\cite{podlozhnyuk2007image}, un horizontal et un vertical qui sont successivement appliqués à l'image origine (fig ~\ref{fig:conv:separable}). Ainsi la complexité d'appliquer une convolution de taille $MxM$ a une image de taille $NxN$ est réduit de $O(N^2M^2)$ a $O(N^2M)$.
 
 \begin{figure}[H]
+\centering
 \includegraphics[width=0.7\linewidth]{images/separableconv}
 \caption{Exemple d'un filtre de convolution appliqué successivement horizontalement puis verticalement}
 \label{fig:conv:separable}
@@ -235,7 +236,7 @@ Dans ce test de performances, nous avons mesurer plusieurs choses:
 \item \textbf{La "bande passante"} du traitement entier, comprenant transfert calcul et re transfert. Cette mesure donne une bonne idée de la rapidité des algorithme car elle exprime le nombre de méga octet qu'il est possible de traiter en une seconde avec chaque implémentation.
 \end{itemize}
 
-\textbf{Note:} Les résultats donnés Tableau ~\ref{fig:conv:benchmark} ont été mesuré sur le kit de développement NVIDIA Tegra Jetson TX2 dont les spécificité sont les suivantes: \texttt{CPU ARM ARM Cortex-A57 (quad-core) @ 2GHz + NVIDIA Denver2 (dual-core) @ 2GHz, GPU 256-core Pascal @ 1300MHz, RAM 8GB 128-bit LPDDR4 @ 1866Mhz |  59.7 GB/s} Nous avons choisit de montrer ici seulement les résultats obtenues sur le kit de developpement NVIDIA car il permet d'observer les performances de CUDA dans un environnement ultra optimisé pour ce dernier cependant vous trouverez Annexe %TODO
+\textbf{Note:} Les résultats donnés Tableau ~\ref{fig:conv:benchmark} ont été mesuré sur le kit de développement NVIDIA Tegra Jetson TX2 dont les spécificité sont les suivantes: \texttt{CPU ARM ARM Cortex-A57 (quad-core) @ 2GHz + NVIDIA Denver2 (dual-core) @ 2GHz, GPU 256-core Pascal @ 1300MHz, RAM 8GB 128-bit LPDDR4 @ 1866Mhz |  59.7 GB/s} Nous avons choisit de montrer ici seulement les résultats obtenues sur le kit de developpement NVIDIA car il permet d'observer les performances de CUDA dans un environnement ultra optimisé pour ce dernier cependant vous trouverez Annexe~\ref{annexe:bench}
 les résultats de ces mêmes test sur plusieurs ordinateurs différents.
 
 \begin{table}[H]
@@ -298,8 +299,6 @@ les résultats de ces mêmes test sur plusieurs ordinateurs différents.
 Comme on peut s'en rendre compte les gains de performances des deux version optimisées de l'algorithme sont non négligeable par rapport a la version CPU naïve (fig ~\ref{fig:bench:cpu}). On observer que les algorithmes s'exécutant sur la carte graphique sont jusqu'à 55 fois plus rapide pour OpenGL ES (fig ~\ref{fig:bench:opengles}) et jusqu'à 70 fois pour la version CUDA (fig~\ref{fig:bench:cuda}). Les cases vertes dans les tableaux indiquent que l'image a pu être traité en pseudo temps réel avec une fréquence de rafraichissement de 25fps qui signifie que pour chaque image à afficher, nous disposons d'un temps de $1/25 * 1000 = 40$ millisecondes pour en faire le rendu.
 Au delà de la constat d'optimisation, on peut voir que la version CUDA et la version OpenGL affichent des résultats plutôt similaire, ils sont tout deux capable de traiter en temps réel des images de taille 1024x1024 pixels sans difficulté. On peut cependant noter une différence flagrante entre ces deux versions, en effet, on peut observer le gain apportée par la mémoire unifiée CUDA lorsque l'on compare les temps de transfert avec ceux d'OpenGL. En moyenne les temps de transfert en CUDA sont 2 fois plus rapide que leur équivalent OpenGL ES ce qui a un impact significatif sur les performances car ils correspondent à la majeur partie du temps d'exécution du programme.
 
-% Benchmark + comparaison avec temps GPU
-
 \subsection{Conclusion}
 Au vu des résultats obtenues section ~\ref{sub:conv:bench} on peut noter deux choses:
 \begin{itemize}
@@ -326,7 +325,7 @@ Pour mesurer cette latence, nous avons utiliser la méthode dite "Glass to glass
 \label{fig:latency:glasstoglass}
 \end{figure}
 
-Dans un soucis de cohérence avec la partie optimisation logicielle vous trouverez Tableau~/ref{fig:latency:camera} un comparatif des différentes latence de caméra obtenues sur le kit de développement NVIDIA Jetson TX2. Vous trouverez plus de résultats sur différents ordinateur Annexe %TODO ~\ref{}
+Dans un soucis de cohérence avec la partie optimisation logicielle vous trouverez Tableau~/ref{fig:latency:camera} un comparatif des différentes latence de caméra obtenues sur le kit de développement NVIDIA Jetson TX2. Vous trouverez plus de résultats sur différents ordinateur Annexe %TODO
 .
 
 \begin{table}[H]
@@ -337,8 +336,8 @@ Dans un soucis de cohérence avec la partie optimisation logicielle vous trouver
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 \textbf{} & \textbf{Onboard (TX2)} & \textbf{Logitech} & \textbf{SR300} & \textbf{PSEye} & \textbf{Aukay} & \textbf{ELP} \\ \hline
-\textbf{640x480} & 80 & 80 & \cellcolor{green!40} 70 & 120 & 85 & 80 \\ \hline
-\textbf{1280x1020} & \cellcolor{green!40}80 & 120 & 85 & / & 85 & 85 \\ \hline
+\textbf{640x480} & 75 & 120 & \cellcolor{green!40} 70 & 120 & 85 & 80 \\ \hline
+\textbf{1280x1020} & \cellcolor{green!40}80 & 80 & 85 & / & 85 & 85 \\ \hline
 \textbf{1920x1080} & \cellcolor{green!40}80 & 130 & 300 & / & 170 & 95 \\ \hline 
 \end{tabular}%
 }

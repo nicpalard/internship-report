@@ -4,71 +4,44 @@
 %recommencer la numérotation des section à "1"
 \setcounter{section}{0}
 
-Intro
+\begin{table}[H]
+\centering
+\caption{Latence caméras (millisecondes) - Résolution 640x480}
+\resizebox{0.7\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textbf{} & \textbf{On board} & \textbf{logitech} & \textbf{SR300} & \textbf{PSEye} & \textbf{Aukay} & \textbf{ELP} \\ \hline
+\textbf{NVIDIA Jetson TX2} & 75 & 120 & 70 & 90 & 85 & 80 \\ \hline
+\textbf{HP Pavillon X2} & / & 90 & / & 130 & / & / \\ \hline
+\textbf{PC Custom} & / & 85 & / & 85 & 80 & 80 \\ \hline
+\end{tabular}%
+}
+\end{table}
 
-\section*{Prérequis}
-\addcontentsline{toc}{section}{Prérequis}
+\begin{table}[H]
+\centering
+\caption{Latence caméras (millisecondes) - Résolution 1280x720 (HD)}
+\resizebox{0.7\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+ & \textbf{On board} & \textbf{logitech} & \textbf{SR300} & \textbf{PSEye} & \textbf{Aukay} & \textbf{ELP} \\ \hline
+\textbf{NVIDIA Jetson TX2} & 80 & 80 & 85 & / & 85 & 85 \\ \hline
+\textbf{HP Pavillon X2} & / & 120 & / & / & / & / \\ \hline
+\textbf{PC Custom} & / & 80 & / & / & 90 & 80 \\ \hline
+\end{tabular}%
+}
+\end{table}
 
-Bla
-
-\begin{itemize}
-\item item1;
-\item item2;
-\item item3;
-\item item4.
-\end{itemize}
-
-Bla
-
-\section{Partie 1}
-
-Bla
-
-\subsection{Sous-parie 1}
-
-Bla
-
-\subsection{Sous-parie 2}
-
-Bla
-
-\section{Partie 2}
-
-\begin{center}
-\textsc{Attention !}
-
-\textit{Texte d'avertissement}
-\end{center}
-
-Bla
-
-\newpage
-
-\section{Partie 3}
-
-Bla
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[height=8cm]{presentation/schema}
-\end{center}
-\caption[schema]{Presentation schema}
-\end{figure}
-
-\paragraph*{Paragraphe 1}
-~\\
-\hskip7mm
-
-Bla
-
-\paragraph*{Paragraphe 2}
-~\\
-\hskip7mm
-
-Bla
-
-\paragraph*{Paragraphe 3}
-~\\
-\hskip7mm
-
-Bla
+\begin{table}[H]
+\centering
+\caption{Latence caméras (millisecondes) - Résolution 1920x1080 (Full HD)}
+\resizebox{0.7\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textbf{} & \textbf{On board} & \textbf{logitech} & \textbf{SR300} & \textbf{PSEye} & \textbf{Aukay} & \textbf{ELP} \\ \hline
+\textbf{NVIDIA Jetson TX2} & 80 & 130 & 300 & / & 170 & 95 \\ \hline
+\textbf{HP Pavillon X2} & / & / & / & / & / & / \\ \hline
+\textbf{PC Custom} & / & 130 & / & / & 90 & 120 \\ \hline
+\end{tabular}%
+}
+\end{table}

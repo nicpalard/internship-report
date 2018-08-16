@@ -1,4 +1,5 @@
 \chapter*{Annexe 1}
+\label{annexe:bench}
 \addcontentsline{toc}{chapter}{Annexe 1}
 
 %changer le format des sections, subsections pour apparaittre sans le num de chapitre
@@ -9,36 +10,93 @@
 %recommencer la numérotation des section à "1"
 \setcounter{section}{0}
 
-Intro
+\begin{table}[H]
+\centering
+\caption{OpenGL ES 2.0 - Convolution d'une image en niveau de gris par un filtre de convolution de taille 5x5 - float 32 bits. \texttt{HP Pavillion X2 - 4GB RAM - Intel Celeron CPU N2910 @ 1,60GHz x 4 - GPU @ Intel Bay Trail}}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Size} & \textbf{Size (MB)} & \textbf{Compute Time (ms)} & \textbf{Transfer Time (ms)} & \textbf{Total Time (ms)} & \textbf{Bandwidth (MB/s)} \\ \hline
+\textbf{128x128} & 0,0655 & 9,9136 & 11,7581 & 21,6717 & 3,0240 \\ \hline
+\textbf{256x256} & 0,2621 & 9,8709 & 12,6144 & 22,4853 & 11,6584 \\ \hline
+\textbf{512x512} & 1,0486 & 9,6095 & 19,6039 & 29,2134 & 35,8938 \\ \hline
+\textbf{1024x1024} & 4,1943 & 9,5579 & 48,5473 & 58,1052 & 72,1845 \\ \hline
+\textbf{2048x2048} & 16,7772 & 9,5562 & 165,5163 & 175,0726 & 95,8300 \\ \hline
+\textbf{4096x4096} & 67,1089 & 9,6677 & 502,2200 & 511,8877 & 131,1008 \\ \hline
+\textbf{8192x8192} & 268,4350 & 9,6540 & 2273,5233 & 2283,1773 & 117,5708 \\ \hline
+\end{tabular}
+}
+\end{table}
 
-\section{Partie 1}
 
-Bla
+\begin{table}[H]
+\centering
+\caption{CPU - Convolution d'une image en niveau de gris par un filtre de convolution de taille 5x5 - float 32 bits. \texttt{HP Pavillion X2 - 4GB RAM - Intel Celeron CPU N2910 @ 1,60GHz x 4 - GPU @ Intel Bay Trail}}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Size} & \textbf{Size (MB)} & \textbf{Compute Time (ms)} & \textbf{Transfer Time (ms)} & \textbf{Total Time (ms)} & \textbf{Bandwidth (MB/s)} \\ \hline
+\textbf{128x128} & 0,0655 & 15,3841 & 0,0000 & 15,3953 & 4,2569 \\ \hline
+\textbf{256x256} & 0,2621 & 61,9902 & 0,0000 & 62,0079 & 4,2276 \\ \hline
+\textbf{512x512} & 1,0486 & 287,5590 & 0,0000 & 287,5890 & 3,6461 \\ \hline
+\textbf{1024x1024} & 4,1943 & 1161,5000 & 0,0000 & 1161,5300 & 3,6110 \\ \hline
+\textbf{2048x2048} & 16,7772 & 4677,9100 & 0,0000 & 4677,9400 & 3,5865 \\ \hline
+\textbf{4096x4096} & 67,1089 & 18764,3000 & 0,0000 & 18764,3000 & 3,5764 \\ \hline
+\textbf{8192x8192} & 268,4350 & 76909,9000 & 0,0000 & 76909,9000 & 3,4903 \\ \hline
+\end{tabular}
+}
+\end{table}
 
-\subsection{Sous-partie 1}
+\begin{table}[H]
+\centering
+\caption{CUDA - Convolution d'une image en niveau de gris par un filtre de convolution de taille 5x5 - float 32 bits. \texttt{PC Custom - 8GB RAM - Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz - NVIDIA GTX 1060 GPU @ 1506 Mhz 3Go GDDR5}}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Size} & \textbf{Size (MB)} & \textbf{Compute Time (ms)} & \textbf{Transfer Time (ms)} & \textbf{Total Time (ms)} & \textbf{Bandwidth (MB/s)} \\ \hline
+\textbf{128x128} & 0,0655 & 0,0211 & 0,4548 & 0,4759 & 137,7067 \\ \hline
+\textbf{256x256} & 0,2621 & 0,0492 & 0,6379 & 0,9179 & 285,5966 \\ \hline
+\textbf{512x512} & 1,0486 & 0,1635 & 1,4086 & 1,6951 & 618,6057 \\ \hline
+\textbf{1024x1024} & 4,1943 & 0,6200 & 3,3843 & 3,7492 & 1118,7067 \\ \hline
+\textbf{2048x2048} & 16,7772 & 2,4485 & 10,2548 & 10,5924 & 1583,8903 \\ \hline
+\textbf{4096x4096} & 67,1089 & 9,6682 & 40,9823 & 41,3963 & 1621,1328 \\ \hline
+\textbf{8192x8192} & 268,4350 & 38,3053 & 198,3800 & 201,6840 & 1330,9682 \\ \hline
+\end{tabular}
+}
+\end{table}
 
-Bla
+\begin{table}[H]
+\centering
+\caption{OpenGL ES 2.0 - Convolution d'une image en niveau de gris par un filtre de convolution de taille 5x5 - float 32 bits. \texttt{PC Custom - 8GB RAM - Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz - NVIDIA GTX 1060 GPU @ 1506 Mhz 3Go GDDR5}}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Size} & \textbf{Size (MB)} & \textbf{Compute Time (ms)} & \textbf{Transfer Time (ms)} & \textbf{Total Time (ms)} & \textbf{Bandwidth (MB/s)} \\ \hline
+\textbf{128x128} & 0,0655 & 0,2222 & 1,2313 & 1,4535 & 45,0887 \\ \hline
+\textbf{256x256} & 0,2621 & 0,0149 & 1,4875 & 1,5024 & 174,4831 \\ \hline
+\textbf{512x512} & 1,0486 & 0,0166 & 5,8531 & 5,8697 & 178,6425 \\ \hline
+\textbf{1024x1024} & 4,1943 & 0,0061 & 5,7249 & 5,7310 & 731,8617 \\ \hline
+\textbf{2048x2048} & 16,7772 & 0,0062 & 20,4904 & 20,4965 & 818,5378 \\ \hline
+\textbf{4096x4096} & 67,1089 & 0,0138 & 78,3060 & 78,3198 & 856,8579 \\ \hline
+\textbf{8192x8192} & 268,4350 & 0,0115 & 370,6600 & 370,6715 & 724,1857 \\ \hline
+\end{tabular}
+}
+\end{table}
 
-\subsection{Sous-partie 2}
-
-Bla
-
-\subsection{Sous-partie 3}
-
-Bla
-
-\section{Partie 2}
-
-Bla
-
-\subsection{Sous-partie 1}
-
-Bla
-
-\subsection{Sous-partie 2}
-
-Bla
-
-\subsection{Sous-partie 3}
-
-Bla
+\begin{table}[H]
+\centering
+\caption{CPU - Convolution d'une image en niveau de gris par un filtre de convolution de taille 5x5 - float 32 bits. \texttt{PC Custom - 8GB RAM - Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz - NVIDIA GTX 1060 GPU @ 1506 Mhz 3Go GDDR5}}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Size} & \textbf{Size (MB)} & \textbf{Compute Time (ms)} & \textbf{Transfer Time (ms)} & \textbf{Total Time (ms)} & \textbf{Bandwidth (MB/s)} \\ \hline
+\textbf{128x128} & 0,0655 & 4,1572 & 0,0000 & 4,1608 & 15,7510 \\ \hline
+\textbf{256x256} & 0,2621 & 10,2566 & 0,0000 & 10,2596 & 25,5511 \\ \hline
+\textbf{512x512} & 1,0486 & 42,7127 & 0,0000 & 42,7166 & 24,5474 \\ \hline
+\textbf{1024x1024} & 4,1943 & 197,4300 & 0,0000 & 197,4370 & 21,2437 \\ \hline
+\textbf{2048x2048} & 16,7772 & 898,1140 & 0,0000 & 898,1210 & 18,6803 \\ \hline
+\textbf{4096x4096} & 67,1089 & 3733,9500 & 0,0000 & 3733,9600 & 17,9726 \\ \hline
+\textbf{8192x8192} & 268,4350 & 13622,6846 & 0,0000 & 13622,6846 & 19,7050 \\ \hline
+\end{tabular}
+}
+\end{table}
