@@ -92,7 +92,7 @@ La dernière étape du développement de l'application était la visualisation d
 \label{sec:document}
 Plus tard au cours de mon stage des cas d'utilisation où l'extraction et la numérisation de document ont été abordé comme par exemple l'écriture d'une lettre en réalité augmentée et ainsi il était judicieux de développer une preuve de concept de cette fonctionnalité sous la forme d'une application de SAR.
 
-Le but de ce développement était d'expérimenter diverses techniques de détection de document en temps réel se basant ou non sur des connaissances à priori comme la taille du document, sa couleur, la couleur du fond (duquel il falloir extraire le document), la présence d’éléments distinctifs (comme des marqueurs fiduciaires ou des ronds colorés de petite taille).
+Le but de ce développement était d'expérimenter diverses techniques de détection de document en temps réel se basant ou non sur des connaissances à priori comme la taille du document, sa couleur, la couleur du fond (duquel il falloir extraire le document), la présence éléments distinctifs (comme des marqueurs fiduciaires ou des ronds colorés de petite taille).
 
 \subsection{Besoins de l'application}
 \label{subsec:doc:content}
@@ -109,11 +109,12 @@ La détection de document est un problème connu en traitement d'image sur leque
 
 Dans cette application nous avons mis en place plusieurs détection différentes pour essayer de trouver une solution a ce problème.
 
-\paragraph{Détection de document basé sur des marqueurs colorés} La première détection utilise une connaissance a priori sur le document: Le document cible est muni de lignes d'éléments ronds colorés de petite taille dans un ou plusieurs de ses coins (fig. ~\ref{sub:doc}). Ainsi tout l'enjeu de cette détection se base dans la détection de ces éléments colorés dont il est question plus tard dans ce rapport (voir section ~\ref{sec:sticker-detection}).
+\paragraph{Détection de document basé sur des marqueurs colorés} Le premier prototype de détection utilise une connaissance a priori sur le document: Le document cible est muni de lignes d'éléments ronds colorés de petite taille dans un ou plusieurs de ses coins (fig~\ref{sub:doc}). Les éléments rond de petit taille sont détectés grâce a PapARt en réalisant une convolution de l'image par un filtre permettant la détection de ces derniers.
 
-Une fois les éléments détectés, ils sont regroupés en différentes lignes (fig. ~\ref{sub:docline}).
-Une ligne est défini par un regroupement d'éléments dont l'écart entre chaque éléments ne dépasse pas une certaine distance verticale ou horizontale. L'angle de la ligne est défini par les deux premiers éléments qui la compose. Si un autre élément "dérive" il est rejeté et la ligne est créée. Cette ligne est ensuite utilisé pour calculer deux vecteurs, dont un est confondu avec la ligne et le deuxième est perpendiculaire au premier (fig ~\ref{sub:doclineperp}).
-La détection finale du document se fait en calculant l'intersection des différents vecteurs verticaux et horizontaux (fig. ~\ref{sub:docextract})
+Une fois les éléments détectés, ils sont regroupés en différentes lignes (fig~\ref{sub:doc:line}).
+Une ligne est défini par un regroupement d'éléments dont l'écart entre chaque éléments ne dépasse pas une certaine distance verticale ou horizontale. L'angle de la ligne est défini par les $x$ premiers éléments qui la compose, $x$ étant le nombre minimum d'éléments composant une ligne (fig~\ref{fig:doc:linecluster}). Si un autre élément "dérive" il est rejeté et la ligne est créée. Cette ligne est ensuite utilisé pour calculer deux vecteurs, dont un est confondu avec la ligne et le deuxième est perpendiculaire au premier (fig~\ref{sub:doclineperp}).
+
+La détection finale du document se fait en calculant l'intersection des différents vecteurs verticaux et horizontaux (fig~\ref{sub:docextract})
 
 \begin{figure}[H]
     \centering
@@ -137,8 +138,22 @@ La détection finale du document se fait en calculant l'intersection des différ
 \caption{Détection de document étape par étape}
 \label{fig:docdetection}
 \end{figure}
+	
+\begin{figure}[H]
+\centering
+	\subfloat[]{
+      \includegraphics[width=0.45\textwidth]{images/document-detection-noline}
+      \label{sub:doc:noline}
+      }
+      \subfloat[]{
+      \includegraphics[width=0.45\textwidth]{images/document-detection-line}
+      \label{sub:doc:line}
+      }
+      \caption{Détection et création d'une ligne a partir d'éléments colorés}
+      \label{fig:doc:linecluster}
+\end{figure}
 
-Comme on peut le voir figure ~\ref{sub:docextract}, lors de cette détection les bords du document sont rognés. Généralement ces zones ne contiennent aucune information car elles correspondent généralement aux marges verticales et horizontales que chaque document possède. Cependant comme évoqué dans les cas d'utilisation, cette détection ne sera pas utiliser seulement pour des documents de type A4, on pourra s'en servir comme outil pour suivre une feuille de papier a la manière des marqueurs ARToolKit, ou pour détecter des post-it par exemple. Ainsi ces marges ne peuvent pas être ignoré dans notre cas.
+Comme on peut le voir figure ~\ref{sub:docextract}, lors de cette détection les bords du document sont rognés. Généralement ces zones ne contiennent aucune information car elles correspondent généralement aux marges verticales et horizontales présentes dans la plus part des documents. Cependant comme évoqué dans les cas d'utilisation, cette détection ne sera pas utiliser seulement pour des documents de type A4, on pourra s'en servir comme outil pour suivre une feuille de papier à la manière des marqueurs ARToolKit, ou pour détecter des post-it par exemple ainsi ces marges ne peuvent pas être ignorées car elle peuvent contenir du contenu potentiellement critique du document.
 
 Une simple connaissance a priori de la distance des éléments rond par rapport au coin permet de résoudre ce problème ou alors pour avoir une détection bien plus précise et robuste, il est possible d'utiliser des algorithmes de détection de contour couplé a des algorithmes d'extraction de lignes pour retrouver le vrai coin du document. C'est ce dont nous allons parler dans la deuxième partie.
 
@@ -179,20 +194,24 @@ Nous utilisons cette information sur la position potentiel des coins pour extrai
 \begin{figure}[H]
 \centering
 	\subfloat[Sous image autour d'un coin.]{
-      \includegraphics[width=0.45\textwidth]{images/image-original-corner}
+      \includegraphics[width=0.33\textwidth]{images/doc-original}
       \label{sub:subimage:subimage}
+      }\\
+      \subfloat[Seuillage de l'image originale]{
+      \includegraphics[width=0.33\textwidth]{images/doc-tresh}
+      \label{sub:subimage:tresh}
       }
     \subfloat[Canny - Détection de contour basée sur un seuillage de l'image originale]{
-      \includegraphics[width=0.45\textwidth]{images/canny-corner}
+      \includegraphics[width=0.33\textwidth]{images/doc-canny}
       \label{sub:subimage:canny}
       }
       \\
 	\subfloat[Hough - Détection de lignes basée sur le résultat de Canny]{
-      \includegraphics[width=0.45\textwidth]{images/hough-corner}
+      \includegraphics[width=0.33\textwidth]{images/doc-hough}
       \label{sub:subimage:hough}
       }
     \subfloat[Détection finale du coin.]{
-      \includegraphics[width=0.45\textwidth]{images/corner-corner}
+      \includegraphics[width=0.33\textwidth]{images/doc-corner}
       \label{sub:subimage:corner}
       }
 \caption{Affinage de la détection d'un coin du document}
@@ -200,5 +219,26 @@ Nous utilisons cette information sur la position potentiel des coins pour extrai
 \end{figure}
 
 \paragraph{Bilan}
-Pour finir, vous trouverez Figure %TODO 
+Pour finir, vous trouverez Figure ~\label{fig:docdetect:results}
 un rapide comparatif des différents résultats obtenus. On peut observer quelques points notables : En utilisant Hough et Canny pour améliorer la détection d'un coin, l'extraction est plus fidèle au document réel. En effet, les coins détectés sont plus précis que des hypothèses effectués à priori. Cette méthode est cependant moins rapide car elle requiert de nombreux calculs en plus. Lorsque utilisé en temps réel, on peut cependant observer que la détection avec connaissance à priori du modèle est bien plus robuste, car elle ne dépend pas d'une deuxième détection qui a beaucoup de chance d'échouer (seuillage, détection de contour, détection de ligne, intersection entre deux droites puis obtention finale du coin) ainsi la méthode a utiliser variera avec les cas d'utilisations. Par exemple dans le cadre d'une application de scan de document, une méthode d'extraction de document plus précise sera envisagée, mais dans le cadre d'une estimation de pose il sera préférable d'utiliser une détection rapide et robuste.
+
+\begin{figure}[H]
+\subfloat[Avec connaissance à priori: Taille du document et distance élément $\longleftrightarrow$ coin]{
+      \includegraphics[width=0.5\textwidth]{images/document-detection-simple}
+      \label{sub:docdetect:simple}
+      }
+      \subfloat[Avec connaissance à priori: Taille du document et distance élément $\longleftrightarrow$ coin]{
+      \includegraphics[width=0.5\textwidth]{images/document-detection-double}
+      \label{sub:docdetect:double}
+      }\\
+      \subfloat[Avec connaissance à priori: Taille du document]{
+      \includegraphics[width=0.5\textwidth]{images/document-detection-corner}
+      \label{sub:docdetect:corner}
+      }
+      \subfloat[Sans connaissance à priori]{
+      \includegraphics[width=0.5\textwidth]{images/document-detection-double-corner}
+      \label{sub:docdetect:double-corner}
+      }
+      \caption{Résultats des différentes version de la détection de document.}
+      \label{fig:docdetect:results}
+\end{figure}
