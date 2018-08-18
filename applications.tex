@@ -219,7 +219,7 @@ Nous utilisons cette information sur la position potentiel des coins pour extrai
 \end{figure}
 
 \paragraph{Bilan}
-Pour finir, vous trouverez Figure ~\label{fig:docdetect:results}
+Pour finir, vous trouverez Figure ~\ref{fig:docdetect:results}
 un rapide comparatif des différents résultats obtenus. On peut observer quelques points notables : En utilisant Hough et Canny pour améliorer la détection d'un coin, l'extraction est plus fidèle au document réel. En effet, les coins détectés sont plus précis que des hypothèses effectués à priori. Cette méthode est cependant moins rapide car elle requiert de nombreux calculs en plus. Lorsque utilisé en temps réel, on peut cependant observer que la détection avec connaissance à priori du modèle est bien plus robuste, car elle ne dépend pas d'une deuxième détection qui a beaucoup de chance d'échouer (seuillage, détection de contour, détection de ligne, intersection entre deux droites puis obtention finale du coin) ainsi la méthode a utiliser variera avec les cas d'utilisations. Par exemple dans le cadre d'une application de scan de document, une méthode d'extraction de document plus précise sera envisagée, mais dans le cadre d'une estimation de pose il sera préférable d'utiliser une détection rapide et robuste.
 
 \begin{figure}[H]
