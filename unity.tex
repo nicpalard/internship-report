@@ -1,12 +1,19 @@
 \chapter{Unity}
 
-Dans cette partie on parlera finalement du developpement du module Unity utilisant la nouvelle plate-forme mise en place au cours du stage dont il est question Chapitre~\ref{chap:protoHP}. Ce développement a été la parfaite occasion de tester et mettre a l'épreuve cette dernière et avoir un retour réel sur son utilisabilité.
-Il sera discuté, dans un premier temps, des enjeux, des apports, de la cible et de la conception du module en abordant rapidement les difficultés rencontrés lié a Unity ou a la nouvelle plate-forme puis dans un second temps du développement d'application avec ce module.
-
-Pour finir, nous effectuerons une rapide comparaison entre la version actuelle et la version en développement des kit de développement (Unity et Processing) afin d'avoir une évaluation dans des conditions réelles d'utilisation.
+Dans cette partie il s'agira finalement de parler du développement du module \texttt{Unity} utilisant la nouvelle plate-forme mise en place dont il est question Chapitre~\ref{chap:protoHP}. Ce développement a été la parfaite occasion de tester et mettre à l'épreuve cette dernière et avoir un retour réel sur son utilisabilité.
+Il sera discuté, dans un premier temps, des apports, mais aussi des enjeux, de la conception et de la cible du module où il sera rapidement aborder les difficultés rencontrés qu'elles soient liés à \texttt{Unity} ou à la nouvelle plate-forme. 
+Dans un second temps, nous nous attarderons sur le développement d'une application avec ce module de façon a évaluer s'il réponds aux besoins et si il il y répond de façon efficace.
+Pour finir, nous effectuerons une rapide comparaison entre la version actuelle et la version en développement des kit de développement (\texttt{Unity} et \texttt{Processing}) afin d'avoir une évaluation dans des conditions réelles d'utilisation et peut être des pistes d'améliorations de la version \texttt{Unity}.
 
 \section{Module Unity}
 
+L'objectif du module Unity était de permettre à ses utilisateurs d'exploiter la puissance de Nectar (logiciel et matériel) de façon totalement intuitive pour leur permettre de développer de applications de réalité augmentée spatiale sans jamais qu'ils n'aient besoin de se soucier des problèmes liés aux projecteurs, aux caméras, a l'acquisition des flux vidéos.
+Pour cela, nous avons crée, les composants cruciaux du système tels que les caméras, les caméras de profondeurs, les projecteurs, les utilisateurs, la table, et bien d'autres, afin de fournir, dans Unity, une visualisation fidèle à la réalité.
+
+\subsection{Redis}
+Pour exploiter l'architecture en micro services, le moteur Unity devait avoir accès aux données de ces derniers, centralisées dans Redis comme expliqué dans la section ~\ref{sec:nectararchi}.
+La première étape du developpement du plugin a donc été d'avoir accès
 % Connection a redis, reconstruction des images, protocol de transfert, affichage dans l'éditeur, execution en mode édition, intégration du control de nectar
 
+% difficulté les reperes unity et processing pas la même came
 \section{Application Unity}
