@@ -12,18 +12,24 @@ Pour cela, il a fallut créer, dans Unity, les composants et les comportements c
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth]{images/unityscene}
+\includegraphics[width=0.65\linewidth]{images/unityscene}
 \caption{Représentation du monde dans Unity - A droite, la tête de l'utilisateur, au centre la table, en haut a gauche le couple caméra projecteur.}
 \label{fig:unityrealworld}
 \end{figure}
 
 Le module Unity possède actuellement deux types de composants:
 \begin{itemize}
-\item Les composants modélisant la partie matérielle qui correspondent aux différents dispositifs d'acquisitions (caméra projecteur).
-\item Les composants modélisant la partie logiciel. Ils correspondent aux divers services de traitement fournis par Nectar.
+\item Les composants modélisant les objets matériels du système de projection correspondant aux différents dispositifs d'acquisitions (caméras, projecteurs).
+\item Les composants modélisant la partie logiciel correspondant aux divers services de traitement fournis par Nectar.
 \end{itemize}
 
-Quelque soit son type les composants du module fonctionnent tous de la même façon. Tout d'abord chaque composant se connecte à Redis, c'est la base de données dans laquelle tous les services Nectar stock les informations qu'ils produisent. Une fois la connexion établie, le composant demande alors au serveur web Nectar l'état du service duquel il souhaite récupérer les données. Si le service est déjà exécuté, le composant peut alors commencer à récupérer et traiter les données que le service génère, sinon le composant demande au serveur de lancer le dit service. Le serveur web demande alors a Eye, le gestionnaire de processus, de démarrer le dit service et deux cas de figures peuvent se présenter. Soit le service démarre correctement et le composant peut commencer a en utiliser les données, soit le service ne peut pas être lancé. Dans ce cas le composant Unity cesse de fonctionner et fait remonter un avertissement à l'utilisateur.
+Le fonctionnement d'un composant, peut importe ce qu'il modélise, reste le même. Dans un premier temps, ce dernier essai de se connecter à la base de donnée Redis, base dans laquelle tous les services de Nectar, si tant est qu'ils produisent des données, stocke ces dernières. Si Redis n'est pas opérationnel et que la connexion échoue, il s'agit alors d'une erreur critique car cela signifie que Nectar n'a pas non plus pu démarrer ses services. Dans un tel cas, le composant envoie une requête HTTP au serveur Web communiquant avec le gestionnaire de processus Eye, dans le but de redémarrer Redis. Si Redis est toujours déconnecté une message d'erreur critique est remonté à l'utilisateur qui ne pourras utiliser aucun des composants du module jusqu'à ce que Redis soit réparé.
+Une fois la connexion avec Redis établie, le composant, encore via une requête HTTP, questionne le serveur web sur l'état du service qu'il représente. Par exemple, le composant modélisant la caméra se renseignera sur l'état du service Caméra. Si le service est hors ligne, une requête de démarrage est envoyé au serveur web qui la transmet instantanément à Eye afin de démarrer le service désiré. 
+
+%A terme, il devra être possible d'envoyer, en plus d'une demande de démarrage, des paramêtres associé, ce qui permettra par exemple de différencier la version fonctionnant dans l'éditeur de celle fonctionnant en runtime application
+
+
+Quelque soit leurs type, les composants du module fonctionnent tous de la même façon. Tout d'abord chaque composant se connecte à Redis, c'est la base de données dans laquelle tous les services Nectar stock les informations qu'ils produisent. Une fois la connexion établie, le composant demande alors au serveur web Nectar l'état du service duquel il souhaite récupérer les données. Si le service est déjà exécuté, le composant peut alors commencer à récupérer et traiter les données que le service génère, sinon le composant demande au serveur de lancer le dit service. Le serveur web demande alors a Eye, le gestionnaire de processus, de démarrer le dit service et deux cas de figures peuvent se présenter. Soit le service démarre correctement et le composant peut commencer a en utiliser les données, soit le service ne peut pas être lancé. Dans ce cas le composant Unity cesse de fonctionner et fait remonter un avertissement à l'utilisateur.
 
 % Chaque composant a son service (ou presque) et chaque composant peut demander a Nectar de lancer son service si il n'est pas lancé.
 
