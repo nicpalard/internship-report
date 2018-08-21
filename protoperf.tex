@@ -163,7 +163,8 @@ Nous avons choisi de n'effectuer que l'optimisation sur carte graphique car la d
 
 Pour pouvoir développer ladite optimisation, il a fallut utiliser un langage de programmation sur carte graphique. De nos jours, il en existe plusieurs et ils possèdent tous leurs spécificités. Cependant, pendant la phase de recherche, trois langages (ou sous-langages) se sont démarqués : OpenCL\cite{opencl}, OpenGL ES\cite{opengles} et CUDA\cite{cuda}. Par professionnalisme, nous avons choisi d'implémenter trois versions de l'algorithme de convolution naïf (non séparé) utilisant chacun de ces langages, et d'en évaluer les performances.
 
-\paragraph{OpenCL} OpenCL ou \emph{Open Computing Language} est un langage de programmation basé sur le C, créé par \texttt{Khronos Group} en 2009.
+\subsection{OpenCL} 
+OpenCL ou \emph{Open Computing Language} est un langage de programmation basé sur le C, créé par \texttt{Khronos Group} en 2009.
 Un programme OpenCL s'écrit en deux parties : La partie \textbf{code hôte} et la partie \textbf{noyau} ou \textbf{code périphérique}, qui représentent respectivement la partie application se chargeant d'orchestrer les différentes tâches, la gestion mémoire ainsi que la gestion des périphériques s'exécutant sur l'hôte et la partie calcul permettant de compléter lesdites tâches s'exécutant sur les périphériques. La partie hôte est écrite en C tandis que la partie noyau est écrite en OpenCL-C.
 Il faut donc aussi différencier hôte et périphérique (Figure~\ref{fig:opencl}). Dans notre cas d'utilisation, l'hôte représente le processeur et permet de transmettre les données aux périphériques qui, ici, correspondent à une ou plusieurs cartes graphiques.
 
@@ -178,7 +179,7 @@ Il faut donc aussi différencier hôte et périphérique (Figure~\ref{fig:opencl
 
 Nous nous sommes intéressés à OpenCL car il est compatible avec la plupart des systèmes et des architectures aujourd'hui présents sur le marché, sans aucune modification de code nécessaire. Cet avantage est aussi l'un de ses plus gros inconvénients puisqu'il ne permet pas d'exploiter au mieux chaque architecture comme peut le faire CUDA avec NVIDIA, et les performances de ce dernier ne sont donc pas équivalentes sur chaque architecture. %Parler dans le bilan Le coût de développement de traitement en OpenCL tout aussi lourd
 
-\paragraph{OpenGL (ES)} 
+\subsection{OpenGL (ES)}
 OpenGL est une interface de programmation multi-plateforme et multi-langage permettant de faire le rendu de scènes 2D/3D. En tant qu'interface, il est possible de l'implémenter de façon logicielle mais elle a été conçue pour être implémentée de manière matérielle afin de profiter au mieux des accélérations matérielles disponibles. Ainsi, c'est grâce à ces implémentations qu'OpenGL fournit un \emph{pipeline} programmable de rendu ultra performant. C'est via ce pipeline programmable et plus spécifiquement via le code hôte et les shaders qu'il est possible de transmettre des instructions et des données à la carte graphique (Figure~\ref{fig:opengl:pipeline})
 
 \begin{figure}[H]
@@ -201,7 +202,8 @@ Pour pouvoir utiliser ce pipeline dans l'optique d'opérer des traitements sur d
 
 L'avantage de cette technique est que, comme OpenCL, OpenGL (ES) est largement compatible avec toutes les plateformes et est très largement utilisé. Cependant, contrairement à OpenCL, les performances d'OpenGL ne dépendent que du matériel, ainsi, elles ne varieront pas, ou très peu, d'une architecture à un autre.
 
-\paragraph{CUDA} A la différence d'OpenCL et d'OpenGL, CUDA n'est pas seulement un langage de programmation mais bel et bien une architecture de traitement parallèle développée par NVIDIA. Son unique but est d'exploiter la carte graphique à son maximum, pour offrir une énorme puissance de calcul au système l'utilisant. Pour ce qui est de la partie programmation, NVIDIA fournit une API permettant d'utiliser cette architecture, CUDA C, et qui fonctionne de façon similaire à OpenCL avec du code hôte et du code périphérique qui seront les noyaux CUDA à exécuter sur la carte graphique. Là où CUDA se démarque c'est dans le modèle qu'il propose : les tâches (\emph{threads}) sont regroupées en blocs (\emph{blocks}) à l'intérieur desquels la mémoire est partagée. De plus, chaque bloc s'exécute sur exactement une unité de calcul (Figure~\ref{fig:cuda:archi}). Par ailleurs, la mémoire est unifiée (Figure~\ref{fig:cuda:unifiedmemory}), de ce fait, les CPUs et les GPUs travaillant ensemble ont accès à la même mémoire, ce qui permet d'éviter bon nombre de copies et ainsi réduire considérablement les temps de transfert de données.
+\subsection{CUDA} 
+A la différence d'OpenCL et d'OpenGL, CUDA n'est pas seulement un langage de programmation mais bel et bien une architecture de traitement parallèle développée par NVIDIA. Son unique but est d'exploiter la carte graphique à son maximum, pour offrir une énorme puissance de calcul au système l'utilisant. Pour ce qui est de la partie programmation, NVIDIA fournit une API permettant d'utiliser cette architecture, CUDA C, et qui fonctionne de façon similaire à OpenCL avec du code hôte et du code périphérique qui seront les noyaux CUDA à exécuter sur la carte graphique. Là où CUDA se démarque c'est dans le modèle qu'il propose : les tâches (\emph{threads}) sont regroupées en blocs (\emph{blocks}) à l'intérieur desquels la mémoire est partagée. De plus, chaque bloc s'exécute sur exactement une unité de calcul (Figure~\ref{fig:cuda:archi}). Par ailleurs, la mémoire est unifiée (Figure~\ref{fig:cuda:unifiedmemory}), de ce fait, les CPUs et les GPUs travaillant ensemble ont accès à la même mémoire, ce qui permet d'éviter bon nombre de copies et ainsi réduire considérablement les temps de transfert de données.
 
 \begin{figure}[H]
 \centering
@@ -225,7 +227,8 @@ CUDA étant une architecture matérielle, seules les cartes graphiques NVIDIA r�
 \label{sub:conv:bench}
 Afin de comparer les différentes solutions, nous avons réalisé des tests de performance du même algorithme de convolution, que nous avons implémenté dans les différents langages cités et sur différentes machines avec des configurations bien différentes. Le but de ces tests était, dans un premier temps, d'observer l'impact de l'optimisation et dans un second temps, d'orienter le choix d'ordinateur à inclure dans le système de RealityTech en se basant sur les résultats obtenus en fonction des différentes plateformes.
 
-A noter que l'algorithme de convolution implémenté est la version non séparé où le filtre de convolution est considéré comme une matrice.
+\textbf{Note:} L'algorithme de convolution implémenté est la version non séparé où le filtre de convolution est considéré comme une matrice.
+\textbf{Note 2:} Nous avons choisit de ne pas réalisé les tests de performance OpenCL car nous avons jugé que cette technologie comportait beaucoup de trop de défauts et n'était donc pas pertinente.
 
 Dans ce test de performance, nous avons mesuré plusieurs choses :
 \begin{itemize}
@@ -376,7 +379,7 @@ Dans notre architecture, tous les microservices sont connectés à Redis. Ils pe
 
 Couplé à Redis, c'est Eye qui s'assure à tout moment que tous les services demandés par l'utilisateur sont en train d'être exécutés. Pour cela, il vérifie que le service est en marche mais aussi que toutes les dépendances sont satisfaites. Eye peut recevoir des commandes de l'application web qui est elle-même manipulée, soit par l'utilisateur soit par un module de développement. Les modules de développement sont des API permettant aux utilisateurs développeurs de créer leurs propres applications de réalité augmentée spatiale utilisant le système de RealityTech.
 
-\section{Conclusion}
+\section{Bilan}
 Après avoir réalisé puis testé indépendamment chacune des parties composant le prototype haute performance, la dernière étape consistait à tester ce dernier, de bout en bout, dans un cas d'utilisation réelle. Le but de cet ultime test étant d'évaluer si le prototype remplit, ou non, les objectifs que nous nous sommes fixés à savoir : performance, réactivité, modularité et maintenabilité. 
 Pour effectuer ce test, il fallait développer une application utilisant ce prototype. Pour ce faire, nous avions besoin du module Unity le mettant à profit. Le développement du module Unity ainsi que de l'application est détaillé section blabla.
 A ce jour, le module et l'application n'étant toujours pas terminés, le test n'a pas encore été réalisé.
