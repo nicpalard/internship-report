@@ -5,7 +5,7 @@
 Le domaine d'activité entourant ce stage est très riche en matière de notion et de vocabulaire. Ainsi, afin de mieux comprendre de quoi il va être question tout au long de ce rapport, il est nécessaire d'en définir les notions de base.
 
 \paragraph{Réalité virtuelle}
-La réalité virtuelle, plus communément appelée \emph{Virtual Reality (VR)}, désigne l'ensemble des environnements purement numérique (fig~\ref{fig:realityspectrum}, qu'ils soient réalistes ou non, dans lesquels aucune interaction avec l'environnement réel n'est possible et inversement. Cette réalité se base très généralement sur l'utilisation d'un casque \emph{Head Mounted Display (HMD)} dont l'utilisateur doit se munir afin d'être immergé dans un monde numérique avec lequel il peut interagir. L'immersion est le but de la réalité virtuelle.
+La réalité virtuelle\cite{milgram1995augmented}, plus communément appelée \emph{Virtual Reality (VR)}, désigne l'ensemble des environnements purement numérique (fig~\ref{fig:realityspectrum}, qu'ils soient réalistes ou non, dans lesquels aucune interaction avec l'environnement réel n'est possible et inversement. Cette réalité se base très généralement sur l'utilisation d'un casque \emph{Head Mounted Display (HMD)} dont l'utilisateur doit se munir afin d'être immergé dans un monde numérique avec lequel il peut interagir. L'immersion est le but de la réalité virtuelle.
 
 \begin{figure}[H]
 \centering
@@ -15,7 +15,7 @@ La réalité virtuelle, plus communément appelée \emph{Virtual Reality (VR)}, 
 \end{figure}
 
 \paragraph{Réalité augmentée}
-La réalité augmentée, plus communément appelée \emph{Augmented Reality (AR)}, quant à elle, est un sous-domaine de la réalité virtuelle. L'idée de la réalité augmentée est de superposer à l'environnement réel des éléments virtuels qui vont alors venir "augmenter" notre monde, en apportant le plus souvent des compléments d'information. Elle est donc qualifiée de sous-domaine de la réalité virtuelle car l'utilisateur n'est plus immergé dans un environnement complètement numérique, mais du contenu virtuel est ajouté en contexte à la vision réelle. Par abus de langage, le terme de réalité augmentée est souvent utilisé pour parler de réalité mixte dont la notion est détaillée dans cette partie.
+La réalité augmentée\cite{milgram1995augmented}, plus communément appelée \emph{Augmented Reality (AR)}, quant à elle, est un sous-domaine de la réalité virtuelle. L'idée de la réalité augmentée est de superposer à l'environnement réel des éléments virtuels qui vont alors venir "augmenter" notre monde, en apportant le plus souvent des compléments d'information. Elle est donc qualifiée de sous-domaine de la réalité virtuelle car l'utilisateur n'est plus immergé dans un environnement complètement numérique, mais du contenu virtuel est ajouté en contexte à la vision réelle. Par abus de langage, le terme de réalité augmentée est souvent utilisé pour parler de réalité mixte dont la notion est détaillée dans cette partie.
 Il faut noter que ce type de réalité ne se base pas uniquement sur des \emph{HMD} mais peut également être appréciée à l'aide d'un téléphone par exemple (fig~\ref{fig:AR}).
 
 \begin{figure}[H]
@@ -39,27 +39,26 @@ A l'heure actuelle, la réalité mixte nécessite un dispositif de type \emph{HM
 
 \paragraph{Réalité augmentée vue au travers}
 % Trouver qui l'a inventé et quand
-La réalité augmentée vue au travers, plus communément appelée \emph{See Through Augmented Reality (STAR)}, est une technique de visualisation de la réalité augmentée où les éléments numériques sont vus au travers d'un écran (fig~\ref{sub:STARGO}) ou d'un \emph{HMD} (fig~\ref{sub:STARHolo}). C'est le type de visualisation le plus utilisé actuellement. Toutefois, l'un des défauts majeur de ce type de visualiation est que, la plupart du temps, chaque utilisateur a besoin de son propre écran ou casque pour pouvoir en profiter pleinement ce qui limite grandement les expériences collaboratives. De plus, les principaux inconvénients liés à l'utilisation des écrans s'appliquent également notamment la fatigue visuelle.  
+La réalité augmentée vue au travers\cite{milgram1995augmented}, plus communément appelée \emph{See Through Augmented Reality (STAR)}, est une technique de visualisation de la réalité augmentée où les éléments numériques sont vus au travers d'un écran (fig~\ref{sub:STARGO}) ou d'un \emph{HMD} (fig~\ref{sub:STARHolo}). C'est le type de visualisation le plus utilisé actuellement. Toutefois, l'un des défauts majeur de ce type de visualiation est que, la plupart du temps, chaque utilisateur a besoin de son propre écran ou casque pour pouvoir en profiter pleinement ce qui limite grandement les expériences collaboratives. De plus, les principaux inconvénients liés à l'utilisation des écrans s'appliquent également notamment la fatigue visuelle.  
 
 \begin{figure}[H]
     \centering
-	\subfloat[Pokémon GO - Vue au travers téléphone\protect\footnotemark]{
+	\subfloat[Pokémon GO - Vue au travers téléphone]{
       \includegraphics[width=0.45\textwidth]{images/pokemongo}
       \label{sub:STARGO}
       }
-    \subfloat[Microsoft HoloLens - Vue au travers casque\protect\footnotemark]{
+    \subfloat[Microsoft HoloLens - Vue au travers casque]{
       \includegraphics[width=0.45\textwidth]{images/hololens}
       \label{sub:STARHolo}
       }
-\caption{Réalité augmentée vue au travers}
+\caption{Réalité augmentée vue au travers\protect\footnotemark}
 \label{fig:STAR}
 \end{figure}
-\footnotetext{Source: \href{https://pokemongolive.com/fr/}{Pokemon GO}}
-\footnotetext{Source: \href{https://www.microsoft.com/fr-fr/hololens}{Microsoft HoloLens}}
+\footnotetext{Source: \href{https://pokemongolive.com/fr/}{Pokemon GO} et \href{https://www.microsoft.com/fr-fr/hololens}{Microsoft HoloLens}}
 
 \paragraph{Réalité augmentée spatiale}
 % Trouver qui l'a inventé et quand
-La réalité augmentée spatiale, plus communément appelée \emph{Spatial Augmented Reality (SAR)} est une technique de visualisation de la réalité augmentée se basant sur un dispositif de projection. Les éléments virtuels qui viennent "augmenter" le monde réel sont alors projetés dans l'espace (fig~\ref{fig:SAR}), d'où le terme "spatiale". Cette notion d'augmentation de l'espace tend à rendre cette technologie naturellement collaborative car les projections ne dépendent pas d'un dispositif visuel personnel et sont donc obligatoirement partagées. La SAR permet aussi de favoriser le développement d'interfaces tangibles. En effet, la visualisation se faisant directement sur des objets physiques, la tendance à développer des interfaces en communion avec ceux-ci est très forte car très naturelle.
+La réalité augmentée spatiale\cite{bimber2005spatial}, plus communément appelée \emph{Spatial Augmented Reality (SAR)} est une technique de visualisation de la réalité augmentée se basant sur un dispositif de projection. Les éléments virtuels qui viennent "augmenter" le monde réel sont alors projetés dans l'espace (fig~\ref{fig:SAR}), d'où le terme "spatiale". Cette notion d'augmentation de l'espace tend à rendre cette technologie naturellement collaborative car les projections ne dépendent pas d'un dispositif visuel personnel et sont donc obligatoirement partagées. La SAR permet aussi de favoriser le développement d'interfaces tangibles. En effet, la visualisation se faisant directement sur des objets physiques, la tendance à développer des interfaces en communion avec ceux-ci est très forte car très naturelle.
 
 \begin{figure}[H]
 \centering
@@ -70,28 +69,25 @@ La réalité augmentée spatiale, plus communément appelée \emph{Spatial Augme
 \footnotetext{Source: {Google Image}}
 
 \paragraph{Interface tangible}
-Une interface utilisateur tangible ou \emph{Tangible User Interface (TUI)} est une interface utilisateur via laquelle des objets physiques, ou encore le toucher, permettent de manipuler des données numériques (fig~\ref{sub:TUI}). Les interfaces utilisateurs tangibles remplacent très souvent les interfaces utilisateurs graphiques (fig~\ref{sub:GUI}) ou \emph{Graphical User Interface (GUI)} dans la plupart des applications de réalité augmentée car elles fournissent un contrôle direct à l'utilisateur sur ce qu'il souhaite manipuler (par opposition au contrôle indirect tel que la souris, nécessaire à la manipulation des GUI).
+Une interface utilisateur tangible\cite{ishii2008tangible} ou \emph{Tangible User Interface (TUI)} est une interface utilisateur via laquelle des objets physiques, ou encore le toucher, permettent de manipuler des données numériques (fig~\ref{sub:TUI}). Les interfaces utilisateurs tangibles remplacent très souvent les interfaces utilisateurs graphiques (fig~\ref{sub:GUI}) ou \emph{Graphical User Interface (GUI)} dans la plupart des applications de réalité augmentée car elles fournissent un contrôle direct à l'utilisateur sur ce qu'il souhaite manipuler (par opposition au contrôle indirect tel que la souris, nécessaire à la manipulation des GUI).
 
 \begin{figure}[H]
     \centering
-	\subfloat[Interface Utilisateur Graphique (GUI)\protect\footnotemark]{
+	\subfloat[Interface Utilisateur Graphique (GUI)]{
       \includegraphics[width=0.45\textwidth]{images/GUI}
       \label{sub:GUI}
       }
-    \subfloat[Interface Utilisateur Tangible (TUI)\protect\footnotemark]{
+    \subfloat[Interface Utilisateur Tangible (TUI)]{
       \includegraphics[width=0.45\textwidth]{images/TUI}
       \label{sub:TUI}
       }
-\caption{Différences des interfaces utilisateurs}
+\caption{Différences des interfaces utilisateurs\protect\footnotemark}
 \label{fig:GUITUI}
 \end{figure}
 \footnotetext{Source: \href{http://iconlibrary.iconshock.com/design/from-gui-to-tui/}{Icon Library - From GUI to TUI}}
-\footnotetext{Source: \href{http://iconlibrary.iconshock.com/design/from-gui-to-tui/}{Icon Library - From GUI to TUI}}
 
 \paragraph{Calcul haute performance}
-Le calcul haute performance ou \emph{General-Purpose computing on Graphics Processing Units (GPGPU)} désigne une méthode de calcul utilisant la carte graphique (GPU) plutôt que le processeur (CPU). Cette technique permet de bénéficier de la puissance de la carte graphique afin de réaliser du calcul en parallèle et est très souvent utilisée pour la plupart des traitements lourds tels que le rendu d'une scène 3D, l'encodage de vidéo, les simulations physiques (particules) etc. Cette technique repose sur le grand nombre de cœurs présents dans les cartes graphiques (contrairement aux processeurs) et sur la capacité de chacun de ces cœurs à effectuer des opérations simples de manière très efficace. Le calcul haute performance ne peut cependant pas se passer du CPU qui va principalement être utilisé pour récolter et transférer les données traitées ou à traiter.
-% Expliquer comment ca marche (carte graphique beaucoup de coeur pour faire des opérations simple, CPU pas beaucoup de coeur donc plus lent)
-% Ajouter image comparaison
+Le calcul haute performance ou \emph{General-Purpose computing on Graphics Processing Units (GPGPU)} désigne une méthode de calcul utilisant la carte graphique (GPU) plutôt que le processeur (CPU Figure~\ref{fig:gpgpu}. Cette technique permet de bénéficier de la puissance de la carte graphique afin de réaliser du calcul en parallèle et est très souvent utilisée pour la plupart des traitements lourds tels que le rendu d'une scène 3D, l'encodage de vidéo, les simulations physiques (particules) etc. Cette technique repose sur le grand nombre de cœurs présents dans les cartes graphiques (contrairement aux processeurs) et sur la capacité de chacun de ces cœurs à effectuer des opérations simples de manière très efficace. Le calcul haute performance ne peut cependant pas se passer du CPU qui va principalement être utilisé pour récolter et transférer les données traitées ou à traiter.
 
 \begin{figure}[H]
 \centering

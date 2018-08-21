@@ -8,9 +8,9 @@ Pour finir, nous effectuerons une rapide comparaison entre la version actuelle e
 \section{Module Unity}
 
 L'objectif du module Unity est de permettre à ses utilisateurs d'exploiter la puissance de Nectar (logicielle et matérielle) de façon totalement intuitive afin qu'ils puissent développer des applications de réalité augmentée spatiale sans jamais avoir besoin de se soucier des problèmes liés à cette technologie comme la problématique de calibration du couple caméra projecteur par exemple.
-Pour cela, il a fallut créer, dans Unity, les composants et les comportements cruciaux du système tels que les caméras, les caméras de profondeur, les projecteurs, les utilisateurs, la table, et bien d'autres. En plus de résoudre bon nombre de problèmes pour l'utilisateur, ces composants rendent possible la représentation du monde réel Figure~\ref{fig:unityrealworld}. Cette représentation est très importante car, dans le domaine de la réalité augmentée spatiale, où ce dit monde sert de base aux augmentations et, de ce fait, ne peut pas être négligé, en avoir une représentation virtuelle précise permet aux utilisateurs de concevoir leur application dans le même environnement que celui où elles seront projetées.
+Pour cela, nous avons créer, dans Unity, les composants et les comportements cruciaux du système tels que les caméras, les caméras de profondeur, les projecteurs, les utilisateurs, la table, et bien d'autres. En plus de résoudre bon nombre de problèmes pour l'utilisateur, ces composants rendent possible la représentation du monde réel Figure~\ref{fig:unityrealworld}. Cette représentation est très importante car, dans le domaine de la réalité augmentée spatiale, où ce dit monde sert de base aux augmentations et, de ce fait, ne peut pas être négligé, en avoir une représentation virtuelle précise permet aux utilisateurs de concevoir leur application dans le même environnement que celui où elles seront projetées.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.65\linewidth]{images/unityscene}
 \caption{Représentation du monde dans Unity - A droite, la tête de l'utilisateur, au centre la table, en haut a gauche le couple caméra projecteur.}
@@ -51,4 +51,93 @@ A l'origine les services Nectar utilisaient le pipeline événementiel de Redis 
 
 Pour que la version en éditeur puisse fonctionner correctement, nous avons décider d'ajouter a tous les services Nectar la possibilité ou non d'utiliser le pipeline événementiel. Cette option permet donc d'utiliser le pipeline classique où les données ne s'accumulent pas mais écrase les anciennes déjà existantes. Du côté du module, le même comportement a été implémenter pour tous les composants fonctionnant directement dans l'éditeur afin de pouvoir utiliser les services. Cette solution résous bel et bien le fonctionnement en éditeur mais encore quelques défauts.
 
-Le pipeline ne se basant plus sur des événements, la seule façon de mettre à jour les composants est d'utiliser la boucle principale géré par Unity. Comme on peut le voir dans l'ordre d'exécution des scripts Unity que vous trouverez en Annexe 3, les fonctions de la boucle que nous pouvons utilisé sont celles de mise à jour (\emph{Update}). Le problème avec ces fonctions réside dans le fait que en mode éditeur, celles ci ne sont pas systématiquement appelées comme elles le seraient en mode jeu ou lancé en tant qu'executable. Ainsi, il en résulte que actuellement les composants ne se mettent à jour que lorsque Unity capte des événements comme par exemple si une valeur telle que la position d'un objet est modifiée.
+Le pipeline ne se basant plus sur des événements, la seule façon de mettre à jour les composants est d'utiliser la boucle principale géré par Unity. Comme on peut le voir dans l'ordre d'exécution des scripts Unity que vous trouverez en Annexe 3, les fonctions de la boucle que nous pouvons utilisé sont celles de mise à jour (\emph{Update}). Le problème avec ces fonctions réside dans le fait que en mode éditeur, celles ci ne sont pas systématiquement appelées comme elles le seraient en mode jeu ou lancé en tant qu'executable. Ainsi, il en résulte que actuellement les composants ne se mettent à jour que lorsque Unity capte des événements comme par exemple si une valeur telle que la position d'un objet est modifiée.\\
+
+Une des dernières difficultés rencontrée durant le développement du module Unity a été la gestion des formats de données envoyés par les différents services et plus spécifiquement les matrices. Chaque service étant indépendant les données qu'il envoi ne sont pas toujours au même format que celui attendue par Unity. En effet, si on prends le cas des matrices, celles du moteur 3D de Unity sont dites \emph{row major} ce qui signifie que les données sont indexés en fonction des lignes alors que celle du moteur 3D de Processing sont \emph{column major}, en fonction des colonnes. Il a donc fallut appliquer des traitements spécifique en fonction des données reçu pour obtenir une visualisation cohérence de ces dernières.
+
+Une fois la majeur partie des problèmes du module résolue, il était temps d'enfiler le costume d'utilisateur développeur client de \texttt{RealityTech} et d'expérimenter le développement d'une application de réalité augmentée spatiale avec ce module. Vous trouverez les détails de ce développement section ~\ref{sec:unity:appli}.
+
+\section{Illusion de projection}
+\label{sec:unity:appli}
+
+Après voir achever la première version du module Unity, dans une optique de test de ce dernier mais aussi dans le but de proposer une preuve de concept, j'ai été charger de développer une application utilisant une illusion de projection afin de créer un effet de fausse transparence. Cette preuve de concept avait été demandé par des potentiels clients de la société rencontrés au Laval Virtual, afin qu'ils puissent effectuer de la présentation de produit interactive, et plus spécifiquement de la présentation de parfum. C'est typiquement un cas d'utilisation auquel il était très difficile de répondre avec la version \texttt{Processing} du kit de développement car elle ne permettait pas facilement de manipuler des objets 3D, de gérer la transparence, de faire le rendu de la scène en plusieurs étapes etc... . 
+
+Afin de pouvoir créer une illusion de projection, il est nécessaire d'avoir une connaissance a priori de la surface de projection, permettant d'appliquer les déformation nécessaire à la géométrie a projeter. Grâce à la représentation du monde réel directement dans \texttt{Unity}, nous pouvons aisément disposer des éléments de géométrie qui nous sont nécessaire Figure~\ref{fig:realvsunity}. Ainsi, seuls les éléments purement virtuels à projeter sont à rajouter dans la scène 3D.
+
+\begin{figure}[H]
+\centering
+	\subfloat[Photographie de la scène]{
+      \includegraphics[width=0.45\textwidth, trim = 7.5 2.5cm 7.5cm 5cm, clip]{images/Unity-Projection-RealReal}
+      \label{sub:unity:app:realworldview}
+      }
+     \subfloat[Représentation dans Unity]{
+      \includegraphics[width=0.45\textwidth, trim = 12cm 12cm 20cm 4.5cm, clip]{images/Unity-Projection-UserPOV-NoMap}
+      \label{sub:unity:app:unityview}
+      }
+\caption{Monde réel et sa représentation dans Unity}
+\label{fig:realvsunity}
+\end{figure}
+
+Aussi, une illusion de projection ne fonctionne que pour un point de vue donnée Figure~\ref{fig:projpov} car la perception de la géométrie du monde réel diffère selon ce dernier ce qui signifie que les déformations à appliquer ne seront donc pas les mêmes.
+
+\begin{figure}[H]
+\centering
+	\subfloat[Bon point de vue] {
+	\includegraphics[width=0.45\textwidth]{images/proj-illu-good-pov}
+	\label{sub:ilu:badpov}
+	}
+	\subfloat[Mauvais point de vue] {
+	\includegraphics[width=0.42\textwidth]{images/proj-illu-bad-pov}
+	\label{sub:ilu:goodpov}
+	}
+\caption{Illusion de projection}
+\label{fig:projpov}
+\end{figure}
+
+Ainsi les éléments requis pour commencer a créer notre illusions sont: la modélisation du monde réel, ici la table, sa texture (pour que l'effet de transparence ait du sens), et le flacon de parfum que l'on souhaite faire apparaître transparent, la position de l'utilisateur observant la scène et le point de vue du projecteur. Tous ces éléments font partie du module de développement il a donc suffit de les ajouter a la scène pour en obtenir la représentation Figure~\ref{fig:unity:projscene}.
+Afin de vérifier la validité de l'effet, nous avons aussi choisit d'ajouter une sphère virtuelle rouge derrière le flacon, invisible du point de vue de l'utilisateur, de façon a ce qu'elle appairasse lorsque l'effet de transparence sera mis en place.
+
+\textbf{Note:} Dans notre cas, nous n'avions pas le modèle 3D du parfum imprimé à disposition, nous avons donc choisit de le remplacer par un cube cependant cela n'a aucun impact sur la simulation de l'effet de transparence.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth, trim = 12cm 12cm 20cm 4.5cm, clip]{images/Unity-Projection-RealScene}
+\caption{Scène modélisée pour tester l'effet de transparence}
+\label{fig:unity:projscene}
+\end{figure}
+
+Pour réaliser un tel effet, le rendu se fait en plusieurs étapes. Dans un premier temps, le rendu de la scène est effectué depuis le point de vue de l'utilisateur avec l'objet d'intérêt transparent et en ignorant sa représentation physique Figure~\ref{sub:unity:proj:userpov:transparency}. Ce rendu se fait offscreen et est ensuite récupéré dans une texture. C'est cette texture qui subira les déformations afin d'être projeté sur la géométrie et de créer l'illusion. La prochaine étape du rendu consiste justement à utiliser la texture ainsi créée et à la projeter sur la géométrie de la scène comprenant cette fois ci l'objet physique afin de créer l'illusion Figure~\ref{sub:unity:proj:userpov:nomap},~\ref{sub:unity:proj:nopov:map} et~\ref{sub:unity:proj:userpov:map} . On peut observer qu'une ombre est apparu, en effet, pour renforcer l'effet qu'allait produire l'illusion nous avons choisit d'ajouter une lumière afin d'obtenir des ombres cependant nous avons oublier d'activer leur rendu pour les objets transparents. Pour pouvoir projeter cette texture sur la scène il a fallut implémenter un principe de vidéo projecteur. Ce vidéo projecteur ne devait projeté la texture cette fois ci que sur le modèle physique et pas sa représentation transparente.
+Enfin la dernière étape consiste a finalement faire le rendu de la scène, avec la texture projetée sur la géométrie vu par le projecteur Figure~\ref{sub:unity:proj:projectorpov:map} pour ainsi pouvoir projeter ce résultat dans le monde réel. Je n'ai malheureusement pas eu l'occasion de prendre une photo de ce dispositif entrain de fonctionner.
+\begin{figure}[H]
+\centering
+	\subfloat[Point de vue utilisateur - Objet transparent] {
+		\includegraphics[width=0.4\textwidth, trim = 12cm 12cm 20cm 4.5cm, clip]{images/Unity-Projection-UserPOV-RealScene}
+		\label{sub:unity:proj:userpov:transparency}
+	}
+	\subfloat[Point de vue utilisateur - Objet physique] {
+		\includegraphics[width=0.4\textwidth, trim = 12cm 12cm 20cm 4.5cm, clip]{images/Unity-Projection-UserPOV-NoMap}
+		\label{sub:unity:proj:userpov:nomap}
+	}\\
+	\subfloat[Point de vue différent - Objet physique + texture projetée] {
+		\includegraphics[width=0.4\textwidth, trim = 12cm 12cm 20cm 4.5cm, clip]{images/Unity-Projection-RealSceneWithMap}
+		\label{sub:unity:proj:nopov:map}
+	}
+	\subfloat[Point de vue utilisateur - Objet physique + texture projetée] {
+		\includegraphics[width=0.4\textwidth, trim = 12cm 12cm 20cm 4.5cm, clip]{images/Unity-Projection-UserPOV-Mapper}
+		\label{sub:unity:proj:userpov:map}
+	}\\
+	\subfloat[Point de vue projecteur - Objet physique + texture projetée] {
+		\includegraphics[width=0.4\textwidth, trim = 12cm 12cm 20cm 4.5cm, clip]{images/Unity-Projection-ProjectorPOV}
+		\label{sub:unity:proj:projectorpov:map}
+	}
+\caption{}
+\label{}
+\end{figure}
+
+Dans l'état actuel des choses, l'illusion est encore incomplète pour plusieurs raisons. La première étant que nous utilisons actuellement un système composé d'un seul projecteur. Il est, de ce fait, impossible de couvrir toute la surface du cube ou de n'importe quel objet en général avec de la projection. Aussi pour renforcer l'illusion, il aurai été intéressant d'utiliser la caméra ainsi que la caméra de profondeur du système pour créer des représentation 3D virtuelles des éléments du monde réel. Ces objets 3D aurait ainsi pu être intégré à la scène dans Unity et donc a l'illusion de transparence. De ce fait, si par exemple, une personne décidait de passer sa main derrière le cube physique non transparent dans le monde réel, il aurait été possible de lui afficher cette dernière en transparence derrière le cube.
+% Parler prochaine étape de l'appli était de récuperer le nuage de points 3d pour aussi pouvoir voir la main et les objets physique qu'on passait derriere.
+
+\section{Conclusion}
+% Parler des points fort et faible du module Unity -> justifier la refonte actuelle -> les fonctionnalités manquantes comme par exemple la gestion des clefs avec le nom des composants, les ajouts, le nouveau pipeline evenementiel alleger et fonctionnant dans Unity, la refonte du protocole de transfert des données etc.
+Point fort : rapidité de développement, visualisation en directe, monde réel représenter, faciliter de debug
+Point faible : Beaucoup d'éléments a ajouter dans une scene, la gestion des clefs un peu complexe de s'y retrouvé, un peu fouilli, transformation monde a objet un peu compliqué, architecture stricte.
