@@ -40,6 +40,8 @@
 \usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
 %\usepackage{algorithmic}
 
+\usepackage{framed}
+
 %====================== INFORMATION ET REGLES ======================
 
 \hypersetup{							% Information sur le document
@@ -86,6 +88,9 @@ pdfstartview={FitH}}					% ajuste la page à la largueur de l'écran
 %removing Chapter name and number
 \titleformat{\chapter}[display]
   {\normalfont\bfseries}{}{0pt}{\Huge}
+  
+\renewcommand*{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand*{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
 
 %====================== INCLUSION DES PARTIES ======================
 
