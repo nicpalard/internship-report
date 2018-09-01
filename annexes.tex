@@ -3,6 +3,13 @@
 %Rajouter la ligne "Annexes" dans le sommaire
 \addcontentsline{toc}{part}{Annexes}
 
+\titleformat{\chapter}[display]
+{\normalfont%
+    \Large% %change this size to your needs for the first line
+    \bfseries}{\chaptertitlename\ \thechapter}{20pt}{%
+    \Large %change this size to your needs for the second line
+    }
+
 \input{./annexe1.tex}
 
 \input{./annexe2.tex}
